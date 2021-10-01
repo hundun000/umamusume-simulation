@@ -1,0 +1,59 @@
+buildscript {
+    ext {
+
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        
+    }
+}
+
+plugins {
+
+}
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'java-library'
+
+
+
+group = 'example'
+version = '0.0.2-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    //removeIf { it is MavenArtifactRepository && it.url.host == "dl.bintray.com" }
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+test {
+    useJUnitPlatform()
+}
+
+
+
+
+
+
+dependencies {
+
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    
+    testCompile "junit:junit:4.11"
+}
+
+
