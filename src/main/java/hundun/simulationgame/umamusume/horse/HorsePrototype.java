@@ -2,8 +2,8 @@ package hundun.simulationgame.umamusume.horse;
 
 import java.util.Map;
 
-import hundun.simulationgame.umamusume.race.DistanceAptitudeType;
 import hundun.simulationgame.umamusume.race.RaceLengthType;
+import hundun.simulationgame.umamusume.race.TrackGroundType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +21,6 @@ public class HorsePrototype {
     private int baseGuts;
     private int baseWisdom;
     private Map<RaceLengthType, DistanceAptitudeType> distanceAptitudes;
+    private Map<RunStrategyType, RunStrategyAptitudeType> runStrategyAptitudes;
+    private Map<TrackGroundType, TrackGroundAptitudeType> trackGroundAptitudes;
 }

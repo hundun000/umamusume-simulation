@@ -95,7 +95,7 @@ public class RaceTrackPanel extends JPanel{
     public void renderRaceSituation(Race situation) {
         
         for (HorseModel horse : situation.getHorses()) {
-            double uiPosition = horse.getTrackPosition() * 1000 / situation.getLength();
+            double uiPosition = horse.getTrackPosition() * 1000 / situation.getPrototype().getLength();
             horsePositions[horse.getTrackNumber()].x = (int) uiPosition;
             
             if (horse.getReachTime() != null) {

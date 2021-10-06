@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.race;
+package hundun.simulationgame.umamusume.horse;
 
 import lombok.Getter;
 

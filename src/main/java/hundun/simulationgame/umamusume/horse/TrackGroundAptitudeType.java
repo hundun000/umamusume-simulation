@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.race;
+package hundun.simulationgame.umamusume.horse;
 
 import lombok.Getter;
 
@@ -6,7 +6,7 @@ import lombok.Getter;
  * @author hundun
  * Created on 2021/09/30
  */
-public enum GroundAptitudeType {
+public enum TrackGroundAptitudeType {
     S(1.05),
     A(1.00),
     B(0.9),
@@ -19,7 +19,7 @@ public enum GroundAptitudeType {
     @Getter
     final double rate;
 
-    private GroundAptitudeType(double rate) {
+    private TrackGroundAptitudeType(double rate) {
         this.rate = rate;
     }
     

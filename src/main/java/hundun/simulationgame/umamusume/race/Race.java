@@ -28,26 +28,24 @@ public class Race {
 
 	IDisplayer displayer;
 	
-	
+	// ====== construct-init constant ======
+	@Getter
+    private RacePrototype prototype;
+    private TrackWetType trackWetType;
+	// ====== post-construct-init constant ======
 	@Getter
     private List<HorseModel> horses = new ArrayList<>();
-
+	
+	// ====== change every frame ======
     @Getter
     @Setter
     private int tickCount = 0;
-    
-    @Getter
-    @Setter
-    private RaceLengthType lengthType;
-    @Getter
-    @Setter
-    private int length;
+
 	
-	public Race(IDisplayer displayer, RaceLengthType lengthType, int length) {
+	public Race(IDisplayer displayer, RacePrototype prototype, TrackWetType trackWetType) {
 	    this.displayer = displayer;
-	    
-		this.setLengthType(lengthType);
-		setLength(length);
+	    this.prototype = prototype;
+	    this.trackWetType = trackWetType;
 	}
 	
 //	public void setupRace() throws InterruptedException{	
@@ -72,14 +70,14 @@ public class Race {
 	 * @param horsePositions
 	 * @param flag
 	 */
-	public void addHorse(HorsePrototype prototype, RunStrategyType runStrategyType){
+	public void addHorse(HorsePrototype horsePrototype, RunStrategyType runStrategyType){
 	    int trackNumber = this.getHorses().size();
 
-	    HorseModel model = new HorseModel(prototype, displayer);
-	    model.setRaceLengthType(this.getLengthType());
-	    model.setRaceLength(this.getLength());
+	    HorseModel model = new HorseModel(horsePrototype, displayer);
+	    model.setRacePrototype(prototype);
+	    model.setTrackWetType(trackWetType);
         model.setTrackNumber(trackNumber);
-        model.setRunStrategyConfig(runStrategyType);
+        model.setRunStrategyType(runStrategyType);
         model.lateInitMore();
 	    this.getHorses().add(model);
 	}

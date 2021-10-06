@@ -14,6 +14,9 @@ import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.horse.RunStrategyType;
 import hundun.simulationgame.umamusume.race.Race;
 import hundun.simulationgame.umamusume.race.RaceLengthType;
+import hundun.simulationgame.umamusume.race.RacePrototype;
+import hundun.simulationgame.umamusume.race.RacePrototypeFactory;
+import hundun.simulationgame.umamusume.race.TrackWetType;
 
 
 /**
@@ -25,13 +28,14 @@ public class UmamusumeApp {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     
     // ms
-    private int frameLength = -1;
-    public static final int tickNumPerSecond = 100;
+    private int frameLength = 100;
+    public static final int tickNumPerGameSecond = 100;
     
     private final IDisplayer displayer;
     Race race;
     
-    boolean debugOnlyFirstTick = true;
+    boolean debugOnlyFirstTick = false;
+    boolean debugTickLoopWithoutDelay = true;
     
     public UmamusumeApp(IDisplayer displayer) {
         this.displayer = displayer;
@@ -39,7 +43,7 @@ public class UmamusumeApp {
     
     public void demoRun(){
         try {
-            race = new Race(displayer, RaceLengthType.MILE, 1600);
+            race = new Race(displayer, RacePrototypeFactory.OKA_SHO, TrackWetType.GOOD);
             race.addHorse(HorsePrototypeFactory.SILENCE_SUZUKA_A, RunStrategyType.FIRST);
             race.addHorse(HorsePrototypeFactory.SPECIAL_WEEK_A, RunStrategyType.FRONT);
             race.addHorse(HorsePrototypeFactory.GRASS_WONDER_A, RunStrategyType.BACK);
@@ -49,18 +53,21 @@ public class UmamusumeApp {
                 return;
             }
             
-            if (frameLength > 0) {
-                this.scheduler.scheduleAtFixedRate(new RaceTickTask(), frameLength, frameLength, TimeUnit.MILLISECONDS);
-                while (!race.isAllReached()) {
-                    Thread.sleep(frameLength / 2);
-                }
-                this.scheduler.shutdown();
-            } else {
+            if (debugTickLoopWithoutDelay) {
                 while (!race.isAllReached()) {
                     tick();
                 }
                 tick();
+                return;
             }
+            
+            
+            this.scheduler.scheduleAtFixedRate(new RaceTickTask(), frameLength, frameLength, TimeUnit.MILLISECONDS);
+            while (!race.isAllReached()) {
+                Thread.sleep(frameLength / 2);
+            }
+            this.scheduler.shutdown();
+
             
             Thread.sleep(2000);
         } catch (Exception e) {

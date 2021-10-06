@@ -45,7 +45,7 @@ public class CharImageDisplayer implements IDisplayer {
         int sampleRate = 1000;
         
         boolean lastCorner = situation.getHorses().stream().filter(horse -> horse.getTrackPhase() == HorseTrackPhase.LAST_SPRINT || horse.getTrackPhase() == HorseTrackPhase.LAST_CRUISE).findFirst().isPresent();
-        boolean anyHorseSpeedDelta = situation.getHorses().stream().filter(horse -> horse.getTrackPhase() != HorseTrackPhase.REACHED && horse.getCurrentSpeedDelta() != null).findFirst().isPresent();
+        boolean anyHorseSpeedDelta = situation.getHorses().stream().filter(horse -> horse.getTrackPhase() != HorseTrackPhase.REACHED && horse.getCurrentAcceleration() != null).findFirst().isPresent();
         if (lastCorner || anyHorseSpeedDelta) {
             sampleRate = 100;
         }
@@ -69,7 +69,7 @@ public class CharImageDisplayer implements IDisplayer {
         double numCharPerDiff = 1.0 * maxDiffCharNum / maxDiff;
         List<Integer> numCharList = diffList.stream().mapToInt(diff -> (int)(diff * numCharPerDiff)).boxed().collect(Collectors.toList());
         
-        builder.append(formatter.format(minPosition)).append(" ···················· " + situation.getLength() + " Fin.\n");
+        builder.append(formatter.format(minPosition)).append(" ···················· " + situation.getPrototype().getLength() + " Fin.\n");
         for (int i = 0; i < size; i++) {
             HorseModel horse = situation.getHorses().get(i);
             Integer numChar = numCharList.get(i);
@@ -80,29 +80,33 @@ public class CharImageDisplayer implements IDisplayer {
     
     
     private void drawHorseCharImage(Race situation, HorseModel horse, Integer numChar, StringBuilder builder) {
-        String hpSubText = horse.getCurrentHp() > 0 ? "hp=" + formatter.format(horse.getCurrentHp()) + "" : "<疲劳>";
+        String hpSubText = horse.getCurrentHp() > 0 ? "hp = " + formatter.format(horse.getCurrentHp()) + "" : "<疲劳>";
         if (horse.getReachTime() == null) {
             String arrowCharImage = "-".repeat(numChar + 1) + "> ";
-            String positionSubText = horse.getReachTime() != null ? ("Reach at " + horse.getReachTime()) : "pos=" + formatter.format(horse.getTrackPosition()) ;
+            String positionSubText = "pos=" + formatter.format(horse.getTrackPosition()) ;
             String speedSubText = "v=" + formatter.format(horse.getCurrentSpeed());
-            if (horse.getCurrentSpeedDelta() != null) {
-                if (horse.getCurrentSpeedDelta() > 0) {
-                    speedSubText+= "↑a=" + formatter.format(horse.getCurrentSpeedDelta());
+            if (horse.getCurrentAcceleration() != null) {
+                if (horse.getCurrentAcceleration() > 0) {
+                    speedSubText += "↑a=" + formatter.format(horse.getCurrentAcceleration());
                 } else {
-                    speedSubText+= "↓a=" + formatter.format(horse.getCurrentSpeedDelta());
+                    speedSubText += "↓a=" + formatter.format(horse.getCurrentAcceleration());
                 }
+                speedSubText += "(target=" + formatter.format(horse.getTargetSpeed()) + ")";
             } else {
-                speedSubText+= "-";
+                speedSubText += "-";
+            }
+            if (horse.getTrackPhase() == HorseTrackPhase.LAST_SPRINT) {
+                speedSubText += "冲";
             }
             builder.append(horse.getPrototype().getName()).append("\t")
-                    .append(arrowCharImage).append("\t")      
+                    .append(arrowCharImage).append("\n\t")      
                     .append(positionSubText).append(", ")
                     .append(hpSubText).append(", ")
                     .append(speedSubText)
                     .append("\n");
         } else {
-            builder.append(horse.getPrototype().getName()).append("\t")
-            .append("reached at tick=").append(horse.getReachTime())  
+            builder.append(horse.getPrototype().getName()).append("\n\t")
+            .append("reached at tick = ").append(horse.getReachTime()).append(", ")
             .append(hpSubText)
             .append("\n");
         }
