@@ -8,6 +8,7 @@ import java.util.Map;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
 import hundun.simulationgame.umamusume.display.IDisplayer;
+import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.race.RaceLengthType;
 import hundun.simulationgame.umamusume.race.RacePrototype;
 import hundun.simulationgame.umamusume.race.TrackGroundType;
@@ -268,8 +269,9 @@ public class HorseModel {
         }
         
         if (newPhase != null) {
+            HorseTrackPhaseChangeEvent event = new HorseTrackPhaseChangeEvent(tickCount, prototype, trackPhase, newPhase);
+            displayer.onEvent(event);
             trackPhase = newPhase;
-            displayer.log(prototype.getName() + " tick " + tickCount + " change phase to " + newPhase);
         }
         
         if (trackPhase != HorseTrackPhase.REACHED) {
