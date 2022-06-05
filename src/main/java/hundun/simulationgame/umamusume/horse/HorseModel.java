@@ -7,13 +7,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
-import hundun.simulationgame.umamusume.display.IDisplayer;
 import hundun.simulationgame.umamusume.event.EventManager;
 import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.race.RaceLengthType;
 import hundun.simulationgame.umamusume.race.RacePrototype;
+import hundun.simulationgame.umamusume.race.RaceSituation;
 import hundun.simulationgame.umamusume.race.TrackGroundType;
 import hundun.simulationgame.umamusume.race.TrackWetType;
+import hundun.simulationgame.umamusume.record.IRecorder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -154,7 +155,7 @@ public class HorseModel {
                 targetHpCostPerSecond = normalHpCostPerSecond(currentSpeed, v0, hpCostRate, trackWetType, racePrototype.getGroundType());
                 break;
         }
-        targetHpCost = targetHpCostPerSecond / UmamusumeApp.tickNumPerGameSecond;
+        targetHpCost = targetHpCostPerSecond / RaceSituation.tickNumPerGameSecond;
         hpEnough = this.getCurrentHp() >= targetHpCost;
         
         
@@ -209,7 +210,7 @@ public class HorseModel {
     private void updateSpeed() {
         double newSpeed;
 	    if (currentAcceleration != null) {
-            double currentAccelerationPerTick = currentAcceleration / UmamusumeApp.tickNumPerGameSecond;
+            double currentAccelerationPerTick = currentAcceleration / RaceSituation.tickNumPerGameSecond;
             
             if (currentAcceleration > 0) {
                 newSpeed = Math.min(currentSpeed + currentAccelerationPerTick, targetSpeed);
@@ -247,7 +248,7 @@ public class HorseModel {
             case LAST_CRUISE:
                 if (sprintStartPosition == null) {
                     sprintStartPosition = calculateSprintStartPosition();
-                    eventManager.log(prototype.getName() + " sprintStartPosition init as " + sprintStartPosition);
+                    eventManager.newHorseSprintStartPositionSetEvent(prototype, sprintStartPosition, currentHp);
                 }
                 if (trackPosition >= sprintStartPosition) {
                     newPhase = HorseTrackPhase.LAST_SPRINT;
@@ -360,7 +361,7 @@ public class HorseModel {
 
     private void updateDistanceAndHp() {
 
-        double currentSpeedPerTick = currentSpeed / UmamusumeApp.tickNumPerGameSecond;
+        double currentSpeedPerTick = currentSpeed / RaceSituation.tickNumPerGameSecond;
         this.trackPosition = (this.getTrackPosition() + currentSpeedPerTick);
         
         if (hpEnough) {

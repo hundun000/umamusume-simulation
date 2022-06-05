@@ -15,6 +15,10 @@ import lombok.Data;
 @Data
 public class HorsePrototype {
     private String name;
+    /**
+     * 作为字符画时的形象（可用emoji？）
+     */
+    private String charImage;
     private int baseSpeed;
     private int baseStamina;
     private int basePower;

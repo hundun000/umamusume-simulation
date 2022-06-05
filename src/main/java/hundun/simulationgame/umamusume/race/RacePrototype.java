@@ -14,4 +14,5 @@ public class RacePrototype {
     private RaceLengthType lengthType;
     private TrackGroundType groundType;
     private int length;
+    private int defaultHorseNum;
 }

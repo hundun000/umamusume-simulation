@@ -2,12 +2,12 @@ package hundun.simulationgame.umamusume.display.gui;
 
 import javax.swing.JFrame;
 
-import hundun.simulationgame.umamusume.display.IDisplayer;
 import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.race.Race;
+import hundun.simulationgame.umamusume.race.RaceSituation;
+import hundun.simulationgame.umamusume.record.IRecorder;
 
 
-public class GUIDisplayer implements IDisplayer {
+public class GUIDisplayer {
 	RaceTrackPanel raceTrack;
 	public GUIDisplayer(){
 		JFrame f = new JFrame("BedRock RaceTrack");
@@ -19,8 +19,8 @@ public class GUIDisplayer implements IDisplayer {
 	}
 
 
-    @Override
-    public void onTick(Race situation) {
+    //@Override
+    public void onTick(RaceSituation situation) {
         raceTrack.renderRaceSituation(situation);
     }
 

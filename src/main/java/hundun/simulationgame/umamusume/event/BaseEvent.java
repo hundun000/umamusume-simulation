@@ -1,6 +1,6 @@
 package hundun.simulationgame.umamusume.event;
 
-import hundun.simulationgame.umamusume.race.Race;
+import hundun.simulationgame.umamusume.race.RaceSituation;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +10,10 @@ import lombok.Setter;
  * Created on 2021/10/12
  */
 @Getter
-@Setter
 public abstract class BaseEvent {
-    protected final Race situation;
-    protected String description;
+    protected final RaceSituation situation;
     
-    public BaseEvent(Race situation) {
+    public BaseEvent(RaceSituation situation) {
         super();
         this.situation = situation;
     }

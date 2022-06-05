@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
 import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
-import hundun.simulationgame.umamusume.display.text.CharImageDisplayer;
 import hundun.simulationgame.umamusume.display.text.SimpleTextDisplayer;
+import hundun.simulationgame.umamusume.record.CharImageRecorder;
 
 /**
  * @author hundun
@@ -15,26 +15,11 @@ import hundun.simulationgame.umamusume.display.text.SimpleTextDisplayer;
  */
 public class UmamusumeAppTest {
 
-    @Test
-    public void testGuiDisplayer(){
-        
-        UmamusumeApp app = new UmamusumeApp(new GUIDisplayer());
-        app.demoRun();
-        
-    }
-    
-    @Test
-    public void testTextDisplayer(){
-        
-        UmamusumeApp app = new UmamusumeApp(new SimpleTextDisplayer());
-        app.demoRun();
-        
-    }
    
    @Test
    public void testCharImageDisplayer(){
        
-       UmamusumeApp app = new UmamusumeApp(new CharImageDisplayer());
+       UmamusumeApp app = new UmamusumeApp(new CharImageRecorder());
        app.randomRun();
        
    }

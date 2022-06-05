@@ -15,19 +15,20 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
-import hundun.simulationgame.umamusume.display.IDisplayer;
 import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
 import hundun.simulationgame.umamusume.event.EventManager;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.horse.RunStrategyType;
+import hundun.simulationgame.umamusume.record.IRecorder;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Race {
-
-    private IDisplayer displayer;
+public class RaceSituation {
+    public static final int tickNumPerGameSecond = 100;
+    
+    private IRecorder displayer;
     private EventManager eventManager;
 	
 	// ====== construct-init constant ======
@@ -44,7 +45,7 @@ public class Race {
     private int tickCount = 0;
 
 	
-	public Race(IDisplayer displayer, RacePrototype prototype, TrackWetType trackWetType) {
+	public RaceSituation(IRecorder displayer, RacePrototype prototype, TrackWetType trackWetType) {
 	    this.displayer = displayer;
 	    this.prototype = prototype;
 	    this.trackWetType = trackWetType;
@@ -97,21 +98,24 @@ public class Race {
         for(HorseModel horse: this.getHorses()){
             horse.tickUpdate(this.getTickCount());
         }
-
+        if (displayer != null) {
+            displayer.onTick(this);
+            if (this.isAllReached()) {
+                displayer.onFinish();
+            }
+        }
     }	
 
     public void calculateResult() {
         displayer.onStart(this);
         while (!this.isAllReached()) {
             this.tickUpdate();
-
-            if (displayer != null) {
-                displayer.onTick(this);
-                if (this.isAllReached()) {
-                    displayer.onFinish();
-                }
-            }
         }  
     }
+    
+    public static double tickCountToSecond(int tickCount) {
+        return 1.0 * tickCount / tickNumPerGameSecond;
+    }
+    
     
 }

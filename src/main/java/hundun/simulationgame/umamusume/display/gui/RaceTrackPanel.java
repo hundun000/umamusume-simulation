@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.race.Race;
+import hundun.simulationgame.umamusume.race.RaceSituation;
 
 
 public class RaceTrackPanel extends JPanel{
@@ -92,7 +92,7 @@ public class RaceTrackPanel extends JPanel{
 
 
 
-    public void renderRaceSituation(Race situation) {
+    public void renderRaceSituation(RaceSituation situation) {
         
         for (HorseModel horse : situation.getHorses()) {
             double uiPosition = horse.getTrackPosition() * 1000 / situation.getPrototype().getLength();
