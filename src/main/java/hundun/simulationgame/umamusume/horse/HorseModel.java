@@ -122,6 +122,7 @@ public class HorseModel {
                     newTargetSpeed = v1;
                     break;
                 case MIDDLE_CRUISE:
+                case MIDDLE_CRUISE_HALF:
                     newTargetSpeed = v2;
                     break;
                 case LAST_CRUISE:
@@ -185,6 +186,7 @@ public class HorseModel {
                     absAcceleration = a1;
                     break;
                 case MIDDLE_CRUISE:
+                case MIDDLE_CRUISE_HALF:
                     absAcceleration = a2;
                     break;
                 case LAST_CRUISE:
@@ -229,19 +231,24 @@ public class HorseModel {
 	    HorseTrackPhase newPhase = null;
         switch (trackPhase) {
             case START_GATE:
-                if (trackPosition >= racePrototype.getLength() / 6.0) {
+                if (trackPosition >= racePrototype.getLength() * (1.0/6.0)) {
                     newPhase = HorseTrackPhase.MIDDLE_CRUISE;
                 } else if (Math.abs(currentSpeed - 0.85*v0) < 0.000001) {
                     newPhase = HorseTrackPhase.START_CRUISE;
                 }
                 break;
             case START_CRUISE:
-                if (trackPosition >= racePrototype.getLength() / 6.0) {
+                if (trackPosition >= racePrototype.getLength() * (1.0/6.0)) {
                     newPhase = HorseTrackPhase.MIDDLE_CRUISE;
                 }
                 break;
             case MIDDLE_CRUISE:
-                if (trackPosition >= racePrototype.getLength() * (2.0/3.0)) {
+                if (trackPosition >= racePrototype.getLength() * (2.5/6.0)) {
+                    newPhase = HorseTrackPhase.MIDDLE_CRUISE_HALF;
+                }
+                break;
+            case MIDDLE_CRUISE_HALF:
+                if (trackPosition >= racePrototype.getLength() * (4.0/6.0)) {
                     newPhase = HorseTrackPhase.LAST_CRUISE;
                 }
                 break;

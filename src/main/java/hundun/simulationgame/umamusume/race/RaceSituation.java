@@ -1,21 +1,8 @@
-/*
- * Author: Younus Mahmood
- * Race.java
- */
-
 package hundun.simulationgame.umamusume.race;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.JFrame;
-
-import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
 import hundun.simulationgame.umamusume.event.EventManager;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorsePrototype;
@@ -28,7 +15,7 @@ import lombok.Setter;
 public class RaceSituation {
     public static final int tickNumPerGameSecond = 100;
     
-    private IRecorder displayer;
+    private IRecorder<?> displayer;
     private EventManager eventManager;
 	
 	// ====== construct-init constant ======
@@ -45,7 +32,7 @@ public class RaceSituation {
     private int tickCount = 0;
 
 	
-	public RaceSituation(IRecorder displayer, RacePrototype prototype, TrackWetType trackWetType) {
+	public RaceSituation(IRecorder<?> displayer, RacePrototype prototype, TrackWetType trackWetType) {
 	    this.displayer = displayer;
 	    this.prototype = prototype;
 	    this.trackWetType = trackWetType;
@@ -53,28 +40,6 @@ public class RaceSituation {
 	    this.eventManager = new EventManager(this, displayer);
 	}
 	
-//	public void setupRace() throws InterruptedException{	
-//		
-//		
-//		Race race = new Race();
-//		race.EnrollOneHorse("Michael Jordan",0,22,new EarlySprintStrategy());
-//		race.EnrollOneHorse("Kevin Durant",1,24,new SlowStartStrategy());
-//		race.EnrollOneHorse("LeBron James",2,25,new EarlySprintStrategy());
-//		race.EnrollOneHorse("Stephen Curry",3,25,new SlowStartStrategy());
-//		race.EnrollOneHorse("Derrick Rose",4,25,new SteadyRunStrategy());	
-//		
-//	}
-	
-	/**
-	 * This method is used by the test case to enroll one horse in the race.
-	 * 
-	 * @param horseName
-	 * @param horseNumber
-	 * @param maxSpeed
-	 * @param strategy
-	 * @param horsePositions
-	 * @param flag
-	 */
 	public void addHorse(HorsePrototype horsePrototype, RunStrategyType runStrategyType){
 	    int trackNumber = this.getHorses().size();
 

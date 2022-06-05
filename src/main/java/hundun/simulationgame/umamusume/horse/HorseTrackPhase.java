@@ -10,6 +10,7 @@ public enum HorseTrackPhase {
     START_GATE("出闸"),
     START_CRUISE("初期巡航"),
     MIDDLE_CRUISE("中期巡航"),
+    MIDDLE_CRUISE_HALF("中期巡航(过半)"),
     LAST_CRUISE("末期巡航"),
     LAST_SPRINT("末期冲刺"),
     REACHED("冲线"),

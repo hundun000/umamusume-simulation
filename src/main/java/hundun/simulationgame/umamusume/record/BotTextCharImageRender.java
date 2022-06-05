@@ -99,8 +99,9 @@ public class BotTextCharImageRender {
                     renderTime(tick),
                     childEvent.getHorse().getName(), 
                     phaseText);
-            String allDoneDescription = String.format("%s 所有马已%s", 
+            String allDoneDescription = String.format("%s %s最晚%s", 
                     renderTime(tick),
+                    childEvent.getHorse().getName(), 
                     phaseText);
             String firstDoneDescription = String.format("%s %s率先%s", 
                     renderTime(tick),
@@ -110,10 +111,11 @@ public class BotTextCharImageRender {
             if (childEvent.getFrom() == HorseTrackPhase.START_GATE
                     || childEvent.getFrom() == HorseTrackPhase.START_CRUISE
                     || childEvent.getFrom() == HorseTrackPhase.MIDDLE_CRUISE
+                    || childEvent.getFrom() == HorseTrackPhase.MIDDLE_CRUISE_HALF
                     ) {
-                if (allDone) {
+                if (firstDone) {
                     return new SimpleEntry<>(EventRenderType.WITH_RACE_SITUATION, 
-                            allDoneDescription);
+                            firstDoneDescription);
                 } else {
                     return new SimpleEntry<>(EventRenderType.NOT_RENDER, null);
                 }
