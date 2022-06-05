@@ -1,12 +1,13 @@
 package hundun.simulationgame.umamusume;
 
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import hundun.simulationgame.umamusume.display.GUIDisplayer;
 import hundun.simulationgame.umamusume.display.IDisplayer;
+import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.horse.HorsePrototypeFactory;
@@ -25,7 +26,7 @@ import hundun.simulationgame.umamusume.race.TrackWetType;
  */
 public class UmamusumeApp {
     
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    //private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     
     // ms
     private int frameLength = 100;
@@ -41,6 +42,10 @@ public class UmamusumeApp {
         this.displayer = displayer;
     }
     
+    public static double tickCountToSecond(int tickCount) {
+        return 1.0 * tickCount / tickNumPerGameSecond;
+    }
+    
     public void demoRun(){
         try {
             race = new Race(displayer, RacePrototypeFactory.OKA_SHO, TrackWetType.GOOD);
@@ -48,57 +53,31 @@ public class UmamusumeApp {
             race.addHorse(HorsePrototypeFactory.SPECIAL_WEEK_A, RunStrategyType.FRONT);
             race.addHorse(HorsePrototypeFactory.GRASS_WONDER_A, RunStrategyType.BACK);
     
-            if (debugOnlyFirstTick) {
-                tick();
-                return;
-            }
-            
-            if (debugTickLoopWithoutDelay) {
-                while (!race.isAllReached()) {
-                    tick();
-                }
-                tick();
-                return;
-            }
-            
-            
-            this.scheduler.scheduleAtFixedRate(new RaceTickTask(), frameLength, frameLength, TimeUnit.MILLISECONDS);
-            while (!race.isAllReached()) {
-                Thread.sleep(frameLength / 2);
-            }
-            this.scheduler.shutdown();
-
-            
-            Thread.sleep(2000);
+            race.calculateResult();
         } catch (Exception e) {
             e.printStackTrace();
         }
         
     }
     
-    private void tick() {
-        race.tickUpdate();
-
-        if (displayer != null) {
-            displayer.renderRaceSituation(race);
+    public void randomRun(){
+        try {
+            HorsePrototypeFactory factory = new HorsePrototypeFactory();
+            factory.registerAllDefault();
+            race = new Race(displayer, RacePrototypeFactory.OKA_SHO, TrackWetType.GOOD);
+            HorsePrototype base = HorsePrototypeFactory.SPECIAL_WEEK_A;
+            
+            List<HorsePrototype> randomRivals = factory.getRandomRivals(3, base, 0.2);
+            randomRivals.forEach(item -> {
+                race.addHorse(item, item.getDefaultRunStrategyType());
+            });
+            race.addHorse(base, base.getDefaultRunStrategyType());
+            
+            race.calculateResult();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        
     }
 
-    
-    public class RaceTickTask implements Runnable {
-
-        public RaceTickTask() {
-            super();
-        }
-
-        @Override
-        public void run() {
-            try { 
-                tick();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 }

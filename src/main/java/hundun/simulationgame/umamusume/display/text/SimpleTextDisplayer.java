@@ -1,5 +1,6 @@
-package hundun.simulationgame.umamusume.display;
+package hundun.simulationgame.umamusume.display.text;
 
+import hundun.simulationgame.umamusume.display.IDisplayer;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.race.Race;
 
@@ -10,7 +11,7 @@ import hundun.simulationgame.umamusume.race.Race;
 public class SimpleTextDisplayer implements IDisplayer {
 
     @Override
-    public void renderRaceSituation(Race situation) {
+    public void onTick(Race situation) {
         //System.out.println("TextDisplayer::tick " + situation.getTickCount());
         for (HorseModel horse : situation.getHorses()) {
             if (horse.getReachTime() != null) {

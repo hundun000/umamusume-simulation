@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
-import hundun.simulationgame.umamusume.display.CharImageDisplayer;
-import hundun.simulationgame.umamusume.display.GUIDisplayer;
-import hundun.simulationgame.umamusume.display.SimpleTextDisplayer;
+import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
+import hundun.simulationgame.umamusume.display.text.CharImageDisplayer;
+import hundun.simulationgame.umamusume.display.text.SimpleTextDisplayer;
 
 /**
  * @author hundun
@@ -35,7 +35,7 @@ public class UmamusumeAppTest {
    public void testCharImageDisplayer(){
        
        UmamusumeApp app = new UmamusumeApp(new CharImageDisplayer());
-       app.demoRun();
+       app.randomRun();
        
    }
    

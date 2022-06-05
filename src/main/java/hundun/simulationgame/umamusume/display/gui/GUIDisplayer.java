@@ -1,7 +1,8 @@
-package hundun.simulationgame.umamusume.display;
+package hundun.simulationgame.umamusume.display.gui;
 
 import javax.swing.JFrame;
 
+import hundun.simulationgame.umamusume.display.IDisplayer;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.race.Race;
 
@@ -19,7 +20,7 @@ public class GUIDisplayer implements IDisplayer {
 
 
     @Override
-    public void renderRaceSituation(Race situation) {
+    public void onTick(Race situation) {
         raceTrack.renderRaceSituation(situation);
     }
 

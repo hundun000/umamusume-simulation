@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.display;
+package hundun.simulationgame.umamusume.display.gui;
 
 import java.awt.Color;
 import java.awt.Font;

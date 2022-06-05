@@ -15,8 +15,9 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
-import hundun.simulationgame.umamusume.display.GUIDisplayer;
 import hundun.simulationgame.umamusume.display.IDisplayer;
+import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
+import hundun.simulationgame.umamusume.event.EventManager;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
@@ -26,7 +27,8 @@ import lombok.Setter;
 
 public class Race {
 
-	IDisplayer displayer;
+    private IDisplayer displayer;
+    private EventManager eventManager;
 	
 	// ====== construct-init constant ======
 	@Getter
@@ -46,6 +48,8 @@ public class Race {
 	    this.displayer = displayer;
 	    this.prototype = prototype;
 	    this.trackWetType = trackWetType;
+	    
+	    this.eventManager = new EventManager(this, displayer);
 	}
 	
 //	public void setupRace() throws InterruptedException{	
@@ -73,7 +77,7 @@ public class Race {
 	public void addHorse(HorsePrototype horsePrototype, RunStrategyType runStrategyType){
 	    int trackNumber = this.getHorses().size();
 
-	    HorseModel model = new HorseModel(horsePrototype, displayer);
+	    HorseModel model = new HorseModel(horsePrototype, eventManager);
 	    model.setRacePrototype(prototype);
 	    model.setTrackWetType(trackWetType);
         model.setTrackNumber(trackNumber);
@@ -87,7 +91,7 @@ public class Race {
         return allDone;
     }
 
-    public void tickUpdate() {
+    private void tickUpdate() {
 
         this.setTickCount(this.getTickCount() + 1);
         for(HorseModel horse: this.getHorses()){
@@ -96,4 +100,18 @@ public class Race {
 
     }	
 
+    public void calculateResult() {
+        displayer.onStart(this);
+        while (!this.isAllReached()) {
+            this.tickUpdate();
+
+            if (displayer != null) {
+                displayer.onTick(this);
+                if (this.isAllReached()) {
+                    displayer.onFinish();
+                }
+            }
+        }  
+    }
+    
 }

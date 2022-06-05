@@ -18,18 +18,16 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'java-library'
+apply plugin: "maven-publish"
 
 
-
-group = 'example'
-version = '0.0.2-SNAPSHOT'
-sourceCompatibility = '11'
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
-    //removeIf { it is MavenArtifactRepository && it.url.host == "dl.bintray.com" }
     mavenCentral()
-    jcenter()
-    maven { url 'https://jitpack.io' }
 }
 configurations {
     compileOnly {
@@ -44,7 +42,24 @@ test {
 }
 
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives sourcesJar
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            // useless for jitpack: groupId = GROUP
+            // artifactId = ARTIFACT_ID_START + "-share"
+            // useless for jitpack: version = VERSION
 
+            from components.java
+        }
+    }
+}
 
 
 
@@ -53,7 +68,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
     
-    testCompile "junit:junit:4.11"
+    testImplementation "junit:junit:4.11"
 }
 
 

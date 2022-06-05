@@ -8,6 +8,7 @@ import java.util.Map;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
 import hundun.simulationgame.umamusume.display.IDisplayer;
+import hundun.simulationgame.umamusume.event.EventManager;
 import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.race.RaceLengthType;
 import hundun.simulationgame.umamusume.race.RacePrototype;
@@ -22,7 +23,7 @@ import lombok.Setter;
 
 public class HorseModel {
     
-    private IDisplayer displayer;
+    private EventManager eventManager;
     
 
 	// ====== construct-init constant ======
@@ -89,28 +90,25 @@ public class HorseModel {
     Double currentAcceleration;
     
     
-	public HorseModel(HorsePrototype prototype, IDisplayer displayer){
+	public HorseModel(HorsePrototype prototype, EventManager eventManager){
 		
 		this.prototype = prototype;
 
-		this.displayer = displayer;
+		this.eventManager = eventManager;
 		
 	}
 
 	public void tickUpdate(int tickCount){
 
-	    updateTrackPhase(tickCount);
-	    
-	    
 	    if (trackPhase != HorseTrackPhase.REACHED) {
 	        updateTargetHpCost();
 	        updateTargetSpeed();
 	        updateAcceleration();
 	        updateSpeed();
 	        updateDistanceAndHp();
-	        
 	    }
-
+	    
+	    updateTrackPhase(tickCount);
 	}
 	private void updateTargetSpeed() {
 	    double newTargetSpeed;
@@ -249,7 +247,7 @@ public class HorseModel {
             case LAST_CRUISE:
                 if (sprintStartPosition == null) {
                     sprintStartPosition = calculateSprintStartPosition();
-                    displayer.log(prototype.getName() + " sprintStartPosition init as " + sprintStartPosition);
+                    eventManager.log(prototype.getName() + " sprintStartPosition init as " + sprintStartPosition);
                 }
                 if (trackPosition >= sprintStartPosition) {
                     newPhase = HorseTrackPhase.LAST_SPRINT;
@@ -269,8 +267,7 @@ public class HorseModel {
         }
         
         if (newPhase != null) {
-            HorseTrackPhaseChangeEvent event = new HorseTrackPhaseChangeEvent(tickCount, prototype, trackPhase, newPhase);
-            displayer.onEvent(event);
+            eventManager.newHorseTrackPhaseChangeEvent(prototype, trackPhase, newPhase);
             trackPhase = newPhase;
         }
         
@@ -285,7 +282,7 @@ public class HorseModel {
         String msg = "ReachReport:\n";
         msg += "hpCostRecord = " + hpCostRecord.toString() + "\n";
         msg += "tickCostRecord = " + tickCostRecord.toString() + "\n";
-        displayer.log(msg);
+        eventManager.log(msg);
     }
 
     private Double calculateSprintStartPosition() {
@@ -337,7 +334,7 @@ public class HorseModel {
         StringBuilder builder = new StringBuilder();
         builder.append("Track").append(trackNumber).append("\n");
         builder.append(prototype.getName()).append(", ");
-        builder.append("").append(runStrategyType.name).append(runStrategyAptitudeType).append("\n");
+        builder.append("").append(runStrategyType.chinese).append(runStrategyAptitudeType).append("\n");
         builder.append("buffedSpeed = ").append(buffedSpeed).append(", ");
         builder.append("buffedStamina = ").append(buffedStamina).append(", ");
         builder.append("buffedPower = ").append(buffedPower).append(", ");
@@ -355,7 +352,7 @@ public class HorseModel {
         builder.append("a4 = ").append(formatter.format(a4)).append("\n");
         
         
-        displayer.log(builder.toString());
+        eventManager.log(builder.toString());
     }
     
     

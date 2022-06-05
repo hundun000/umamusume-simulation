@@ -13,7 +13,7 @@ public enum RunStrategyType {
     TAIL("追", 0.995, 0.931, 1.0, 1.0, 0.945, 1.0, 0.997),
     ;
     @Getter
-    final String name;
+    final String chinese;
     @Getter
     final double initHpRate;
     @Getter
@@ -32,7 +32,7 @@ public enum RunStrategyType {
     private RunStrategyType(String name, double initHpRate, double startCruiseSpeedRate, double middleCruiseSpeedRate,
             double lastCruiseSpeedRate, double startCruiseAccelerationRate, double middleCruiseAccelerationRate,
             double lastCruiseAccelerationRate) {
-        this.name = name;
+        this.chinese = name;
         this.initHpRate = initHpRate;
         this.startCruiseSpeedRate = startCruiseSpeedRate;
         this.middleCruiseSpeedRate = middleCruiseSpeedRate;
@@ -44,7 +44,14 @@ public enum RunStrategyType {
     
     
     
-
+    public static RunStrategyType fromChinese(String target) {
+        for (var value : values()) {
+            if (value.getChinese().equals(target)) {
+                return value;
+            }
+        }
+        return null;
+    }
     
     
     

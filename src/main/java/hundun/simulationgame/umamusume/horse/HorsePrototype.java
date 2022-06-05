@@ -20,6 +20,8 @@ public class HorsePrototype {
     private int basePower;
     private int baseGuts;
     private int baseWisdom;
+    private int score;
+    private RunStrategyType defaultRunStrategyType;
     private Map<RaceLengthType, DistanceAptitudeType> distanceAptitudes;
     private Map<RunStrategyType, RunStrategyAptitudeType> runStrategyAptitudes;
     private Map<TrackGroundType, TrackGroundAptitudeType> trackGroundAptitudes;
