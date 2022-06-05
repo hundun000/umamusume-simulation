@@ -34,23 +34,26 @@ public class CharImageDisplayer implements IDisplayer {
         ONLY_EVENT,
         ;
     }
-    
+    @Setter
     boolean printOutputBufferWhenFinish = true;
     
-    private static final String DEFAULT_SITUATION_TEMPALTE = "====== ${RENDER_REASON} ======\n"
+    public static final String DEFAULT_SITUATION_TEMPALTE = "====== ${RENDER_REASON} ======\n"
             + "${DESCRIPTION}\n"
             + "${CAMERA_TEXT}\n${HORSE_TEXTS}";
-    private static final String BOT_SITUATION_TEMPALTE = "=== ${DESCRIPTION} ===\n"
+    public static final String BOT_SITUATION_TEMPALTE = "=== ${DESCRIPTION} ===\n"
             + "${HORSE_TEXTS}";
+    @Setter
     private String situationTemplate = BOT_SITUATION_TEMPALTE;
     
-    private static final String DEFAULT_TEMPLATE = "${NAME}\t${ARROW}\n"
+    public static final String DEFAULT_TEMPLATE = "${NAME} ${ARROW}\n"
             + "\t$pos={POS}, ${HP}, ${SPEED}\n";
-    private static final String BOT_TEMPLATE = "${NAME}\t${ARROW}(${POS})\n";
+    public static final String BOT_TEMPLATE = "${NAME} ${ARROW}(${POS})\n";
+    @Setter
     private String horseRunningTemplate = BOT_TEMPLATE;
     
     
-    private static final String DEFAULT_REACHED_TEMPLATE = "${NAME}\t${REACH_TEXT}\n";
+    public static final String DEFAULT_REACHED_TEMPLATE = "${NAME} ${REACH_TEXT}\n";
+    @Setter
     private String horseReachedTemplate = DEFAULT_REACHED_TEMPLATE;
     
     @Getter
@@ -126,10 +129,15 @@ public class CharImageDisplayer implements IDisplayer {
         
         String cameraText = formatter.format(minPosition) + " ···················· " + situation.getPrototype().getLength() + " Fin.\n";
         StringBuilder horseTextsBuilder = new StringBuilder();
+        int maxNameLength = situation.getHorses().stream()
+                .mapToInt(item -> item.getPrototype().getName().length())
+                .max()
+                .getAsInt();
+                
         for (int i = 0; i < size; i++) {
             HorseModel horse = situation.getHorses().get(i);
             Integer numChar = numCharList.get(i);
-            horseTextsBuilder.append(drawHorseCharImage(situation, horse, numChar));
+            horseTextsBuilder.append(drawHorseCharImage(situation, horse, numChar, maxNameLength));
         }
         String horseTexts = horseTextsBuilder.toString();
         String text = situationTemplate
@@ -208,8 +216,9 @@ public class CharImageDisplayer implements IDisplayer {
         return new SimpleEntry<>(false, null);
     }
 
-    private String drawHorseCharImage(Race situation, HorseModel horse, Integer numChar) {
+    private String drawHorseCharImage(Race situation, HorseModel horse, Integer numChar, int maxNameLength) {
         String hpSubText = horse.getCurrentHp() > 0 ? "hp = " + formatter.format(horse.getCurrentHp()) + "" : "<疲劳>";
+        String nameString = String.format("%-" + maxNameLength + "s", horse.getPrototype().getName());
         if (horse.getReachTime() == null) {
             String arrowCharImage = "-".repeat(numChar + 1) + "> ";
             String positionSubText = formatter.format(horse.getTrackPosition()) + "m";
@@ -228,7 +237,7 @@ public class CharImageDisplayer implements IDisplayer {
                 speedSubText += "冲";
             }
             String text = horseRunningTemplate
-                    .replace("${NAME}", horse.getPrototype().getName())
+                    .replace("${NAME}", nameString)
                     .replace("${ARROW}", arrowCharImage)
                     .replace("${POS}", positionSubText)
                     .replace("${HP}", hpSubText)
@@ -238,7 +247,7 @@ public class CharImageDisplayer implements IDisplayer {
         } else {
             String reachText = "冲线时间：" + renderTime(horse.getReachTime());
             String text = horseReachedTemplate
-                    .replace("${NAME}", horse.getPrototype().getName())
+                    .replace("${NAME}", nameString)
                     .replace("${REACH_TEXT}", reachText)
                     ;
             return text;
