@@ -5,9 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
-import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
-import hundun.simulationgame.umamusume.display.text.SimpleTextDisplayer;
-import hundun.simulationgame.umamusume.record.CharImageRecorder;
+import hundun.simulationgame.umamusume.record.gui.GuiFrameRecorder;
+import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
 
 /**
  * @author hundun
@@ -24,5 +23,12 @@ public class UmamusumeAppTest {
        
    }
    
+   @Test
+   public void testGuiDisplayer(){
+       
+       UmamusumeApp app = new UmamusumeApp(new GuiFrameRecorder());
+       app.randomRun();
+       
+   }
 
 }

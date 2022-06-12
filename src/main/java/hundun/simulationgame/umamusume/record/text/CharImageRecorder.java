@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.record;
+package hundun.simulationgame.umamusume.record.text;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -18,6 +18,8 @@ import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.race.RaceSituation;
+import hundun.simulationgame.umamusume.record.IRecorder;
+import hundun.simulationgame.umamusume.record.RecordPackage;
 import lombok.Getter;
 import lombok.Setter;
 

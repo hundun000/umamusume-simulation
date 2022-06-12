@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import hundun.simulationgame.umamusume.display.gui.GUIDisplayer;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.horse.HorsePrototypeFactory;
@@ -31,13 +30,13 @@ public class UmamusumeApp {
     private int frameLength = 100;
     
     
-    private final IRecorder displayer;
+    private final IRecorder<?> displayer;
     RaceSituation raceSituation;
     
     boolean debugOnlyFirstTick = false;
     boolean debugTickLoopWithoutDelay = true;
     
-    public UmamusumeApp(IRecorder displayer) {
+    public UmamusumeApp(IRecorder<?> displayer) {
         this.displayer = displayer;
         this.factory = new HorsePrototypeFactory();
         factory.registerAllDefault();

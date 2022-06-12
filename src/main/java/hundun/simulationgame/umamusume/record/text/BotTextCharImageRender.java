@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.record;
+package hundun.simulationgame.umamusume.record.text;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

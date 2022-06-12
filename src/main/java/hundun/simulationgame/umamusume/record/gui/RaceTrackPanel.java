@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.display.gui;
+package hundun.simulationgame.umamusume.record.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.race.RaceSituation;
+import hundun.simulationgame.umamusume.record.RecordPackage.RecordNode;
+import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
 
 
 public class RaceTrackPanel extends JPanel{
@@ -92,10 +94,12 @@ public class RaceTrackPanel extends JPanel{
 
 
 
-    public void renderRaceSituation(RaceSituation situation) {
-        
-        for (HorseModel horse : situation.getHorses()) {
-            double uiPosition = horse.getTrackPosition() * 1000 / situation.getPrototype().getLength();
+
+
+
+    public void renderRecordNode(GuiFrameData guiFrameData) {
+        for (HorseInfo horse : guiFrameData.getHorseInfos()) {
+            double uiPosition = horse.getTrackPosition() * 1000 / guiFrameData.getRaceInfo().getLength();
             horsePositions[horse.getTrackNumber()].x = (int) uiPosition;
             
             if (horse.getReachTime() != null) {
@@ -105,6 +109,7 @@ public class RaceTrackPanel extends JPanel{
         
         validate();
         repaint();
+        
     }
 
 
