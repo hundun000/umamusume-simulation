@@ -87,7 +87,7 @@ public class HorsePrototypeFactory {
     }
     
     public HorsePrototype getRandomNearScore(Integer targetScore, Double offsetRate, List<HorsePrototype> excludes, HorsePrototype moreExclude) { 
-        var list = horsePrototypes.stream()
+        List<HorsePrototype> list = horsePrototypes.stream()
                 .filter(entry -> {
                     if (targetScore == null) {
                         return true;

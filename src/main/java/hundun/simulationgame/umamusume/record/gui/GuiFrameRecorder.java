@@ -59,7 +59,7 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
         
-        var task = new ShowRaceResultTask(raceTrackPanel, recordPackage);
+        ShowRaceResultTask task = new ShowRaceResultTask(raceTrackPanel, recordPackage);
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(task, 0L, 100L);
         while (!guiDone) {
@@ -81,7 +81,7 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
     public void onEvent(BaseEvent event) {
         System.out.println("[game event]" + event.getClass().getSimpleName());
         if (recordPackage.getNodes().size() > 0) {
-            var last = recordPackage.getNodes().get(recordPackage.getNodes().size() - 1);
+            RecordNode<GuiFrameData> last = recordPackage.getNodes().get(recordPackage.getNodes().size() - 1);
             if (last.getTick() == event.getSituation().getTickCount()) {
                 return;
             }

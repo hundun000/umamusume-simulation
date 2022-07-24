@@ -39,7 +39,7 @@ public class BotTextCharImageRender {
     public String renderStart(RaceSituation raceSituation) {
         StringBuilder builder = new StringBuilder();
         builder.append(raceSituation.getPrototype().getName()).append(" ").append(raceSituation.getPrototype().getLength()).append("米\n");
-        for (var horse : raceSituation.getHorses()) {
+        for (HorseModel horse : raceSituation.getHorses()) {
             builder.append("赛道").append(horse.getTrackNumber() + 1).append(": ")
             .append(horse.getPrototype().getName()).append(" ")
             .append(horse.getRunStrategyType().getChinese()).append("  ")
@@ -90,7 +90,7 @@ public class BotTextCharImageRender {
     
     private SimpleEntry<EventRenderType, String> checkNeedSampleByEvent(BaseEvent event, int tick) {
         if (event instanceof HorseTrackPhaseChangeEvent) {
-            var childEvent = (HorseTrackPhaseChangeEvent) event;
+            HorseTrackPhaseChangeEvent childEvent = (HorseTrackPhaseChangeEvent) event;
             horseTrackPhaseChangeEventCountMap.merge(childEvent.getTo(), 1, (oldValue, newValue) -> oldValue + newValue);
             boolean allDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == childEvent.getSituation().getHorses().size();
             boolean firstDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == 1;

@@ -45,7 +45,7 @@ public enum RunStrategyType {
     
     
     public static RunStrategyType fromChinese(String target) {
-        for (var value : values()) {
+        for (RunStrategyType value : values()) {
             if (value.getChinese().equals(target)) {
                 return value;
             }

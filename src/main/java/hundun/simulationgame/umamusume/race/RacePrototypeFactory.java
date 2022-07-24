@@ -43,7 +43,7 @@ public class RacePrototypeFactory {
     }
     
     public RacePrototype getRandom() {
-        var list = new ArrayList<>(racePrototypes.values());
+        List<RacePrototype> list = new ArrayList<>(racePrototypes.values());
         return list.isEmpty() ? null : list.get(rand.nextInt(list.size()));
     }
 }

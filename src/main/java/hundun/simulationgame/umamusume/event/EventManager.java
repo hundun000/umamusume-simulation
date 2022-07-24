@@ -25,13 +25,13 @@ public class EventManager {
     }
 
     public void newHorseSprintStartPositionSetEvent(HorsePrototype prototype, double sprintStartPosition, double currentHp) {
-        var event = new HorseSprintStartPositionSetEvent(raceSituation, prototype, sprintStartPosition, currentHp);
+        HorseSprintStartPositionSetEvent event = new HorseSprintStartPositionSetEvent(raceSituation, prototype, sprintStartPosition, currentHp);
         displayer.onEvent(event);
     }
     
     public void newHorseTrackPhaseChangeEvent(HorsePrototype prototype, HorseTrackPhase oldPhase,
             HorseTrackPhase newPhase) {
-        var event = new HorseTrackPhaseChangeEvent(raceSituation, prototype, oldPhase, newPhase);
+        HorseTrackPhaseChangeEvent event = new HorseTrackPhaseChangeEvent(raceSituation, prototype, oldPhase, newPhase);
         displayer.onEvent(event);
     }
 
