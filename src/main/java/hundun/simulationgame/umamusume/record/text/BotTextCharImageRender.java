@@ -14,6 +14,9 @@ import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.race.RaceSituation;
+import hundun.simulationgame.umamusume.record.IChineseNameEnum;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
@@ -21,6 +24,66 @@ import hundun.simulationgame.umamusume.race.RaceSituation;
  * Created on 2022/06/23
  */
 public class BotTextCharImageRender {
+    
+    @Setter
+    @Getter
+    public static class Translator {
+
+        private String horseRaceStartTemplate = "${TRACK_PART}: ${NAME_PART} "
+                + "${SPEED_KEY}${SPEED_VALUE}, "
+                + "${STAMINA_KEY}${STAMINA_VALUE}, "
+                + "${POWER_KEY}${POWER_VALUE}, "
+                + "${GUTS_KEY}${GUTS_VALUE}, "
+                + "${WISDOM_KEY}${WISDOM_VALUE}\n";
+        private Map<String, String> enumChineseToOtherLanguageMap = new HashMap<>();
+        private Map<String, String> textChineseToOtherLanguageMap = new HashMap<>();
+        
+        public static class Factory {
+            
+            public static Translator emptyAsChinese() {
+                Translator result = new Translator();
+                return result;
+            }
+            
+            public static Translator english() {
+                Translator result = new Translator();
+                
+                result.textChineseToOtherLanguageMap.put("赛道", "track");
+                result.textChineseToOtherLanguageMap.put("速", "speed");
+                result.textChineseToOtherLanguageMap.put("耐", "stamina");
+                result.textChineseToOtherLanguageMap.put("力", "power");
+                result.textChineseToOtherLanguageMap.put("根", "guts");
+                result.textChineseToOtherLanguageMap.put("智", "wisdom");
+                result.textChineseToOtherLanguageMap.put("进入%s阶段", "into %s phase");
+                result.textChineseToOtherLanguageMap.put("%s %s%s", "%s %s %s");
+                result.textChineseToOtherLanguageMap.put("%s %s最晚%s", "%s %s %s lastly");
+                result.textChineseToOtherLanguageMap.put("%s %s率先%s", "%s %s %s firstly");
+                result.textChineseToOtherLanguageMap.put("冲线时间：%s", "reached at: %s");
+                
+                result.enumChineseToOtherLanguageMap.put("逃", "first-strategy");
+                result.enumChineseToOtherLanguageMap.put("先", "front-strategy");
+                result.enumChineseToOtherLanguageMap.put("差", "back-strategy");
+                result.enumChineseToOtherLanguageMap.put("追", "tail-strategy");
+                
+                result.enumChineseToOtherLanguageMap.put("出闸", "start-gate");
+                result.enumChineseToOtherLanguageMap.put("初期巡航", "start-cruise");
+                result.enumChineseToOtherLanguageMap.put("中期巡航", "mid-cruise-1");
+                result.enumChineseToOtherLanguageMap.put("中期巡航(过半)", "mid-cruise-2");
+                result.enumChineseToOtherLanguageMap.put("末期巡航", "last-cruise");
+                result.enumChineseToOtherLanguageMap.put("末期冲刺", "last-sprint");
+                result.enumChineseToOtherLanguageMap.put("冲线", "reached");
+                return result;
+            }
+        }
+        
+        public String get(IChineseNameEnum enumValue) {
+            return enumChineseToOtherLanguageMap.getOrDefault(enumValue.getChinese(), enumValue.getChinese());
+        }
+        
+        public String get(String chinese) {
+            return textChineseToOtherLanguageMap.getOrDefault(chinese, chinese);
+        }
+    }
     
     
     Map<HorseTrackPhase, Integer> horseTrackPhaseChangeEventCountMap = new HashMap<>();
@@ -30,43 +93,58 @@ public class BotTextCharImageRender {
     NumberFormat minuteFormatter = new DecimalFormat("#00");
     NumberFormat secondFormatter = new DecimalFormat("#00.00");
     
+    @Setter
+    private static String horseRunningTemplate = "${HORSE_ICON} ${ARROW}\n";
     
-    private final static String horseRunningTemplate = "${HORSE_ICON} ${ARROW}\n";
+    @Setter
+    private static String horseReachedTemplate = "${HORSE_ICON} ${REACH_TEXT}\n";
     
-    private final static String horseReachedTemplate = "${HORSE_ICON} ${REACH_TEXT}\n";
+    
+    
     private final static int maxDiffCharNum = 10;
+    private final Translator translator;
+    
+    public BotTextCharImageRender(Translator translator) {
+        this.translator = translator;
+    }
     
     public String renderStart(RaceSituation raceSituation) {
         StringBuilder builder = new StringBuilder();
         builder.append(raceSituation.getPrototype().getName()).append(" ").append(raceSituation.getPrototype().getLength()).append("米\n");
         for (HorseModel horse : raceSituation.getHorses()) {
-            builder.append("赛道").append(horse.getTrackNumber() + 1).append(": ")
-            .append(horse.getPrototype().getName()).append(" ")
-            .append(horse.getRunStrategyType().getChinese()).append("  ")
-            .append("速").append(horse.getPrototype().getBaseSpeed()).append("，")
-            .append("耐").append(horse.getPrototype().getBaseStamina()).append("，")
-            .append("力").append(horse.getPrototype().getBasePower()).append("，")
-            .append("根").append(horse.getPrototype().getBaseGuts()).append("，")
-            .append("智").append(horse.getPrototype().getBaseWisdom()).append("")
-            .append("\n");
+            builder.append(translator.horseRaceStartTemplate
+                    .replace("${TRACK_PART}", translator.get("赛道") + String.valueOf(horse.getTrackNumber() + 1))
+                    .replace("${NAME_PART}", horse.getPrototype().getName())
+                    .replace("${SPEED_KEY}", translator.get("速"))
+                    .replace("${SPEED_VALUE}", String.valueOf(horse.getPrototype().getBaseSpeed()))
+                    .replace("${STAMINA_KEY}", translator.get("耐"))
+                    .replace("${STAMINA_VALUE}", String.valueOf(horse.getPrototype().getBaseStamina()))
+                    .replace("${POWER_KEY}", translator.get("力"))
+                    .replace("${POWER_VALUE}", String.valueOf(horse.getPrototype().getBasePower()))
+                    .replace("${GUTS_KEY}", translator.get("根"))
+                    .replace("${GUTS_VALUE}", String.valueOf(horse.getPrototype().getBaseGuts()))
+                    .replace("${WISDOM_KEY}", translator.get("智"))
+                    .replace("${WISDOM_VALUE}", String.valueOf(horse.getPrototype().getBaseWisdom()))
+                    );
         }
         return builder.toString();
     }
     
-    public String renderEventOrNot(BaseEvent event) {
+    public TextFrameData renderEventOrNot(BaseEvent event) {
         RaceSituation situation = event.getSituation();
         SimpleEntry<EventRenderType, String> checkResult = checkNeedSampleByEvent(event, situation.getTickCount());
         if (checkResult.getKey() == EventRenderType.NOT_RENDER) {
             return null;
         }
         
-        String newDescription = checkResult.getValue();
-        String renderReason = "GameEvent at tick " + situation.getTickCount();
+        String eventInfo = checkResult.getValue();
         
         if (checkResult.getKey() == EventRenderType.WITH_RACE_SITUATION) {
-            return this.renderRaceSituation(renderReason, newDescription, situation);
+            return this.renderRaceSituation(eventInfo, situation);
         } else if (checkResult.getKey() == EventRenderType.ONLY_DESCRIPTION) {
-            return newDescription;
+            return TextFrameData.builder()
+                    .eventInfo(eventInfo)
+                    .build();
         } else {
             return null;
         }
@@ -82,9 +160,9 @@ public class BotTextCharImageRender {
     
     private String renderHorseTrackPhase(HorseTrackPhase phase) {
         if (phase == HorseTrackPhase.REACHED) {
-            return phase.getChinese();
+            return translator.get(phase);
         } else {
-            return "进入" + phase.getChinese() + "阶段";
+            return String.format(translator.get("进入%s阶段"), translator.get(phase));
         }
     }
     
@@ -95,15 +173,15 @@ public class BotTextCharImageRender {
             boolean allDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == childEvent.getSituation().getHorses().size();
             boolean firstDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == 1;
             String phaseText = renderHorseTrackPhase(childEvent.getTo());
-            String normalDescription = String.format("%s %s%s", 
+            String normalDescription = String.format(translator.get("%s %s%s"), 
                     renderTime(tick),
                     childEvent.getHorse().getName(), 
                     phaseText);
-            String allDoneDescription = String.format("%s %s最晚%s", 
+            String allDoneDescription = String.format(translator.get("%s %s最晚%s"), 
                     renderTime(tick),
                     childEvent.getHorse().getName(), 
                     phaseText);
-            String firstDoneDescription = String.format("%s %s率先%s", 
+            String firstDoneDescription = String.format(translator.get("%s %s率先%s"), 
                     renderTime(tick),
                     childEvent.getHorse().getName(), 
                     phaseText);
@@ -183,7 +261,7 @@ public class BotTextCharImageRender {
      * ----> 60
      * ----------> 75
      */
-    public String renderRaceSituation(String renderReason, String description, RaceSituation situation) {
+    public TextFrameData renderRaceSituation(String eventInfo, RaceSituation situation) {
         
         int size = situation.getHorses().size();
         double cameraPosition = Math.min(
@@ -211,10 +289,12 @@ public class BotTextCharImageRender {
         String horseTexts = horseTextsBuilder.toString();
         
         StringBuilder result = new StringBuilder();
-        result.append(description).append("\n")
-                .append(cameraProcessBar).append(" ").append(cameraPosFormatter.format(cameraPosition)).append("m\n")
+        result.append(cameraProcessBar).append(" ").append(cameraPosFormatter.format(cameraPosition)).append("m\n")
                 .append(horseTexts);
-        return result.toString();
+        return TextFrameData.builder()
+                .eventInfo(eventInfo)
+                .raceInfo(result.toString())
+                .build();
     }
     
     private String drawHorseCharImage(RaceSituation situation, HorseModel horse, Integer numChar, int maxNameLength) {
@@ -223,30 +303,31 @@ public class BotTextCharImageRender {
         if (horse.getReachTime() == null) {
             String arrowCharImage = "-".repeat(numChar + 1) + "> ";
             String positionSubText = cameraPosFormatter.format(horse.getTrackPosition()) + "m";
-            String speedSubText = "v=" + cameraPosFormatter.format(horse.getCurrentSpeed());
-            if (horse.getCurrentAcceleration() != null) {
-                if (horse.getCurrentAcceleration() > 0) {
-                    speedSubText += "↑a=" + cameraPosFormatter.format(horse.getCurrentAcceleration());
-                } else {
-                    speedSubText += "↓a=" + cameraPosFormatter.format(horse.getCurrentAcceleration());
-                }
-                speedSubText += "(target=" + cameraPosFormatter.format(horse.getTargetSpeed()) + ")";
-            } else {
-                speedSubText += "-";
-            }
-            if (horse.getTrackPhase() == HorseTrackPhase.LAST_SPRINT) {
-                speedSubText += "冲";
-            }
+//            String speedSubText = "v=" + cameraPosFormatter.format(horse.getCurrentSpeed());
+//            if (horse.getCurrentAcceleration() != null) {
+//                if (horse.getCurrentAcceleration() > 0) {
+//                    speedSubText += "↑a=" + cameraPosFormatter.format(horse.getCurrentAcceleration());
+//                } else {
+//                    speedSubText += "↓a=" + cameraPosFormatter.format(horse.getCurrentAcceleration());
+//                }
+//                speedSubText += "(target=" + cameraPosFormatter.format(horse.getTargetSpeed()) + ")";
+//            } else {
+//                speedSubText += "-";
+//            }
+//            if (horse.getTrackPhase() == HorseTrackPhase.LAST_SPRINT) {
+//                speedSubText += "冲";
+//            }
             String text = horseRunningTemplate
                     .replace("${HORSE_ICON}", horseIcon)
                     .replace("${ARROW}", arrowCharImage)
                     .replace("${POS}", positionSubText)
+                    
                     .replace("${HP}", hpSubText)
-                    .replace("${SPEED}", speedSubText)
+//                    .replace("${SPEED}", speedSubText)
                     ;
             return text;
         } else {
-            String reachText = "冲线时间：" + renderTime(horse.getReachTime());
+            String reachText = String.format(translator.get("冲线时间：%s"), renderTime(horse.getReachTime()));
             String text = horseReachedTemplate
                     .replace("${HORSE_ICON}", horseIcon)
                     .replace("${REACH_TEXT}", reachText)

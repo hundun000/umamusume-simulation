@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
@@ -20,6 +21,7 @@ import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.race.RaceSituation;
 import hundun.simulationgame.umamusume.record.IRecorder;
 import hundun.simulationgame.umamusume.record.RecordPackage;
+import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,25 +29,21 @@ import lombok.Setter;
  * @author hundun
  * Created on 2021/09/25
  */
-public class CharImageRecorder implements IRecorder<String> {
+public class CharImageRecorder implements IRecorder<TextFrameData> {
     
-    BotTextCharImageRender render = new BotTextCharImageRender();
+    final BotTextCharImageRender render;
     
-    @Setter
-    private SampleType sampleType = SampleType.ONLY_EVENT;
-    public enum SampleType {
-        AUTO_RATE,
-        ONLY_EVENT,
-        ;
+
+
+    
+
+    
+    RecordPackage<TextFrameData> recordPackage;
+    
+    
+    public CharImageRecorder(Translator translator) {
+        this.render = new BotTextCharImageRender(translator);
     }
-
-    
-
-    
-    RecordPackage<String> recordPackage;
-    
-    
-    
 
     
     @Override
@@ -58,35 +56,17 @@ public class CharImageRecorder implements IRecorder<String> {
 
     }
     
-    private boolean checkNeedSampleByTick(RaceSituation situation) {
-        if (sampleType == SampleType.AUTO_RATE) {
-            int sampleRate = 1000;
-            
-            boolean lastCorner = situation.getHorses().stream().filter(horse -> horse.getTrackPhase() == HorseTrackPhase.LAST_SPRINT || horse.getTrackPhase() == HorseTrackPhase.LAST_CRUISE).findFirst().isPresent();
-            boolean anyHorseSpeedDelta = situation.getHorses().stream().filter(horse -> horse.getTrackPhase() != HorseTrackPhase.REACHED && horse.getCurrentAcceleration() != null).findFirst().isPresent();
-            if (lastCorner || anyHorseSpeedDelta) {
-                sampleRate = 100;
-            }
-            
-            boolean startGate = situation.getHorses().stream().filter(horse -> horse.getTrackPhase() == HorseTrackPhase.START_GATE).findFirst().isPresent();
-            boolean allReached = situation.getHorses().stream().filter(horse -> horse.getTrackPhase() == HorseTrackPhase.REACHED).findFirst().isPresent();
-            if (startGate || allReached) {
-                sampleRate = 1;
-            }
-            
-            boolean needPrint = situation.getTickCount() % sampleRate == 0;
-            if (needPrint) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
    
     @Override
     public void onStart(RaceSituation raceSituation) {
-        recordPackage = new RecordPackage<String>();
-        recordPackage.addNode(raceSituation.getTickCount(), render.renderStart(raceSituation));
+        recordPackage = new RecordPackage<TextFrameData>();
+        
+        recordPackage.addNode(raceSituation.getTickCount(), 
+                TextFrameData.builder()
+                        .eventInfo("Start")
+                        .raceInfo(render.renderStart(raceSituation))
+                        .build()
+                );
     }
     
     
@@ -94,20 +74,14 @@ public class CharImageRecorder implements IRecorder<String> {
     @Override
     public void onTick(RaceSituation situation) {
         
-        
-        if (!checkNeedSampleByTick(situation)) {
-            return;
-        }
-        String renderReason = "sample at tick " + situation.getTickCount();
-        StringBuilder builder = new StringBuilder();
-        builder.append(render.renderRaceSituation(renderReason, "", situation));
-        
-        recordPackage.addNode(situation.getTickCount(), builder.toString());
+        recordPackage.addNode(situation.getTickCount(), 
+                render.renderRaceSituation(null, situation)
+                );
     }
     
     @Override
     public void onEvent(BaseEvent event) {
-        String result = render.renderEventOrNot(event);
+        TextFrameData result = render.renderEventOrNot(event);
         if (result != null) {
             recordPackage.addNode(event.getSituation().getTickCount(), result);
         }
@@ -116,15 +90,25 @@ public class CharImageRecorder implements IRecorder<String> {
 
 
     @Override
-    public RecordPackage<String> getRecordPackage() {
+    public RecordPackage<TextFrameData> getRecordPackage() {
         return recordPackage;
     }
 
     @Override
     public void printRecordPackage() {
-        recordPackage.getNodes().forEach(item -> {
-            System.out.println(String.format("[tick %d] %s", item.getTick(), item.getContent()));
-        });
+        recordPackage.getNodes().stream()
+                .filter(item -> item.getContent().getEventInfo() != null)
+                .forEach(item -> {
+                    System.out.println(String.format(
+                            "[tick %d] %s\n%s", 
+                            item.getTick(), 
+                            item.getContent().getEventInfo(),
+                            Objects.requireNonNullElse(
+                                    item.getContent().getRaceInfo(), 
+                                    ""
+                                    )
+                            ));
+                });
     }
     
 }

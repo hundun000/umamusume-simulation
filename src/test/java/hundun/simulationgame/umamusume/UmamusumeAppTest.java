@@ -7,6 +7,7 @@ import org.junit.Test;
 import hundun.simulationgame.umamusume.UmamusumeApp;
 import hundun.simulationgame.umamusume.record.gui.GuiFrameRecorder;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
+import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
 
 /**
  * @author hundun
@@ -14,11 +15,19 @@ import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
  */
 public class UmamusumeAppTest {
 
+    @Test
+    public void testCharImageDisplayerChinese(){
+        
+        UmamusumeApp app = new UmamusumeApp(new CharImageRecorder(Translator.Factory.emptyAsChinese()));
+        app.randomRun();
+        
+    }
+
    
    @Test
-   public void testCharImageDisplayer(){
+   public void testCharImageDisplayerEnglish(){
        
-       UmamusumeApp app = new UmamusumeApp(new CharImageRecorder());
+       UmamusumeApp app = new UmamusumeApp(new CharImageRecorder(Translator.Factory.english()));
        app.randomRun();
        
    }

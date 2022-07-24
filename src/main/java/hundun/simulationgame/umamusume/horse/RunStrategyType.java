@@ -1,18 +1,19 @@
 package hundun.simulationgame.umamusume.horse;
 
+import hundun.simulationgame.umamusume.record.IChineseNameEnum;
 import lombok.Getter;
 
 /**
  * @author hundun
  * Created on 2021/09/27
  */
-public enum RunStrategyType {
+public enum RunStrategyType implements IChineseNameEnum {
     FIRST("逃", 0.95, 1.0, 0.98, 0.962, 1.0, 1.0, 0.996),
     FRONT("先", 0.89, 0.991, 0.975, 0.985, 0.985, 1.0, 0.996),
     BACK("差", 1.0, 0.938, 0.994, 0.994, 0.975, 1.0, 1.0),
     TAIL("追", 0.995, 0.931, 1.0, 1.0, 0.945, 1.0, 0.997),
     ;
-    @Getter
+    
     final String chinese;
     @Getter
     final double initHpRate;
@@ -42,7 +43,10 @@ public enum RunStrategyType {
         this.lastCruiseAccelerationRate = lastCruiseAccelerationRate;
     }
     
-    
+    @Override
+    public String getChinese() {
+        return chinese;
+    }
     
     public static RunStrategyType fromChinese(String target) {
         for (RunStrategyType value : values()) {
