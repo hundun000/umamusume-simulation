@@ -21,6 +21,7 @@ import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.race.RaceSituation;
 import hundun.simulationgame.umamusume.record.IRecorder;
 import hundun.simulationgame.umamusume.record.RecordPackage;
+import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,8 +42,8 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
     RecordPackage<TextFrameData> recordPackage;
     
     
-    public CharImageRecorder(Translator translator) {
-        this.render = new BotTextCharImageRender(translator);
+    public CharImageRecorder(Translator translator, StrategyPackage strategyPackage) {
+        this.render = new BotTextCharImageRender(translator, strategyPackage);
     }
 
     
