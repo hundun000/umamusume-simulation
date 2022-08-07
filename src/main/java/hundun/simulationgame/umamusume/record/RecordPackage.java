@@ -79,24 +79,68 @@ public class RecordPackage<T> {
     }
     
     public static class EndRecordNode {
-        private Map<String, Integer> horseReachTickMap;
+        private List<EndRecordHorseInfo> horseInfos;
 
-        public EndRecordNode(Map<String, Integer> horseReachTickMap) {
+        public EndRecordNode(List<EndRecordHorseInfo> horseInfos) {
             super();
-            this.horseReachTickMap = horseReachTickMap;
+            this.horseInfos = horseInfos;
         }
 
         public EndRecordNode() {
             super();
         }
 
-        public Map<String, Integer> getHorseReachTickMap() {
-            return horseReachTickMap;
-        }
-
-        public void setHorseReachTickMap(Map<String, Integer> horseReachTickMap) {
-            this.horseReachTickMap = horseReachTickMap;
+        public List<EndRecordHorseInfo> getHorseInfos() {
+            return horseInfos;
         }
         
+        public void setHorseInfos(List<EndRecordHorseInfo> horseInfos) {
+            this.horseInfos = horseInfos;
+        }
+        
+        public static class EndRecordHorseInfo {
+            String horseName;
+            int reachTick;
+            String reachTimeText;
+            
+            
+            public EndRecordHorseInfo() {
+                super();
+            }
+            
+            public EndRecordHorseInfo(String horseName, int reachTick, String reachTimeText) {
+                super();
+                this.horseName = horseName;
+                this.reachTick = reachTick;
+                this.reachTimeText = reachTimeText;
+                
+            }
+
+            public int getReachTick() {
+                return reachTick;
+            }
+
+            public void setReachTick(int reachTick) {
+                this.reachTick = reachTick;
+            }
+
+            public String getReachTimeText() {
+                return reachTimeText;
+            }
+
+            public void setReachTimeText(String reachTimeText) {
+                this.reachTimeText = reachTimeText;
+            }
+
+            public String getHorseName() {
+                return horseName;
+            }
+
+            public void setHorseName(String horseName) {
+                this.horseName = horseName;
+            }
+            
+            
+        }
     }
 }

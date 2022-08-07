@@ -1,5 +1,6 @@
 package hundun.simulationgame.umamusume.record.text;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collector;
@@ -14,6 +15,7 @@ import hundun.simulationgame.umamusume.race.RaceSituation;
 import hundun.simulationgame.umamusume.record.IRecorder;
 import hundun.simulationgame.umamusume.record.RecordPackage;
 import hundun.simulationgame.umamusume.record.RecordPackage.EndRecordNode;
+import hundun.simulationgame.umamusume.record.RecordPackage.EndRecordNode.EndRecordHorseInfo;
 import hundun.simulationgame.umamusume.record.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
@@ -100,7 +102,7 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
                 .filter(item -> item.getContent().getEventInfo() != null)
                 .forEach(item -> {
                     System.out.println(JavaFeatureForGwt.stringFormat(
-                            "[tick %d] %s\n%s", 
+                            "[tick %s] %s\n%s", 
                             item.getTick(), 
                             item.getContent().getEventInfo(),
                             JavaFeatureForGwt.requireNonNullElse(
@@ -112,22 +114,27 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
         EndRecordNode item = recordPackage.getEndNode();
         System.out.println(JavaFeatureForGwt.stringFormat(
                 "[End] %s",  
-                item.getHorseReachTickMap()
+                item.getHorseInfos().stream()
+                        .map(info -> JavaFeatureForGwt.stringFormat(
+                                "%s %s",
+                                info.getHorseName(),
+                                info.getReachTimeText()
+                                ))
+                        .collect(Collectors.joining("\n"))
                 ));
     }
 
 
     @Override
     public void onEnd(RaceSituation raceSituation) {
-        Map<String, Integer> horseReachTickMap = raceSituation.getHorses().stream()
-//                .map(it -> new AbstractMap.SimpleEntry<String, Integer>(
-//                        it.getPrototype().getName(), 
-//                        it.getReachTime()
-//                        ))
-                .collect(Collectors.toMap(
-                        it -> it.getPrototype().getName(), 
-                        it -> it.getReachTime()
+        List<EndRecordHorseInfo> horseReachTickMap = raceSituation.getHorses().stream()
+                .map(it -> new EndRecordHorseInfo(
+                        // FIXME 临时改为CharImage
+                        it.getPrototype().getCharImage(),
+                        it.getReachTime(), 
+                        render.renderTime(it.getReachTime())
                         ))
+                .collect(Collectors.toList())
                 ;
         recordPackage.setEndNode(new EndRecordNode(horseReachTickMap));
         

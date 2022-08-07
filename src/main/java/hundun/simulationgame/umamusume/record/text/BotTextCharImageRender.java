@@ -110,17 +110,17 @@ public class BotTextCharImageRender {
             boolean allDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == childEvent.getSituation().getHorses().size();
             boolean firstDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == 1;
             String phaseText = renderHorseTrackPhase(childEvent.getTo());
-            String normalDescription = JavaFeatureForGwt.stringFormat(translator.get("%s %s%s"), 
-                    renderTime(tick),
-                    childEvent.getHorse().getName(), 
+            String normalDescription = JavaFeatureForGwt.stringFormat(translator.get("%s%s"), 
+                    //renderTime(tick),
+                    childEvent.getHorse().getCharImage(), 
                     phaseText);
-            String allDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s %s最晚%s"), 
-                    renderTime(tick),
-                    childEvent.getHorse().getName(), 
+            String allDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s最晚%s"), 
+                    //renderTime(tick),
+                    childEvent.getHorse().getCharImage(), 
                     phaseText);
-            String firstDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s %s率先%s"), 
-                    renderTime(tick),
-                    childEvent.getHorse().getName(), 
+            String firstDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s率先%s"), 
+                    //renderTime(tick),
+                    childEvent.getHorse().getCharImage(), 
                     phaseText);
             
             if (childEvent.getFrom() == HorseTrackPhase.START_GATE
@@ -240,7 +240,10 @@ public class BotTextCharImageRender {
     
     private String drawHorseCharImage(RaceSituation situation, HorseModel horse, Integer numChar, int maxNameLength) {
         String hpSubText = horse.getCurrentHp() > 0 ? "hp = " + cameraPosFormatter.format(horse.getCurrentHp()) + "" : "<疲劳>";
-        String horseIcon = JavaFeatureForGwt.stringFormat("%-" + maxNameLength + "s", horse.getPrototype().getCharImage());
+        String horseIcon = JavaFeatureForGwt.stringFixedLength(
+                maxNameLength, 
+                horse.getPrototype().getCharImage()
+                );
         if (horse.getReachTime() == null) {
             String arrowCharImage = JavaFeatureForGwt.stringRepeat("-", numChar + 1) + "> ";
             String positionSubText = cameraPosFormatter.format(horse.getTrackPosition()) + "m";
@@ -308,9 +311,9 @@ public class BotTextCharImageRender {
                 result.textChineseToOtherLanguageMap.put("根", "guts");
                 result.textChineseToOtherLanguageMap.put("智", "wisdom");
                 result.textChineseToOtherLanguageMap.put("进入%s阶段", "into %s phase");
-                result.textChineseToOtherLanguageMap.put("%s %s%s", "%s %s %s");
-                result.textChineseToOtherLanguageMap.put("%s %s最晚%s", "%s %s %s lastly");
-                result.textChineseToOtherLanguageMap.put("%s %s率先%s", "%s %s %s firstly");
+                result.textChineseToOtherLanguageMap.put("%s%s", "%s %s %s");
+                result.textChineseToOtherLanguageMap.put("%s最晚%s", "%s %s lastly");
+                result.textChineseToOtherLanguageMap.put("%s率先%s", "%s %s firstly");
                 result.textChineseToOtherLanguageMap.put("冲线时间：%s", "reached at: %s");
                 
                 result.enumChineseToOtherLanguageMap.put("逃", "first-strategy");
@@ -384,7 +387,7 @@ public class BotTextCharImageRender {
             public static StrategyPackage longWidth() {
                 StrategyPackage result = new StrategyPackage();
                 result.setHorsePositionBarMaxWidth(30);
-                result.setCameraProcessBarWidth(30);
+                result.setCameraProcessBarWidth(25);
                 return result;
             }
         }

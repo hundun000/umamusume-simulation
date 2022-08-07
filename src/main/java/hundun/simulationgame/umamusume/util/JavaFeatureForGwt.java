@@ -1,6 +1,7 @@
 package hundun.simulationgame.umamusume.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,10 @@ import java.util.Map;
  */
 public class JavaFeatureForGwt {
 
+    public static void main(String[] args) {
+        System.out.println(stringFormat("%s%s%s %s%s%s", "1", "2", "3", "4", "5", "6"));
+    }
+    
     public static class NumberFormat {
         int integerBit;
         int decimalBit;
@@ -20,7 +25,7 @@ public class JavaFeatureForGwt {
             this.integerBit = integerBit;
             this.decimalBit = decimalBit;
         }
-
+        
         public String format(double value) {
             String string = String.valueOf(value);
             String[] parts = string.split("\\.");
@@ -72,14 +77,12 @@ public class JavaFeatureForGwt {
     
     public static String stringFormat(String format, Object... args) {
         String delimiter = "%s";
-        String[] split = format.split(delimiter);
-        final StringBuffer buffer= new StringBuffer();
-        for (int i = 0; i < split.length - 1; i++) {
-            buffer.append(split[i]);
-            buffer.append(args[i]);
+
+        for (int i = 0; i < args.length; i++) {
+            format = format.replaceFirst(delimiter, args[i].toString());
         }
-        buffer.append(split[split.length - 1]);
-        return buffer.toString();
+
+        return format;
     }
     
     public static Map<String, Integer> mapOf() {
@@ -125,6 +128,14 @@ public class JavaFeatureForGwt {
         map.put(k5, v5);
         return map;
     }
+    
+    public static <T> List<T> listOf(T[] items) {
+        List<T> list = new ArrayList<>(items.length);
+        for (int i = 0; i < items.length; i++) {
+            list.add(items[i]);
+        }
+        return list;
+    }
 
     public static <T> List<T> arraysAsList(T item) {
         List<T> list = new ArrayList<>(1);
@@ -168,6 +179,14 @@ public class JavaFeatureForGwt {
 
     public static <T> T requireNonNullElse(T value, T defaultValue) {
         return value == null ? defaultValue : value;
+    }
+
+    public static String stringFixedLength(int fixedLength, String text) {
+        StringBuilder builder = new StringBuilder(text);
+        while (builder.length() < fixedLength) {
+            builder.append(" ");
+        }
+        return builder.toString();
     }
 
     
