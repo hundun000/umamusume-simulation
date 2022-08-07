@@ -1,7 +1,6 @@
 package hundun.simulationgame.umamusume.horse;
 
 import hundun.simulationgame.umamusume.record.IChineseNameEnum;
-import lombok.Getter;
 
 /**
  * @author hundun

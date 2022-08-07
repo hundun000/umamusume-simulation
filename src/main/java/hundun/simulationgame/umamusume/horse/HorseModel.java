@@ -1,10 +1,10 @@
 package hundun.simulationgame.umamusume.horse;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
 import hundun.simulationgame.umamusume.event.EventManager;
@@ -15,12 +15,7 @@ import hundun.simulationgame.umamusume.race.RaceSituation;
 import hundun.simulationgame.umamusume.race.TrackGroundType;
 import hundun.simulationgame.umamusume.race.TrackWetType;
 import hundun.simulationgame.umamusume.record.IRecorder;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import hundun.simulationgame.umamusume.util.JavaFeatureForGwt.NumberFormat;
 
 public class HorseModel {
     
@@ -28,18 +23,36 @@ public class HorseModel {
     
 
 	// ====== construct-init constant ======
-    @Getter
     private HorsePrototype prototype;
-	@Setter
-    @Getter
+    public HorsePrototype getPrototype() {
+        return prototype;
+    }
+    
 	private int trackNumber;
-	@Setter
-    @Getter
+	public int getTrackNumber() {
+        return trackNumber;
+    }
+	public void setTrackNumber(int trackNumber) {
+        this.trackNumber = trackNumber;
+    }
+
     private RunStrategyType runStrategyType;
-	@Setter
+    public RunStrategyType getRunStrategyType() {
+        return runStrategyType;
+    }
+    public void setRunStrategyType(RunStrategyType runStrategyType) {
+        this.runStrategyType = runStrategyType;
+    }
+    
 	private RacePrototype racePrototype;
-	@Setter
+	public void setRacePrototype(RacePrototype racePrototype) {
+        this.racePrototype = racePrototype;
+    }
+
     private TrackWetType trackWetType;
+	public void setTrackWetType(TrackWetType trackWetType) {
+        this.trackWetType = trackWetType;
+    }
 
 	// ====== post-construct-init constant ======
 	
@@ -66,30 +79,52 @@ public class HorseModel {
     private RunStrategyAptitudeType runStrategyAptitudeType;
     private TrackGroundAptitudeType trackGroundAptitudeType;
     // ====== runtime-init constant ======
-    @Setter(value = AccessLevel.PRIVATE)
-    @Getter
     private Double sprintStartPosition;
-    @Setter(value = AccessLevel.PRIVATE)
-    @Getter
+    private void setSprintStartPosition(Double sprintStartPosition) {
+        this.sprintStartPosition = sprintStartPosition;
+    }
+    public Double getSprintStartPosition() {
+        return sprintStartPosition;
+    }
+    
     private Integer reachTime;
+    private void setReachTime(Integer reachTime) {
+        this.reachTime = reachTime;
+    }
+    public Integer getReachTime() {
+        return reachTime;
+    }
+    
     private Map<HorseTrackPhase, Double> hpCostRecord = new LinkedHashMap<>();
     private Map<HorseTrackPhase, Integer> tickCostRecord = new HashMap<>();
     // ====== change every frame ======
-    @Getter
 	private Double currentSpeed;
-    @Getter
+	public Double getCurrentSpeed() {
+        return currentSpeed;
+    }
     private Double trackPosition;
-    @Getter
+    public Double getTrackPosition() {
+        return trackPosition;
+    }
     private double currentHp;
-    @Getter
+    public double getCurrentHp() {
+        return currentHp;
+    }
     private HorseTrackPhase trackPhase;
-    @Getter
+    public HorseTrackPhase getTrackPhase() {
+        return trackPhase;
+    }
     private Double targetSpeed;
+    public Double getTargetSpeed() {
+        return targetSpeed;
+    }
     Boolean hpEnough;
     Double targetHpCost;
-    @Getter
+
     Double currentAcceleration;
-    
+    public Double getCurrentAcceleration() {
+        return currentAcceleration;
+    }
     
 	public HorseModel(HorsePrototype prototype, EventManager eventManager){
 		
@@ -338,7 +373,7 @@ public class HorseModel {
         a3 = lastPhaseAcceleration(v0, buffedPower, runStrategyType, trackGroundAptitudeType, distanceAptitudeType);
         a4 = a3;
         
-        NumberFormat formatter = new DecimalFormat("#0.000");
+        NumberFormat formatter = NumberFormat.getFormat(1, 3);
         StringBuilder builder = new StringBuilder();
         builder.append("Track").append(trackNumber).append("\n");
         builder.append(prototype.getName()).append(", ");

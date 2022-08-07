@@ -28,19 +28,19 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
     boolean guiDone = false;
     
     private GuiFrameData fromRaceSituation(RaceSituation situation) {
-        return GuiFrameData.builder()
-                .raceInfo(RaceInfo.builder()
-                        .length(situation.getPrototype().getLength())
-                        .build())
-                .horseInfos(situation.getHorses().stream()
-                        .map(model -> HorseInfo.builder()
-                                .trackNumber(model.getTrackNumber())
-                                .trackPosition(model.getTrackPosition())
-                                .reachTime(model.getReachTime())
-                                .build())
-                        .collect(Collectors.toList())
+        return new GuiFrameData(
+                new RaceInfo(
+                        situation.getPrototype().getLength()
+                ),
+                situation.getHorses().stream()
+                        .map(model -> new HorseInfo(
+                                model.getTrackNumber(),
+                                model.getTrackPosition(),
+                                model.getReachTime()
+                                )
                         )
-                .build();
+                        .collect(Collectors.toList())
+                );
     }
     
     @Override

@@ -1,7 +1,6 @@
 package hundun.simulationgame.umamusume.horse;
 
 import hundun.simulationgame.umamusume.record.IChineseNameEnum;
-import lombok.Getter;
 
 /**
  * @author hundun
@@ -15,19 +14,19 @@ public enum RunStrategyType implements IChineseNameEnum {
     ;
     
     final String chinese;
-    @Getter
+
     final double initHpRate;
-    @Getter
+
     final double startCruiseSpeedRate;
-    @Getter
+
     final double middleCruiseSpeedRate;
-    @Getter
+
     final double lastCruiseSpeedRate;
-    @Getter
+
     final double startCruiseAccelerationRate;
-    @Getter
+
     final double middleCruiseAccelerationRate;
-    @Getter
+
     final double lastCruiseAccelerationRate;
     
     private RunStrategyType(String name, double initHpRate, double startCruiseSpeedRate, double middleCruiseSpeedRate,
@@ -55,6 +54,34 @@ public enum RunStrategyType implements IChineseNameEnum {
             }
         }
         return null;
+    }
+
+    public double getInitHpRate() {
+        return initHpRate;
+    }
+
+    public double getStartCruiseSpeedRate() {
+        return startCruiseSpeedRate;
+    }
+
+    public double getMiddleCruiseSpeedRate() {
+        return middleCruiseSpeedRate;
+    }
+
+    public double getLastCruiseSpeedRate() {
+        return lastCruiseSpeedRate;
+    }
+
+    public double getStartCruiseAccelerationRate() {
+        return startCruiseAccelerationRate;
+    }
+
+    public double getMiddleCruiseAccelerationRate() {
+        return middleCruiseAccelerationRate;
+    }
+
+    public double getLastCruiseAccelerationRate() {
+        return lastCruiseAccelerationRate;
     }
     
     

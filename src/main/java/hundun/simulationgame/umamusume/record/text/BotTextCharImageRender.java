@@ -1,7 +1,5 @@
 package hundun.simulationgame.umamusume.record.text;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +13,8 @@ import hundun.simulationgame.umamusume.horse.HorseModel;
 import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.race.RaceSituation;
 import hundun.simulationgame.umamusume.record.IChineseNameEnum;
-import lombok.Getter;
-import lombok.Setter;
+import hundun.simulationgame.umamusume.util.JavaFeatureForGwt;
+import hundun.simulationgame.umamusume.util.JavaFeatureForGwt.NumberFormat;
 
 
 /**
@@ -30,9 +28,9 @@ public class BotTextCharImageRender {
     Map<HorseTrackPhase, Integer> horseTrackPhaseChangeEventCountMap = new HashMap<>();
     
     
-    NumberFormat cameraPosFormatter = new DecimalFormat("#0");
-    NumberFormat minuteFormatter = new DecimalFormat("#00");
-    NumberFormat secondFormatter = new DecimalFormat("#00.00");
+    NumberFormat cameraPosFormatter = NumberFormat.getFormat(1, 0);
+    NumberFormat minuteFormatter = NumberFormat.getFormat(2, 0);
+    NumberFormat secondFormatter = NumberFormat.getFormat(2, 2);
     
     
     
@@ -80,9 +78,10 @@ public class BotTextCharImageRender {
         if (checkResult.getKey() == EventRenderType.WITH_RACE_SITUATION) {
             return this.renderRaceSituation(eventInfo, situation);
         } else if (checkResult.getKey() == EventRenderType.ONLY_DESCRIPTION) {
-            return TextFrameData.builder()
-                    .eventInfo(eventInfo)
-                    .build();
+            return new TextFrameData(
+                    null,
+                    eventInfo
+                    );
         } else {
             return null;
         }
@@ -100,7 +99,7 @@ public class BotTextCharImageRender {
         if (phase == HorseTrackPhase.REACHED) {
             return translator.get(phase);
         } else {
-            return String.format(translator.get("进入%s阶段"), translator.get(phase));
+            return JavaFeatureForGwt.stringFormat(translator.get("进入%s阶段"), translator.get(phase));
         }
     }
     
@@ -111,15 +110,15 @@ public class BotTextCharImageRender {
             boolean allDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == childEvent.getSituation().getHorses().size();
             boolean firstDone = horseTrackPhaseChangeEventCountMap.get(childEvent.getTo()) == 1;
             String phaseText = renderHorseTrackPhase(childEvent.getTo());
-            String normalDescription = String.format(translator.get("%s %s%s"), 
+            String normalDescription = JavaFeatureForGwt.stringFormat(translator.get("%s %s%s"), 
                     renderTime(tick),
                     childEvent.getHorse().getName(), 
                     phaseText);
-            String allDoneDescription = String.format(translator.get("%s %s最晚%s"), 
+            String allDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s %s最晚%s"), 
                     renderTime(tick),
                     childEvent.getHorse().getName(), 
                     phaseText);
-            String firstDoneDescription = String.format(translator.get("%s %s率先%s"), 
+            String firstDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s %s率先%s"), 
                     renderTime(tick),
                     childEvent.getHorse().getName(), 
                     phaseText);
@@ -180,7 +179,11 @@ public class BotTextCharImageRender {
         int numBarNode = strategyPackage.getCameraProcessBarWidth();
         int numPassed = (int) (numBarNode * (cameraPosition / raceLength));
         int numTodo = numBarNode - numPassed;
-        return "[" + "=".repeat(numPassed) + "o" + " ".repeat(numTodo) + "]";
+        return "[" 
+                + JavaFeatureForGwt.stringRepeat(strategyPackage.getCameraProcessBarChar1(), numPassed) 
+                + strategyPackage.getCameraProcessBarChar2()
+                + JavaFeatureForGwt.stringRepeat(strategyPackage.getCameraProcessBarChar3(), numTodo) 
+                + "]";
     }
     
     /**
@@ -229,17 +232,17 @@ public class BotTextCharImageRender {
         StringBuilder result = new StringBuilder();
         result.append(cameraProcessBar).append(" ").append(cameraPosFormatter.format(cameraPosition)).append("m\n")
                 .append(horseTexts);
-        return TextFrameData.builder()
-                .eventInfo(eventInfo)
-                .raceInfo(result.toString())
-                .build();
+        return new TextFrameData(
+                result.toString(),
+                eventInfo
+                );
     }
     
     private String drawHorseCharImage(RaceSituation situation, HorseModel horse, Integer numChar, int maxNameLength) {
         String hpSubText = horse.getCurrentHp() > 0 ? "hp = " + cameraPosFormatter.format(horse.getCurrentHp()) + "" : "<疲劳>";
-        String horseIcon = String.format("%-" + maxNameLength + "s", horse.getPrototype().getCharImage());
+        String horseIcon = JavaFeatureForGwt.stringFormat("%-" + maxNameLength + "s", horse.getPrototype().getCharImage());
         if (horse.getReachTime() == null) {
-            String arrowCharImage = "-".repeat(numChar + 1) + "> ";
+            String arrowCharImage = JavaFeatureForGwt.stringRepeat("-", numChar + 1) + "> ";
             String positionSubText = cameraPosFormatter.format(horse.getTrackPosition()) + "m";
 //            String speedSubText = "v=" + cameraPosFormatter.format(horse.getCurrentSpeed());
 //            if (horse.getCurrentAcceleration() != null) {
@@ -265,7 +268,7 @@ public class BotTextCharImageRender {
                     ;
             return text;
         } else {
-            String reachText = String.format(translator.get("冲线时间：%s"), renderTime(horse.getReachTime()));
+            String reachText = JavaFeatureForGwt.stringFormat(translator.get("冲线时间：%s"), renderTime(horse.getReachTime()));
             String text = strategyPackage.getHorseReachedTemplate()
                     .replace("${HORSE_ICON}", horseIcon)
                     .replace("${REACH_TEXT}", reachText)
@@ -281,8 +284,7 @@ public class BotTextCharImageRender {
         return minuteFormatter.format(minute) + ":" + secondFormatter.format(remaidSecond) + "";
     }
 
-    @Setter
-    @Getter
+
     public static class Translator {
 
         
@@ -334,10 +336,27 @@ public class BotTextCharImageRender {
         public String get(String chinese) {
             return textChineseToOtherLanguageMap.getOrDefault(chinese, chinese);
         }
+
+        public Map<String, String> getEnumChineseToOtherLanguageMap() {
+            return enumChineseToOtherLanguageMap;
+        }
+
+        public void setEnumChineseToOtherLanguageMap(Map<String, String> enumChineseToOtherLanguageMap) {
+            this.enumChineseToOtherLanguageMap = enumChineseToOtherLanguageMap;
+        }
+
+        public Map<String, String> getTextChineseToOtherLanguageMap() {
+            return textChineseToOtherLanguageMap;
+        }
+
+        public void setTextChineseToOtherLanguageMap(Map<String, String> textChineseToOtherLanguageMap) {
+            this.textChineseToOtherLanguageMap = textChineseToOtherLanguageMap;
+        }
+        
+        
     }
     
-    @Setter
-    @Getter
+
     public static class StrategyPackage {
         private String horseRaceStartTemplate = "${TRACK_PART}: ${NAME_PART} "
                 + "${SPEED_KEY}${SPEED_VALUE}, "
@@ -351,6 +370,9 @@ public class BotTextCharImageRender {
         
         private int horsePositionBarMaxWidth = 10;
         private int cameraProcessBarWidth = 10;
+        private String cameraProcessBarChar1 = "=";
+        private String cameraProcessBarChar2 = "o";
+        private String cameraProcessBarChar3 = " ";
         
         public static class Factory {
                     
@@ -366,6 +388,72 @@ public class BotTextCharImageRender {
                 return result;
             }
         }
+
+        public String getHorseRaceStartTemplate() {
+            return horseRaceStartTemplate;
+        }
+
+        public void setHorseRaceStartTemplate(String horseRaceStartTemplate) {
+            this.horseRaceStartTemplate = horseRaceStartTemplate;
+        }
+
+        public String getHorseRunningTemplate() {
+            return horseRunningTemplate;
+        }
+
+        public void setHorseRunningTemplate(String horseRunningTemplate) {
+            this.horseRunningTemplate = horseRunningTemplate;
+        }
+
+        public String getHorseReachedTemplate() {
+            return horseReachedTemplate;
+        }
+
+        public void setHorseReachedTemplate(String horseReachedTemplate) {
+            this.horseReachedTemplate = horseReachedTemplate;
+        }
+
+        public int getHorsePositionBarMaxWidth() {
+            return horsePositionBarMaxWidth;
+        }
+
+        public void setHorsePositionBarMaxWidth(int horsePositionBarMaxWidth) {
+            this.horsePositionBarMaxWidth = horsePositionBarMaxWidth;
+        }
+
+        public int getCameraProcessBarWidth() {
+            return cameraProcessBarWidth;
+        }
+
+        public void setCameraProcessBarWidth(int cameraProcessBarWidth) {
+            this.cameraProcessBarWidth = cameraProcessBarWidth;
+        }
+
+        public String getCameraProcessBarChar1() {
+            return cameraProcessBarChar1;
+        }
+
+        public void setCameraProcessBarChar1(String cameraProcessBarChar1) {
+            this.cameraProcessBarChar1 = cameraProcessBarChar1;
+        }
+
+        public String getCameraProcessBarChar2() {
+            return cameraProcessBarChar2;
+        }
+
+        public void setCameraProcessBarChar2(String cameraProcessBarChar2) {
+            this.cameraProcessBarChar2 = cameraProcessBarChar2;
+        }
+
+        public String getCameraProcessBarChar3() {
+            return cameraProcessBarChar3;
+        }
+
+        public void setCameraProcessBarChar3(String cameraProcessBarChar3) {
+            this.cameraProcessBarChar3 = cameraProcessBarChar3;
+        }
+        
+        
     }
    
  

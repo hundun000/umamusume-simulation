@@ -1,6 +1,5 @@
 package hundun.simulationgame.umamusume.horse;
 
-import lombok.Getter;
 
 /**
  * @author hundun
@@ -16,10 +15,14 @@ public enum RunStrategyAptitudeType {
     F(0.2),
     G(0.1),
     ;
-    @Getter
+
     final double rate;
 
     private RunStrategyAptitudeType(double rate) {
         this.rate = rate;
+    }
+    
+    public double getRate() {
+        return rate;
     }
 }

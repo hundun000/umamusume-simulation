@@ -1,14 +1,5 @@
 package hundun.simulationgame.umamusume.record.text;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collector;
@@ -26,8 +17,7 @@ import hundun.simulationgame.umamusume.record.RecordPackage.EndRecordNode;
 import hundun.simulationgame.umamusume.record.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
-import lombok.Getter;
-import lombok.Setter;
+import hundun.simulationgame.umamusume.util.JavaFeatureForGwt;
 
 /**
  * @author hundun
@@ -68,10 +58,10 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
         recordPackage.setStartNode(new RecordNode<TextFrameData>(
                 raceSituation.getTickCount(),
                 render.renderTime(raceSituation.getTickCount()),
-                TextFrameData.builder()
-                        .eventInfo("Start")
-                        .raceInfo(render.renderStart(raceSituation))
-                        .build()
+                new TextFrameData(
+                        render.renderStart(raceSituation),
+                        "Start"
+                        )
                 ));
     }
     
@@ -109,18 +99,18 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
         recordPackage.getNodes().stream()
                 .filter(item -> item.getContent().getEventInfo() != null)
                 .forEach(item -> {
-                    System.out.println(String.format(
+                    System.out.println(JavaFeatureForGwt.stringFormat(
                             "[tick %d] %s\n%s", 
                             item.getTick(), 
                             item.getContent().getEventInfo(),
-                            Objects.requireNonNullElse(
+                            JavaFeatureForGwt.requireNonNullElse(
                                     item.getContent().getRaceInfo(), 
                                     ""
                                     )
                             ));
                 });
         EndRecordNode item = recordPackage.getEndNode();
-        System.out.println(String.format(
+        System.out.println(JavaFeatureForGwt.stringFormat(
                 "[End] %s",  
                 item.getHorseReachTickMap()
                 ));
