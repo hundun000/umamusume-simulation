@@ -274,7 +274,7 @@ public class BotTextCharImageRender {
         }
     }
 
-    private String renderTime(int tick) {
+    public String renderTime(int tick) {
         double second = RaceSituation.tickCountToSecond(tick);
         int minute = (int) (second / 60);
         double remaidSecond = second - minute * 60;

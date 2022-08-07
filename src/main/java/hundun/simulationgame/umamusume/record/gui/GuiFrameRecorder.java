@@ -46,8 +46,15 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
     @Override
     public void onTick(RaceSituation situation) {
         if (situation.getTickCount() % 100 == 0) {
-            recordPackage.addNode(situation.getTickCount(), fromRaceSituation(situation));
+            recordPackage.addNode(
+                    situation.getTickCount(), 
+                    renderTime(situation.getTickCount()),
+                    fromRaceSituation(situation));
         }
+    }
+
+    private String renderTime(int tickCount) {
+        return "timeOfTick" + tickCount;
     }
 
     @Override
@@ -86,7 +93,10 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
                 return;
             }
         }
-        recordPackage.addNode(event.getSituation().getTickCount(), fromRaceSituation(event.getSituation()));
+        recordPackage.addNode(
+                event.getSituation().getTickCount(), 
+                renderTime(event.getSituation().getTickCount()),
+                fromRaceSituation(event.getSituation()));
         
     }
 
@@ -132,6 +142,12 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
                 raceTrackPanel.renderRecordNode(recordPackage.getNodes().remove(0).getContent());
             }
         }
+        
+    }
+
+    @Override
+    public void onEnd(RaceSituation raceSituation) {
+        // do nothing
         
     }
     

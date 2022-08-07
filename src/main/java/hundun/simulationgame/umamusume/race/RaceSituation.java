@@ -76,6 +76,7 @@ public class RaceSituation {
         while (!this.isAllReached()) {
             this.tickUpdate();
         }  
+        displayer.onEnd(this);
     }
     
     public static double tickCountToSecond(int tickCount) {

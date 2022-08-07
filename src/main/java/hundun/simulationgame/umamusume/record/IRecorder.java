@@ -18,4 +18,6 @@ public interface IRecorder<T> {
     void onStart(RaceSituation raceSituation);
 
     RecordPackage<T> getRecordPackage();
+
+    void onEnd(RaceSituation raceSituation);
 }

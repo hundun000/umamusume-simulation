@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import hundun.simulationgame.umamusume.UmamusumeApp;
@@ -21,6 +22,8 @@ import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.race.RaceSituation;
 import hundun.simulationgame.umamusume.record.IRecorder;
 import hundun.simulationgame.umamusume.record.RecordPackage;
+import hundun.simulationgame.umamusume.record.RecordPackage.EndRecordNode;
+import hundun.simulationgame.umamusume.record.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
 import lombok.Getter;
@@ -62,12 +65,14 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
     public void onStart(RaceSituation raceSituation) {
         recordPackage = new RecordPackage<TextFrameData>();
         
-        recordPackage.addNode(raceSituation.getTickCount(), 
+        recordPackage.setStartNode(new RecordNode<TextFrameData>(
+                raceSituation.getTickCount(),
+                render.renderTime(raceSituation.getTickCount()),
                 TextFrameData.builder()
                         .eventInfo("Start")
                         .raceInfo(render.renderStart(raceSituation))
                         .build()
-                );
+                ));
     }
     
     
@@ -76,6 +81,7 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
     public void onTick(RaceSituation situation) {
         
         recordPackage.addNode(situation.getTickCount(), 
+                render.renderTime(situation.getTickCount()),
                 render.renderRaceSituation(null, situation)
                 );
     }
@@ -84,7 +90,10 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
     public void onEvent(BaseEvent event) {
         TextFrameData result = render.renderEventOrNot(event);
         if (result != null) {
-            recordPackage.addNode(event.getSituation().getTickCount(), result);
+            recordPackage.addNode(
+                    event.getSituation().getTickCount(),
+                    render.renderTime(event.getSituation().getTickCount()),
+                    result);
         }
     }
 
@@ -110,6 +119,28 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
                                     )
                             ));
                 });
+        EndRecordNode item = recordPackage.getEndNode();
+        System.out.println(String.format(
+                "[End] %s",  
+                item.getHorseReachTickMap()
+                ));
+    }
+
+
+    @Override
+    public void onEnd(RaceSituation raceSituation) {
+        Map<String, Integer> horseReachTickMap = raceSituation.getHorses().stream()
+//                .map(it -> new AbstractMap.SimpleEntry<String, Integer>(
+//                        it.getPrototype().getName(), 
+//                        it.getReachTime()
+//                        ))
+                .collect(Collectors.toMap(
+                        it -> it.getPrototype().getName(), 
+                        it -> it.getReachTime()
+                        ))
+                ;
+        recordPackage.setEndNode(new EndRecordNode(horseReachTickMap));
+        
     }
     
 }
