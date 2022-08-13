@@ -1,6 +1,6 @@
-package hundun.simulationgame.umamusume.horse;
+package hundun.simulationgame.umamusume.core.horse;
 
-import hundun.simulationgame.umamusume.record.IChineseNameEnum;
+import hundun.simulationgame.umamusume.record.base.IChineseNameEnum;
 
 /**
  * @author hundun

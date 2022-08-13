@@ -2,10 +2,6 @@ package hundun.simulationgame.umamusume.record.text;
 
 import java.util.List;
 
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData.RaceInfo;
-
 
 /**
  * @author hundun

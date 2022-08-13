@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.util;
+package hundun.simulationgame.umamusume.core.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

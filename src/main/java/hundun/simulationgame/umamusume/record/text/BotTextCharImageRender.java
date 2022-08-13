@@ -6,15 +6,16 @@ import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.stream.Collectors;
 
-import hundun.simulationgame.umamusume.event.BaseEvent;
-import hundun.simulationgame.umamusume.event.HorseSprintStartPositionSetEvent;
-import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
-import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import hundun.simulationgame.umamusume.record.IChineseNameEnum;
-import hundun.simulationgame.umamusume.util.JavaFeatureForGwt;
-import hundun.simulationgame.umamusume.util.JavaFeatureForGwt.NumberFormat;
+import hundun.simulationgame.umamusume.core.event.BaseEvent;
+import hundun.simulationgame.umamusume.core.event.HorseSprintStartPositionSetEvent;
+import hundun.simulationgame.umamusume.core.event.HorseTrackPhaseChangeEvent;
+import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
+import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
+import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
+import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
+import hundun.simulationgame.umamusume.record.base.IChineseNameEnum;
 
 
 /**
@@ -64,6 +65,10 @@ public class BotTextCharImageRender {
                     );
         }
         return builder.toString();
+    }
+    
+    public String renderRunStrategyType(RunStrategyType type) {
+        return translator.get(type);
     }
     
     public TextFrameData renderEventOrNot(BaseEvent event) {
@@ -271,7 +276,10 @@ public class BotTextCharImageRender {
                     ;
             return text;
         } else {
-            String reachText = JavaFeatureForGwt.stringFormat(translator.get("冲线时间：%s"), renderTime(horse.getReachTime()));
+            String reachText = JavaFeatureForGwt.stringFormat(
+                    translator.get("冲线时间：%s"), 
+                    renderTime(horse.getReachTime())
+                    );
             String text = strategyPackage.getHorseReachedTemplate()
                     .replace("${HORSE_ICON}", horseIcon)
                     .replace("${REACH_TEXT}", reachText)
@@ -311,15 +319,15 @@ public class BotTextCharImageRender {
                 result.textChineseToOtherLanguageMap.put("根", "guts");
                 result.textChineseToOtherLanguageMap.put("智", "wisdom");
                 result.textChineseToOtherLanguageMap.put("进入%s阶段", "into %s phase");
-                result.textChineseToOtherLanguageMap.put("%s%s", "%s %s %s");
+                result.textChineseToOtherLanguageMap.put("%s%s", "%s %s");
                 result.textChineseToOtherLanguageMap.put("%s最晚%s", "%s %s lastly");
                 result.textChineseToOtherLanguageMap.put("%s率先%s", "%s %s firstly");
                 result.textChineseToOtherLanguageMap.put("冲线时间：%s", "reached at: %s");
                 
-                result.enumChineseToOtherLanguageMap.put("逃", "first-strategy");
-                result.enumChineseToOtherLanguageMap.put("先", "front-strategy");
-                result.enumChineseToOtherLanguageMap.put("差", "back-strategy");
-                result.enumChineseToOtherLanguageMap.put("追", "tail-strategy");
+                result.enumChineseToOtherLanguageMap.put("逃", "first");
+                result.enumChineseToOtherLanguageMap.put("先", "front");
+                result.enumChineseToOtherLanguageMap.put("差", "back");
+                result.enumChineseToOtherLanguageMap.put("追", "tail");
                 
                 result.enumChineseToOtherLanguageMap.put("出闸", "start-gate");
                 result.enumChineseToOtherLanguageMap.put("初期巡航", "start-cruise");
@@ -457,6 +465,11 @@ public class BotTextCharImageRender {
         }
         
         
+    }
+
+
+    public void reset() {
+        horseTrackPhaseChangeEventCountMap.clear();
     }
    
  

@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.record;
+package hundun.simulationgame.umamusume.record.base;
 /**
  * @author hundun
  * Created on 2022/08/10

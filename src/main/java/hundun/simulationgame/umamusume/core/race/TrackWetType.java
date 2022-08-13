@@ -1,8 +1,8 @@
-package hundun.simulationgame.umamusume.race;
+package hundun.simulationgame.umamusume.core.race;
 
 import java.util.Map;
 
-import hundun.simulationgame.umamusume.util.JavaFeatureForGwt;
+import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
 
 
 /**

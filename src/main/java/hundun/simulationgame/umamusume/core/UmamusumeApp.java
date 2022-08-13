@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume;
+package hundun.simulationgame.umamusume.core;
 
 
 import java.util.List;
@@ -6,17 +6,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.horse.HorsePrototypeFactory;
-import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
-import hundun.simulationgame.umamusume.horse.RunStrategyType;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import hundun.simulationgame.umamusume.race.RaceLengthType;
-import hundun.simulationgame.umamusume.race.RacePrototype;
-import hundun.simulationgame.umamusume.race.RacePrototypeFactory;
-import hundun.simulationgame.umamusume.race.TrackWetType;
-import hundun.simulationgame.umamusume.record.IRecorder;
+import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototypeFactory;
+import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
+import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
+import hundun.simulationgame.umamusume.core.race.RaceLengthType;
+import hundun.simulationgame.umamusume.core.race.RacePrototype;
+import hundun.simulationgame.umamusume.core.race.RacePrototypeFactory;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
+import hundun.simulationgame.umamusume.core.race.TrackWetType;
+import hundun.simulationgame.umamusume.record.base.IRecorder;
 
 
 /**

@@ -1,6 +1,7 @@
-package hundun.simulationgame.umamusume.record;
+package hundun.simulationgame.umamusume.record.base;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +12,11 @@ import java.util.Map;
 
 public class RecordPackage<T> {
 
-    private RecordNode<T> startNode;
-    public RecordNode<T> getStartNode() {
+    private StartRecordNode<T> startNode;
+    public StartRecordNode<T> getStartNode() {
         return startNode;
     }
-    public void setStartNode(RecordNode<T> startNode) {
+    public void setStartNode(StartRecordNode<T> startNode) {
         this.startNode = startNode;
     }
     
@@ -39,6 +40,8 @@ public class RecordPackage<T> {
     public void log(String msg) {
         logs.add(msg);
     }
+    
+    
     
     public void addNode(int tick, String timeText, T content) {
         nodes.add(new RecordNode<T>(tick, timeText, content));
@@ -77,6 +80,33 @@ public class RecordPackage<T> {
         }
         
     }
+    
+    public static class StartRecordNode<T> {
+        RecordNode<T> normalPart;
+        private Map<String, String> runStrategyTextMap = new HashMap<>();
+        
+        public StartRecordNode(RecordNode<T> normalPart, Map<String, String> runStrategyTextMap) {
+            super();
+            this.normalPart = normalPart;
+            this.runStrategyTextMap = runStrategyTextMap;
+        }
+        
+        public RecordNode<T> getNormalPart() {
+            return normalPart;
+        }
+        public void setNormalPart(RecordNode<T> normalPart) {
+            this.normalPart = normalPart;
+        }
+        
+        
+        public Map<String, String> getRunStrategyTextMap() {
+            return runStrategyTextMap;
+        }
+        public void setRunStrategyTextMap(Map<String, String> runStrategyTextMap) {
+            this.runStrategyTextMap = runStrategyTextMap;
+        }
+    }
+    
     
     public static class EndRecordNode {
         private List<EndRecordHorseInfo> horseInfos;

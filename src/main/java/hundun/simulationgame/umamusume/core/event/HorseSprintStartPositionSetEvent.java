@@ -1,7 +1,7 @@
-package hundun.simulationgame.umamusume.event;
+package hundun.simulationgame.umamusume.core.event;
 
-import hundun.simulationgame.umamusume.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.race.RaceSituation;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
 
 /**
  * @author hundun

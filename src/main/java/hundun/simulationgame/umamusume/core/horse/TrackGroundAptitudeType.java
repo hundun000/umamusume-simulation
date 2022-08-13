@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.horse;
+package hundun.simulationgame.umamusume.core.horse;
 
 /**
  * @author hundun

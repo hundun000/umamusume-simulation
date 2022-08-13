@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototypeFactory;
+
 /**
  * @author hundun
  * Created on 2022/06/22

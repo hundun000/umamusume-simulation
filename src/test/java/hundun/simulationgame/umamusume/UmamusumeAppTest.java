@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import hundun.simulationgame.umamusume.UmamusumeApp;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameRecorder;
+import hundun.simulationgame.umamusume.core.UmamusumeApp;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
@@ -35,14 +34,6 @@ public class UmamusumeAppTest {
                Translator.Factory.english(),
                StrategyPackage.Factory.longWidth()
                ));
-       app.randomRun();
-       
-   }
-   
-   @Test
-   public void testGuiDisplayer(){
-       
-       UmamusumeApp app = new UmamusumeApp(new GuiFrameRecorder());
        app.randomRun();
        
    }

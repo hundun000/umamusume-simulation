@@ -1,14 +1,15 @@
-package hundun.simulationgame.umamusume.race;
+package hundun.simulationgame.umamusume.core.race;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import hundun.simulationgame.umamusume.event.EventManager;
-import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
-import hundun.simulationgame.umamusume.horse.RunStrategyType;
-import hundun.simulationgame.umamusume.record.IRecorder;
+
+import hundun.simulationgame.umamusume.core.event.EventManager;
+import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
+import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
+import hundun.simulationgame.umamusume.record.base.IRecorder;
 
 public class RaceSituation {
     public static final int tickNumPerGameSecond = 100;

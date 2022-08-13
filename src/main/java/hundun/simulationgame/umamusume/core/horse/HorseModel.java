@@ -1,21 +1,19 @@
-package hundun.simulationgame.umamusume.horse;
+package hundun.simulationgame.umamusume.core.horse;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
-
-import hundun.simulationgame.umamusume.UmamusumeApp;
-import hundun.simulationgame.umamusume.event.EventManager;
-import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
-import hundun.simulationgame.umamusume.race.RaceLengthType;
-import hundun.simulationgame.umamusume.race.RacePrototype;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import hundun.simulationgame.umamusume.race.TrackGroundType;
-import hundun.simulationgame.umamusume.race.TrackWetType;
-import hundun.simulationgame.umamusume.record.IRecorder;
-import hundun.simulationgame.umamusume.util.JavaFeatureForGwt.NumberFormat;
+import hundun.simulationgame.umamusume.core.UmamusumeApp;
+import hundun.simulationgame.umamusume.core.event.EventManager;
+import hundun.simulationgame.umamusume.core.event.HorseTrackPhaseChangeEvent;
+import hundun.simulationgame.umamusume.core.race.RaceLengthType;
+import hundun.simulationgame.umamusume.core.race.RacePrototype;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
+import hundun.simulationgame.umamusume.core.race.TrackGroundType;
+import hundun.simulationgame.umamusume.core.race.TrackWetType;
+import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
+import hundun.simulationgame.umamusume.record.base.IRecorder;
 
 public class HorseModel {
     
@@ -74,7 +72,7 @@ public class HorseModel {
     int hpOffset = -500;
     double hpCostRate = 1.0;
     // FIXME
-    double lastHpCostRate = 1.33;
+    double lastHpCostRate = 1.53;
     private DistanceAptitudeType distanceAptitudeType;
     private RunStrategyAptitudeType runStrategyAptitudeType;
     private TrackGroundAptitudeType trackGroundAptitudeType;
