@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.horse;
+package hundun.simulationgame.umamusume.core.horse;
 
 import lombok.Getter;
 
@@ -22,8 +22,5 @@ public enum TrackGroundAptitudeType {
     private TrackGroundAptitudeType(double rate) {
         this.rate = rate;
     }
-    
-    
-    
     
 }

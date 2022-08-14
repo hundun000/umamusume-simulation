@@ -1,17 +1,13 @@
-package hundun.simulationgame.umamusume.event;
+package hundun.simulationgame.umamusume.core.event;
 
-import hundun.simulationgame.umamusume.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
 
 /**
  * @author hundun
  * Created on 2021/10/12
  */
-@Getter
 public class HorseTrackPhaseChangeEvent extends BaseEvent {
     private HorsePrototype horse;
     private HorseTrackPhase from;
@@ -24,4 +20,17 @@ public class HorseTrackPhaseChangeEvent extends BaseEvent {
         this.to = to;
     }
 
+    public HorsePrototype getHorse() {
+        return horse;
+    }
+
+    public HorseTrackPhase getFrom() {
+        return from;
+    }
+
+    public HorseTrackPhase getTo() {
+        return to;
+    }
+
+    
 }

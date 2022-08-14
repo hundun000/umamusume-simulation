@@ -1,25 +1,20 @@
-package hundun.simulationgame.umamusume.horse;
+package hundun.simulationgame.umamusume.core.horse;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import hundun.simulationgame.umamusume.UmamusumeApp;
-import hundun.simulationgame.umamusume.event.EventManager;
-import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
-import hundun.simulationgame.umamusume.race.RaceLengthType;
-import hundun.simulationgame.umamusume.race.RacePrototype;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import hundun.simulationgame.umamusume.race.TrackGroundType;
-import hundun.simulationgame.umamusume.race.TrackWetType;
-import hundun.simulationgame.umamusume.record.IRecorder;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import hundun.simulationgame.umamusume.core.UmamusumeApp;
+import hundun.simulationgame.umamusume.core.event.EventManager;
+import hundun.simulationgame.umamusume.core.event.HorseTrackPhaseChangeEvent;
+import hundun.simulationgame.umamusume.core.race.RaceLengthType;
+import hundun.simulationgame.umamusume.core.race.RacePrototype;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
+import hundun.simulationgame.umamusume.core.race.TrackGroundType;
+import hundun.simulationgame.umamusume.core.race.TrackWetType;
+import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
+import hundun.simulationgame.umamusume.record.base.IRecorder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class HorseModel {
@@ -30,15 +25,18 @@ public class HorseModel {
 	// ====== construct-init constant ======
     @Getter
     private HorsePrototype prototype;
-	@Setter
     @Getter
+    @Setter
 	private int trackNumber;
-	@Setter
+
     @Getter
+    @Setter
     private RunStrategyType runStrategyType;
-	@Setter
+    
+    @Setter
 	private RacePrototype racePrototype;
-	@Setter
+
+    @Setter
     private TrackWetType trackWetType;
 
 	// ====== post-construct-init constant ======
@@ -61,35 +59,41 @@ public class HorseModel {
     int hpOffset = -500;
     double hpCostRate = 1.0;
     // FIXME
-    double lastHpCostRate = 1.33;
+    double lastHpCostRate = 1.53;
     private DistanceAptitudeType distanceAptitudeType;
     private RunStrategyAptitudeType runStrategyAptitudeType;
     private TrackGroundAptitudeType trackGroundAptitudeType;
     // ====== runtime-init constant ======
-    @Setter(value = AccessLevel.PRIVATE)
     @Getter
     private Double sprintStartPosition;
-    @Setter(value = AccessLevel.PRIVATE)
+    
     @Getter
     private Integer reachTime;
+
+    
     private Map<HorseTrackPhase, Double> hpCostRecord = new LinkedHashMap<>();
     private Map<HorseTrackPhase, Integer> tickCostRecord = new HashMap<>();
     // ====== change every frame ======
     @Getter
 	private Double currentSpeed;
+
     @Getter
     private Double trackPosition;
+
     @Getter
     private double currentHp;
+
     @Getter
     private HorseTrackPhase trackPhase;
+
     @Getter
     private Double targetSpeed;
-    Boolean hpEnough;
-    Double targetHpCost;
+
+    private Boolean hpEnough;
+    private Double targetHpCost;
+
     @Getter
-    Double currentAcceleration;
-    
+    private Double currentAcceleration;
     
 	public HorseModel(HorsePrototype prototype, EventManager eventManager){
 		
@@ -338,7 +342,7 @@ public class HorseModel {
         a3 = lastPhaseAcceleration(v0, buffedPower, runStrategyType, trackGroundAptitudeType, distanceAptitudeType);
         a4 = a3;
         
-        NumberFormat formatter = new DecimalFormat("#0.000");
+        NumberFormat formatter = NumberFormat.getFormat(1, 3);
         StringBuilder builder = new StringBuilder();
         builder.append("Track").append(trackNumber).append("\n");
         builder.append(prototype.getName()).append(", ");

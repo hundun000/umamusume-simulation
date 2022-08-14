@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.race;
+package hundun.simulationgame.umamusume.core.race;
 /**
  * @author hundun
  * Created on 2021/10/08
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import hundun.simulationgame.umamusume.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 
 public class RacePrototypeFactory {
     public static RacePrototype OKA_SHO;

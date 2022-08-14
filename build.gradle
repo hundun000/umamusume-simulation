@@ -67,6 +67,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    //api 'org.gwtproject:gwt-user:2.10.0'
     
     testImplementation "junit:junit:4.11"
 }

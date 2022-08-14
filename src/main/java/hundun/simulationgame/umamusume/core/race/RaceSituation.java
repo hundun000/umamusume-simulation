@@ -1,14 +1,15 @@
-package hundun.simulationgame.umamusume.race;
+package hundun.simulationgame.umamusume.core.race;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import hundun.simulationgame.umamusume.event.EventManager;
-import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
-import hundun.simulationgame.umamusume.horse.RunStrategyType;
-import hundun.simulationgame.umamusume.record.IRecorder;
+
+import hundun.simulationgame.umamusume.core.event.EventManager;
+import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
+import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
+import hundun.simulationgame.umamusume.record.base.IRecorder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,18 +20,18 @@ public class RaceSituation {
     private EventManager eventManager;
 	
 	// ====== construct-init constant ======
-	@Getter
+    @Getter
     private RacePrototype prototype;
+
     private TrackWetType trackWetType;
 	// ====== post-construct-init constant ======
-	@Getter
+    @Getter
     private List<HorseModel> horses = new ArrayList<>();
-	
+
 	// ====== change every frame ======
     @Getter
     @Setter
     private int tickCount = 0;
-
 	
 	public RaceSituation(IRecorder<?> displayer, RacePrototype prototype, TrackWetType trackWetType) {
 	    this.displayer = displayer;
@@ -53,7 +54,7 @@ public class RaceSituation {
 	}
 	
 	public boolean isAllReached() {
-        boolean allDone = horses.stream().filter(horse -> horse.getTrackPhase() != HorseTrackPhase.REACHED).findFirst().isEmpty();
+        boolean allDone = !horses.stream().filter(horse -> horse.getTrackPhase() != HorseTrackPhase.REACHED).findFirst().isPresent();
         return allDone;
     }
 

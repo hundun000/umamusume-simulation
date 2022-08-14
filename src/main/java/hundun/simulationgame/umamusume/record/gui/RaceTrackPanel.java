@@ -11,9 +11,9 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import hundun.simulationgame.umamusume.record.RecordPackage.RecordNode;
+import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
+import hundun.simulationgame.umamusume.record.base.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
 
 

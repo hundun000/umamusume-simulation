@@ -1,33 +1,32 @@
-package hundun.simulationgame.umamusume.record;
+package hundun.simulationgame.umamusume.record.base;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * @author hundun
  * Created on 2022/06/23
  */
-
+@Data
 public class RecordPackage<T> {
-    @Setter
-    @Getter
-    private RecordNode<T> startNode;
-    @Setter
-    @Getter
-    private EndRecordNode endNode;
-    @Getter
-    private List<RecordNode<T>> nodes = new ArrayList<>();
-    @Getter
-    private List<String> logs = new ArrayList<>();
+
+    private StartRecordNode<T> startNode;
     
-    public void log(String msg) {
+    private EndRecordNode endNode;
+    
+    private List<RecordNode<T>> nodes = new ArrayList<>();
+
+    private List<String> logs = new ArrayList<>();
+
+    
+    public void addLog(String msg) {
         logs.add(msg);
     }
     
@@ -36,8 +35,8 @@ public class RecordPackage<T> {
     }
     
     @Data
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class RecordNode<T> {
         private int tick;
         private String timeText;
@@ -45,9 +44,26 @@ public class RecordPackage<T> {
     }
     
     @Data
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StartRecordNode<T> {
+        RecordNode<T> normalPart;
+        private Map<String, String> runStrategyTextMap = new HashMap<>();
+    }
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class EndRecordNode {
-        private Map<String, Integer> horseReachTickMap;
+        private List<EndRecordHorseInfo> horseInfos;
+        
+        @Data
+        @NoArgsConstructor
+        @AllArgsConstructor
+        public static class EndRecordHorseInfo {
+            String horseName;
+            int reachTick;
+            String reachTimeText;
+        }
     }
 }

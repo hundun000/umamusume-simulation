@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 
-import hundun.simulationgame.umamusume.event.BaseEvent;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import hundun.simulationgame.umamusume.record.IRecorder;
-import hundun.simulationgame.umamusume.record.RecordPackage;
-import hundun.simulationgame.umamusume.record.RecordPackage.RecordNode;
+import hundun.simulationgame.umamusume.core.event.BaseEvent;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
+import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.RecordPackage;
+import hundun.simulationgame.umamusume.record.base.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
 import hundun.simulationgame.umamusume.record.gui.GuiFrameData.RaceInfo;
 
@@ -28,19 +28,19 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
     boolean guiDone = false;
     
     private GuiFrameData fromRaceSituation(RaceSituation situation) {
-        return GuiFrameData.builder()
-                .raceInfo(RaceInfo.builder()
-                        .length(situation.getPrototype().getLength())
-                        .build())
-                .horseInfos(situation.getHorses().stream()
-                        .map(model -> HorseInfo.builder()
-                                .trackNumber(model.getTrackNumber())
-                                .trackPosition(model.getTrackPosition())
-                                .reachTime(model.getReachTime())
-                                .build())
-                        .collect(Collectors.toList())
+        return new GuiFrameData(
+                new RaceInfo(
+                        situation.getPrototype().getLength()
+                ),
+                situation.getHorses().stream()
+                        .map(model -> new HorseInfo(
+                                model.getTrackNumber(),
+                                model.getTrackPosition(),
+                                model.getReachTime()
+                                )
                         )
-                .build();
+                        .collect(Collectors.toList())
+                );
     }
     
     @Override

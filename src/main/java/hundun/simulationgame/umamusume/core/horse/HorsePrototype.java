@@ -1,11 +1,9 @@
-package hundun.simulationgame.umamusume.horse;
+package hundun.simulationgame.umamusume.core.horse;
 
 import java.util.Map;
 
-import hundun.simulationgame.umamusume.race.RaceLengthType;
-import hundun.simulationgame.umamusume.race.TrackGroundType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import hundun.simulationgame.umamusume.core.race.RaceLengthType;
+import hundun.simulationgame.umamusume.core.race.TrackGroundType;
 import lombok.Data;
 
 /**
@@ -32,4 +30,5 @@ public class HorsePrototype {
     private Map<RaceLengthType, DistanceAptitudeType> distanceAptitudes;
     private Map<RunStrategyType, RunStrategyAptitudeType> runStrategyAptitudes;
     private Map<TrackGroundType, TrackGroundAptitudeType> trackGroundAptitudes;
+    
 }

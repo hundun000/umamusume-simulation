@@ -1,33 +1,27 @@
 package hundun.simulationgame.umamusume.record.text;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import hundun.simulationgame.umamusume.UmamusumeApp;
-import hundun.simulationgame.umamusume.event.BaseEvent;
-import hundun.simulationgame.umamusume.event.HorseTrackPhaseChangeEvent;
-import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.horse.HorseTrackPhase;
-import hundun.simulationgame.umamusume.race.RaceSituation;
-import hundun.simulationgame.umamusume.record.IRecorder;
-import hundun.simulationgame.umamusume.record.RecordPackage;
-import hundun.simulationgame.umamusume.record.RecordPackage.EndRecordNode;
-import hundun.simulationgame.umamusume.record.RecordPackage.RecordNode;
+import hundun.simulationgame.umamusume.core.UmamusumeApp;
+import hundun.simulationgame.umamusume.core.event.BaseEvent;
+import hundun.simulationgame.umamusume.core.event.HorseTrackPhaseChangeEvent;
+import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
+import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
+import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.RecordPackage;
+import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode;
+import hundun.simulationgame.umamusume.record.base.RecordPackage.RecordNode;
+import hundun.simulationgame.umamusume.record.base.RecordPackage.StartRecordNode;
+import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode.EndRecordHorseInfo;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
 import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author hundun
@@ -64,14 +58,29 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
     @Override
     public void onStart(RaceSituation raceSituation) {
         recordPackage = new RecordPackage<TextFrameData>();
+        render.reset();
         
-        recordPackage.setStartNode(new RecordNode<TextFrameData>(
-                raceSituation.getTickCount(),
-                render.renderTime(raceSituation.getTickCount()),
-                TextFrameData.builder()
-                        .eventInfo("Start")
-                        .raceInfo(render.renderStart(raceSituation))
-                        .build()
+        Map<String, String> runStrategyTextMap = raceSituation.getHorses().stream()
+                .map(horse -> new AbstractMap.SimpleEntry<String, String>(
+                        horse.getPrototype().getCharImage(), 
+                        render.renderRunStrategyType(horse.getRunStrategyType())
+                        ))
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey(), 
+                        entry -> entry.getValue()
+                        ))
+                ;
+        recordPackage.setStartNode(
+                new StartRecordNode<TextFrameData>(
+                        new RecordNode<TextFrameData>(
+                                raceSituation.getTickCount(),
+                                render.renderTime(raceSituation.getTickCount()),
+                                new TextFrameData(
+                                        render.renderStart(raceSituation),
+                                        "Start"
+                                        )
+                        ), 
+                        runStrategyTextMap
                 ));
     }
     
@@ -109,35 +118,40 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
         recordPackage.getNodes().stream()
                 .filter(item -> item.getContent().getEventInfo() != null)
                 .forEach(item -> {
-                    System.out.println(String.format(
-                            "[tick %d] %s\n%s", 
+                    System.out.println(JavaFeatureForGwt.stringFormat(
+                            "[tick %s] %s\n%s", 
                             item.getTick(), 
                             item.getContent().getEventInfo(),
-                            Objects.requireNonNullElse(
+                            JavaFeatureForGwt.requireNonNullElse(
                                     item.getContent().getRaceInfo(), 
                                     ""
                                     )
                             ));
                 });
         EndRecordNode item = recordPackage.getEndNode();
-        System.out.println(String.format(
+        System.out.println(JavaFeatureForGwt.stringFormat(
                 "[End] %s",  
-                item.getHorseReachTickMap()
+                item.getHorseInfos().stream()
+                        .map(info -> JavaFeatureForGwt.stringFormat(
+                                "%s %s",
+                                info.getHorseName(),
+                                info.getReachTimeText()
+                                ))
+                        .collect(Collectors.joining("\n"))
                 ));
     }
 
 
     @Override
     public void onEnd(RaceSituation raceSituation) {
-        Map<String, Integer> horseReachTickMap = raceSituation.getHorses().stream()
-//                .map(it -> new AbstractMap.SimpleEntry<String, Integer>(
-//                        it.getPrototype().getName(), 
-//                        it.getReachTime()
-//                        ))
-                .collect(Collectors.toMap(
-                        it -> it.getPrototype().getName(), 
-                        it -> it.getReachTime()
+        List<EndRecordHorseInfo> horseReachTickMap = raceSituation.getHorses().stream()
+                .map(it -> new EndRecordHorseInfo(
+                        // FIXME 临时改为CharImage
+                        it.getPrototype().getCharImage(),
+                        it.getReachTime(), 
+                        render.renderTime(it.getReachTime())
                         ))
+                .collect(Collectors.toList())
                 ;
         recordPackage.setEndNode(new EndRecordNode(horseReachTickMap));
         

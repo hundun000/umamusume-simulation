@@ -1,8 +1,8 @@
-package hundun.simulationgame.umamusume.record;
+package hundun.simulationgame.umamusume.record.base;
 
-import hundun.simulationgame.umamusume.event.BaseEvent;
-import hundun.simulationgame.umamusume.horse.HorseModel;
-import hundun.simulationgame.umamusume.race.RaceSituation;
+import hundun.simulationgame.umamusume.core.event.BaseEvent;
+import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.race.RaceSituation;
 
 public interface IRecorder<T> {
 	//public void renderHorsePosition(HorseModel horse);

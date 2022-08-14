@@ -1,6 +1,5 @@
-package hundun.simulationgame.umamusume.race;
+package hundun.simulationgame.umamusume.core.race;
 
-import lombok.Getter;
 
 /**
  * @author hundun
