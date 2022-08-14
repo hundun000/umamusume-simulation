@@ -1,10 +1,13 @@
 package hundun.simulationgame.umamusume.core.horse;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @author hundun
  * Created on 2021/09/30
  */
+@AllArgsConstructor
 public enum DistanceAptitudeType {
     S(1.05, 1.0),
     A(1.00, 1.0),
@@ -15,23 +18,9 @@ public enum DistanceAptitudeType {
     F(0.3, 0.5),
     G(0.1, 0.4),
     ;
-
+    @Getter
     final double speedRate;
-
+    @Getter
     final double accelerationRate;
-    
-    private DistanceAptitudeType(double speedRate, double accelerationRate) {
-        this.speedRate = speedRate;
-        this.accelerationRate = accelerationRate;
-    }
-
-    public double getSpeedRate() {
-        return speedRate;
-    }
-
-    public double getAccelerationRate() {
-        return accelerationRate;
-    }
-    
     
 }

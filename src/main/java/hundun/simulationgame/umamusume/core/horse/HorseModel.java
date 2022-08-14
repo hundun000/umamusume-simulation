@@ -14,6 +14,8 @@ import hundun.simulationgame.umamusume.core.race.TrackGroundType;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
 import hundun.simulationgame.umamusume.record.base.IRecorder;
+import lombok.Getter;
+import lombok.Setter;
 
 public class HorseModel {
     
@@ -21,36 +23,21 @@ public class HorseModel {
     
 
 	// ====== construct-init constant ======
+    @Getter
     private HorsePrototype prototype;
-    public HorsePrototype getPrototype() {
-        return prototype;
-    }
-    
+    @Getter
+    @Setter
 	private int trackNumber;
-	public int getTrackNumber() {
-        return trackNumber;
-    }
-	public void setTrackNumber(int trackNumber) {
-        this.trackNumber = trackNumber;
-    }
 
+    @Getter
+    @Setter
     private RunStrategyType runStrategyType;
-    public RunStrategyType getRunStrategyType() {
-        return runStrategyType;
-    }
-    public void setRunStrategyType(RunStrategyType runStrategyType) {
-        this.runStrategyType = runStrategyType;
-    }
     
+    @Setter
 	private RacePrototype racePrototype;
-	public void setRacePrototype(RacePrototype racePrototype) {
-        this.racePrototype = racePrototype;
-    }
 
+    @Setter
     private TrackWetType trackWetType;
-	public void setTrackWetType(TrackWetType trackWetType) {
-        this.trackWetType = trackWetType;
-    }
 
 	// ====== post-construct-init constant ======
 	
@@ -77,52 +64,36 @@ public class HorseModel {
     private RunStrategyAptitudeType runStrategyAptitudeType;
     private TrackGroundAptitudeType trackGroundAptitudeType;
     // ====== runtime-init constant ======
+    @Getter
     private Double sprintStartPosition;
-    private void setSprintStartPosition(Double sprintStartPosition) {
-        this.sprintStartPosition = sprintStartPosition;
-    }
-    public Double getSprintStartPosition() {
-        return sprintStartPosition;
-    }
     
+    @Getter
     private Integer reachTime;
-    private void setReachTime(Integer reachTime) {
-        this.reachTime = reachTime;
-    }
-    public Integer getReachTime() {
-        return reachTime;
-    }
+
     
     private Map<HorseTrackPhase, Double> hpCostRecord = new LinkedHashMap<>();
     private Map<HorseTrackPhase, Integer> tickCostRecord = new HashMap<>();
     // ====== change every frame ======
+    @Getter
 	private Double currentSpeed;
-	public Double getCurrentSpeed() {
-        return currentSpeed;
-    }
-    private Double trackPosition;
-    public Double getTrackPosition() {
-        return trackPosition;
-    }
-    private double currentHp;
-    public double getCurrentHp() {
-        return currentHp;
-    }
-    private HorseTrackPhase trackPhase;
-    public HorseTrackPhase getTrackPhase() {
-        return trackPhase;
-    }
-    private Double targetSpeed;
-    public Double getTargetSpeed() {
-        return targetSpeed;
-    }
-    Boolean hpEnough;
-    Double targetHpCost;
 
-    Double currentAcceleration;
-    public Double getCurrentAcceleration() {
-        return currentAcceleration;
-    }
+    @Getter
+    private Double trackPosition;
+
+    @Getter
+    private double currentHp;
+
+    @Getter
+    private HorseTrackPhase trackPhase;
+
+    @Getter
+    private Double targetSpeed;
+
+    private Boolean hpEnough;
+    private Double targetHpCost;
+
+    @Getter
+    private Double currentAcceleration;
     
 	public HorseModel(HorsePrototype prototype, EventManager eventManager){
 		

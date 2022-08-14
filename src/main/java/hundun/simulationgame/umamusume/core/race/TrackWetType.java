@@ -3,6 +3,7 @@ package hundun.simulationgame.umamusume.core.race;
 import java.util.Map;
 
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
+import lombok.Getter;
 
 
 /**
@@ -16,10 +17,11 @@ public enum TrackWetType {
     BAD(-50, -50, 1.02, 0, -100, 1.02),
     ;
 
+    @Getter
     final Map<TrackGroundType, Integer> speedOffSetMap;
-
+    @Getter
     final Map<TrackGroundType, Integer> powerOffSetMap;
-
+    @Getter
     final Map<TrackGroundType, Double> hpRateMap;
 
     
@@ -31,22 +33,5 @@ public enum TrackWetType {
         this.hpRateMap = JavaFeatureForGwt.mapOf(TrackGroundType.TURF, turfRate, TrackGroundType.DIRT, dirtRate);
     }
 
-
-    public Map<TrackGroundType, Integer> getSpeedOffSetMap() {
-        return speedOffSetMap;
-    }
-
-
-    public Map<TrackGroundType, Integer> getPowerOffSetMap() {
-        return powerOffSetMap;
-    }
-
-
-    public Map<TrackGroundType, Double> getHpRateMap() {
-        return hpRateMap;
-    }
-    
-
-    
     
 }

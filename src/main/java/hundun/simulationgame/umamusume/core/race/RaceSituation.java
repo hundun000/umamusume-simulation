@@ -10,6 +10,8 @@ import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
 import hundun.simulationgame.umamusume.record.base.IRecorder;
+import lombok.Getter;
+import lombok.Setter;
 
 public class RaceSituation {
     public static final int tickNumPerGameSecond = 100;
@@ -18,24 +20,18 @@ public class RaceSituation {
     private EventManager eventManager;
 	
 	// ====== construct-init constant ======
+    @Getter
     private RacePrototype prototype;
-	public RacePrototype getPrototype() {
-        return prototype;
-    }
+
     private TrackWetType trackWetType;
 	// ====== post-construct-init constant ======
+    @Getter
     private List<HorseModel> horses = new ArrayList<>();
-	public List<HorseModel> getHorses() {
-        return horses;
-    }
+
 	// ====== change every frame ======
+    @Getter
+    @Setter
     private int tickCount = 0;
-    public int getTickCount() {
-        return tickCount;
-    }
-    public void setTickCount(int tickCount) {
-        this.tickCount = tickCount;
-    }
 	
 	public RaceSituation(IRecorder<?> displayer, RacePrototype prototype, TrackWetType trackWetType) {
 	    this.displayer = displayer;
