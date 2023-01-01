@@ -7,28 +7,29 @@ import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import hundun.simulationgame.umamusume.core.UmamusumeApp;
+import hundun.simulationgame.umamusume.core.NoGameplayApp;
 import hundun.simulationgame.umamusume.core.event.BaseEvent;
 import hundun.simulationgame.umamusume.core.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.core.horse.HorseModel;
 import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
-import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.StartRecordNode;
+import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
+import lombok.Getter;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode.EndRecordHorseInfo;
-import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
-import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
 
 /**
  * @author hundun
  * Created on 2021/09/25
  */
-public class CharImageRecorder implements IRecorder<TextFrameData> {
+public class CharImageRecorder implements IRaceRecorder<TextFrameData> {
     
+    @Getter
     final BotTextCharImageRender render;
     
 
@@ -45,7 +46,7 @@ public class CharImageRecorder implements IRecorder<TextFrameData> {
 
     
     @Override
-    public void log(String msg) {
+    public void logEvent(String msg) {
         // do nothing
     }
     

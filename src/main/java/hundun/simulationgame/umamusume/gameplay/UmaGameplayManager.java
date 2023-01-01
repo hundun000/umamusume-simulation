@@ -14,19 +14,18 @@ import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
 import hundun.simulationgame.umamusume.gameplay.TurnConfig;
 import hundun.simulationgame.umamusume.gameplay.AccountSaveData;
 import hundun.simulationgame.umamusume.gameplay.AccountSaveData.OperationBoardState;
-import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode.EndRecordHorseInfo;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
 import hundun.simulationgame.umamusume.record.text.TextFrameData;
-import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
-import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
+import hundun.simulationgame.umamusume.record.text.Translator;
 import lombok.Getter;
 
 /**
  * @author hundun
  * Created on 2022/08/02
  */
-public class UmaManager {
+public class UmaGameplayManager {
     @Getter
     Map<String, AccountSaveData> accountSaveDataMap;
     @Getter
@@ -34,33 +33,21 @@ public class UmaManager {
     IGameplayFrontend frontend;
     
     //TurnConfig currentTurnConfig;
-    private final IRecorder<TextFrameData> displayer;
+    private final IRaceRecorder<TextFrameData> raceRecorder;
     @Getter
     private final Translator translator;
 
     
 
     
-    public UmaManager(IGameplayFrontend frontend) {
+    public UmaGameplayManager(Translator translator, IRaceRecorder<TextFrameData> raceRecorder, IGameplayFrontend frontend) {
         this.frontend = frontend;
         this.accountSaveDataMap = new HashMap<>();
         
-        this.translator = Translator.Factory.english();
-        StrategyPackage strategyPackage = new StrategyPackage();
-        strategyPackage.setHorsePositionBarMaxWidth(30);
-        strategyPackage.setCameraProcessBarWidth(25);
-        strategyPackage.setCameraProcessBarChar1("█");
-        strategyPackage.setCameraProcessBarChar2("▓");
-        strategyPackage.setCameraProcessBarChar3("░");
-
-        // no GUTS WISDOM
-        strategyPackage.setHorseRaceStartTemplate(
-                "${TRACK_PART}: ${NAME_PART} "
-                + "${SPEED_KEY}${SPEED_VALUE}, "
-                + "${STAMINA_KEY}${STAMINA_VALUE}, "
-                + "${POWER_KEY}${POWER_VALUE}\n");
+        this.translator = translator;
+                
         
-        this.displayer = new CharImageRecorder(translator, strategyPackage);
+        this.raceRecorder = raceRecorder;
     }
     
     
@@ -86,7 +73,7 @@ public class UmaManager {
 
     public void raceStart(AccountSaveData accountSaveData) {
         TurnConfig currentTurnConfig = getCurrentTurnConfig(accountSaveData);
-        RaceSituation currentRaceSituation = new RaceSituation(displayer, currentTurnConfig.getRace(), TrackWetType.GOOD);
+        RaceSituation currentRaceSituation = new RaceSituation(raceRecorder, currentTurnConfig.getRace(), TrackWetType.GOOD);
         HorsePrototype base = accountSaveData.playerHorse;
         
         List<HorsePrototype> randomRivals = currentTurnConfig.getRivalHorses();
@@ -100,8 +87,8 @@ public class UmaManager {
         //displayer.printRecordPackage();
         
         setStateAndLog(accountSaveData, OperationBoardState.RACE_DAY_RACE_HAS_RESULT_RECORD);
-        accountSaveData.currentRaceRecordNodes = displayer.getRecordPackage().getNodes();
-        accountSaveData.sortedRaceEndRecordNode = displayer.getRecordPackage().getEndNode().getHorseInfos().stream()
+        accountSaveData.currentRaceRecordNodes = raceRecorder.getRecordPackage().getNodes();
+        accountSaveData.sortedRaceEndRecordNode = raceRecorder.getRecordPackage().getEndNode().getHorseInfos().stream()
                 .sorted(Comparator.comparing(EndRecordHorseInfo::getReachTick))
                 .collect(Collectors.toList())
                 ;
@@ -134,7 +121,7 @@ public class UmaManager {
     private void nextDay(AccountSaveData accountSaveData) {
         this.modifyAllResourceNum(
                 accountSaveData,
-                JavaHighVersionFeature.mapOf(GameResourceType.TURN, 1L), 
+                JavaFeatureForGwt.mapOf(GameResourceType.TURN, 1L), 
                 true
                 );
         TurnConfig currentTurnConfig = getCurrentTurnConfig(accountSaveData);
@@ -143,14 +130,13 @@ public class UmaManager {
         } else {
             setStateAndLog(accountSaveData, OperationBoardState.RACE_DAY_RACE_READY);
         }
-        frontend.notifiedCheckUi();
+        frontend.notifiedChangeOperationBoardState();
         
-        frontend.saveCurrent();
     }
 
-    public void trainAndNextDay(AccountSaveData accountSaveData, String trainDescription, List<GameResourcePair> costList, List<GameResourcePair> gainList) {
+    private void trainAndNextDay(AccountSaveData accountSaveData, List<GameResourcePair> costList, List<GameResourcePair> gainList) {
         HorsePrototype horsePrototype = accountSaveData.playerHorse;
-        frontend.notifiedHorseStatusChange(horsePrototype, trainDescription, gainList);
+        frontend.notifiedHorseStatusChange(horsePrototype, gainList);
         gainList.forEach(resourcePair -> {
             switch (resourcePair.getType()) {
                 case HORSE_SPEED:
@@ -209,13 +195,24 @@ public class UmaManager {
         for (Entry<GameResourceType, Long> entry : map.entrySet()) {
             accountSaveData.ownResoueces.merge(entry.getKey(), (plus ? 1 : -1 ) * entry.getValue(), (oldValue, newValue) -> oldValue + newValue);
         }
+        frontend.notifiedModifiedResourceNum(map, plus);
     }
 
 
     private void modifyAllResourceNum(AccountSaveData accountSaveData, List<GameResourcePair> packs, boolean plus) {
-        for (GameResourcePair pack : packs) {
-            accountSaveData.ownResoueces.merge(pack.getType(), (plus ? 1 : -1 ) * pack.getAmount(), (oldValue, newValue) -> oldValue + newValue);
-        }
+        Map<GameResourceType, Long> map = packs.stream().collect(Collectors.toMap(
+                it -> it.getType(), 
+                it -> it.getAmount()
+                ));
+        modifyAllResourceNum(accountSaveData, map, plus);
+    }
+
+
+
+
+    public void trainAndNextDay(AccountSaveData accountSaveData, TrainActionType type) {
+        TrainRuleConfig trainRuleConfig = gameRuleData.getTrainRuleConfigMap().get(type);
+        trainAndNextDay(accountSaveData, trainRuleConfig.getCostList(), trainRuleConfig.getGainList());
     }
     
 

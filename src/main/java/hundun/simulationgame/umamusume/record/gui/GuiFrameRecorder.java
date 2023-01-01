@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 import hundun.simulationgame.umamusume.core.event.BaseEvent;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
-import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
@@ -20,7 +20,7 @@ import hundun.simulationgame.umamusume.record.gui.GuiFrameData.RaceInfo;
  * @author hundun
  * Created on 2022/06/24
  */
-public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
+public class GuiFrameRecorder  implements IRaceRecorder<GuiFrameData> {
 
     RaceTrackPanel raceTrackPanel;
     RecordPackage<GuiFrameData> recordPackage;
@@ -101,7 +101,7 @@ public class GuiFrameRecorder  implements IRecorder<GuiFrameData> {
     }
 
     @Override
-    public void log(String msg) {
+    public void logEvent(String msg) {
         System.out.println("[game log]" + msg);
     }
 

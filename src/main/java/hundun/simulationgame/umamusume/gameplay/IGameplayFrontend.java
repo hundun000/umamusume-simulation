@@ -13,14 +13,11 @@ public interface IGameplayFrontend {
 
     void log(String tag, String message);
     
-    // ------ 需要Frontend实现业务逻辑 ------
-    void saveCurrent();
-    
-    // ------ 业务逻辑已在Manager实现，通知Frontend以进行UI逻辑 ------
+    // ------ 业务逻辑已在Manager实现，通知Frontend以进行UI逻辑及项目自定义更多业务逻辑（例如notifiedChangeOperationBoardState时saveGame） ------
     void notifiedModifiedResourceNum(Map<GameResourceType, Long> map, boolean plus);
     void notifiedReplayRaceRecord();
-    void notifiedCheckUi();
-    void notifiedHorseStatusChange(HorsePrototype horsePrototype, String trainDescription, List<GameResourcePair> gainList);
+    void notifiedChangeOperationBoardState();
+    void notifiedHorseStatusChange(HorsePrototype horsePrototype, List<GameResourcePair> gainList);
 
     
 

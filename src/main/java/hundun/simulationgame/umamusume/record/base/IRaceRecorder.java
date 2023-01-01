@@ -4,7 +4,7 @@ import hundun.simulationgame.umamusume.core.event.BaseEvent;
 import hundun.simulationgame.umamusume.core.horse.HorseModel;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 
-public interface IRecorder<T> {
+public interface IRaceRecorder<T> {
 	//public void renderHorsePosition(HorseModel horse);
 
     void onTick(RaceSituation situation);
@@ -13,7 +13,7 @@ public interface IRecorder<T> {
     void printRecordPackage(); 
     void onEvent(BaseEvent event);
     
-    void log(String msg);
+    void logEvent(String msg);
 
     void onStart(RaceSituation raceSituation);
 

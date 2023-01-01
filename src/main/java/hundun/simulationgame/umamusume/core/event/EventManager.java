@@ -3,7 +3,7 @@ package hundun.simulationgame.umamusume.core.event;
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
-import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 
 /**
  * @author hundun
@@ -12,16 +12,16 @@ import hundun.simulationgame.umamusume.record.base.IRecorder;
 public class EventManager {
 
     RaceSituation raceSituation;
-    IRecorder<?> displayer;
+    IRaceRecorder<?> displayer;
     
-    public EventManager(RaceSituation raceSituation, IRecorder<?> displayer) {
+    public EventManager(RaceSituation raceSituation, IRaceRecorder<?> displayer) {
         super();
         this.raceSituation = raceSituation;
         this.displayer = displayer;
     }
 
     public void log(String string) {
-        displayer.log(string);
+        displayer.logEvent(string);
     }
 
     public void newHorseSprintStartPositionSetEvent(HorsePrototype prototype, double sprintStartPosition, double currentHp) {

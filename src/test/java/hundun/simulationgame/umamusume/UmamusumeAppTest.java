@@ -4,10 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import hundun.simulationgame.umamusume.core.UmamusumeApp;
+import hundun.simulationgame.umamusume.core.NoGameplayApp;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
-import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.StrategyPackage;
-import hundun.simulationgame.umamusume.record.text.BotTextCharImageRender.Translator;
+import hundun.simulationgame.umamusume.record.text.Translator;
+import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
+
 
 /**
  * @author hundun
@@ -17,10 +18,10 @@ public class UmamusumeAppTest {
 
     @Test
     public void testCharImageDisplayerChinese(){
-        
-        UmamusumeApp app = new UmamusumeApp(new CharImageRecorder(
+        StrategyPackage strategyPackage = new StrategyPackage();
+        NoGameplayApp app = new NoGameplayApp(new CharImageRecorder(
                 Translator.Factory.emptyAsChinese(),
-                StrategyPackage.Factory.shortWidth()
+                strategyPackage 
                 ));
         app.randomRun();
         
@@ -29,10 +30,11 @@ public class UmamusumeAppTest {
    
    @Test
    public void testCharImageDisplayerEnglish(){
-       
-       UmamusumeApp app = new UmamusumeApp(new CharImageRecorder(
+       StrategyPackage strategyPackage = new StrategyPackage();
+       StrategyPackage.Factory.toLongWidth(strategyPackage);
+       NoGameplayApp app = new NoGameplayApp(new CharImageRecorder(
                Translator.Factory.english(),
-               StrategyPackage.Factory.longWidth()
+               strategyPackage
                ));
        app.randomRun();
        

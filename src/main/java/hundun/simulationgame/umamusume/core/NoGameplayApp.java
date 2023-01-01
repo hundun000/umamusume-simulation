@@ -16,27 +16,21 @@ import hundun.simulationgame.umamusume.core.race.RacePrototype;
 import hundun.simulationgame.umamusume.core.race.RacePrototypeFactory;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
-import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 
 
 /**
+ * 区别于IGameplayFrontend。NoGameplayApp自由指定比赛属性和赛马属性，然后计算比赛结果。
  * @author hundun
  * Created on 2021/09/24
  */
-public class UmamusumeApp {
+public class NoGameplayApp {
     
     HorsePrototypeFactory factory;
-    // ms
-    private int frameLength = 100;
-    
-    
-    private final IRecorder<?> displayer;
+    private final IRaceRecorder<?> displayer;
     RaceSituation raceSituation;
     
-    boolean debugOnlyFirstTick = false;
-    boolean debugTickLoopWithoutDelay = true;
-    
-    public UmamusumeApp(IRecorder<?> displayer) {
+    public NoGameplayApp(IRaceRecorder<?> displayer) {
         this.displayer = displayer;
         this.factory = new HorsePrototypeFactory();
         factory.registerAllDefault();

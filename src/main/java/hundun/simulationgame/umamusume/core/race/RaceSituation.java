@@ -9,14 +9,14 @@ import hundun.simulationgame.umamusume.core.horse.HorseModel;
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
-import hundun.simulationgame.umamusume.record.base.IRecorder;
+import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import lombok.Getter;
 import lombok.Setter;
 
 public class RaceSituation {
     public static final int tickNumPerGameSecond = 100;
     
-    private IRecorder<?> displayer;
+    private IRaceRecorder<?> displayer;
     private EventManager eventManager;
 	
 	// ====== construct-init constant ======
@@ -33,7 +33,7 @@ public class RaceSituation {
     @Setter
     private int tickCount = 0;
 	
-	public RaceSituation(IRecorder<?> displayer, RacePrototype prototype, TrackWetType trackWetType) {
+	public RaceSituation(IRaceRecorder<?> displayer, RacePrototype prototype, TrackWetType trackWetType) {
 	    this.displayer = displayer;
 	    this.prototype = prototype;
 	    this.trackWetType = trackWetType;

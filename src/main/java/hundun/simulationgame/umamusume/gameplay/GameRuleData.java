@@ -17,4 +17,5 @@ import lombok.Data;
 @Data
 public class GameRuleData {
     public Map<Integer, TurnConfig> turnConfigMap;
+    public Map<TrainActionType, TrainRuleConfig> trainRuleConfigMap;
 }

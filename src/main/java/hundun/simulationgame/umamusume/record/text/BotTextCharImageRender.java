@@ -16,6 +16,8 @@ import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
 import hundun.simulationgame.umamusume.record.base.IChineseNameEnum;
+import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
+import lombok.Data;
 
 
 /**
@@ -216,7 +218,7 @@ public class BotTextCharImageRender {
                 );
         List<Double> diffList = situation.getHorses().stream().mapToDouble(horse -> horse.getTrackPosition() - cameraPosition).boxed().collect(Collectors.toList());
         double maxDiff = diffList.stream().mapToDouble(i -> i.doubleValue()).max().getAsDouble();
-        double numCharPerDiff = 1.0 * strategyPackage.horsePositionBarMaxWidth / maxDiff;
+        double numCharPerDiff = 1.0 * strategyPackage.getHorsePositionBarMaxWidth() / maxDiff;
         List<Integer> numCharList = diffList.stream().mapToInt(diff -> (int)(diff * numCharPerDiff)).boxed().collect(Collectors.toList());
         
         //String cameraText = formatter.format(minPosition) + " ···················· " + situation.getPrototype().getLength() + " Fin.\n";
@@ -294,178 +296,9 @@ public class BotTextCharImageRender {
         double remaidSecond = second - minute * 60;
         return minuteFormatter.format(minute) + ":" + secondFormatter.format(remaidSecond) + "";
     }
-
-
-    public static class Translator {
-
-        
-        private Map<String, String> enumChineseToOtherLanguageMap = new HashMap<>();
-        private Map<String, String> textChineseToOtherLanguageMap = new HashMap<>();
-        
-        public static class Factory {
-            
-            public static Translator emptyAsChinese() {
-                Translator result = new Translator();
-                return result;
-            }
-            
-            public static Translator english() {
-                Translator result = new Translator();
-                
-                result.textChineseToOtherLanguageMap.put("赛道", "track");
-                result.textChineseToOtherLanguageMap.put("速", "speed");
-                result.textChineseToOtherLanguageMap.put("耐", "stamina");
-                result.textChineseToOtherLanguageMap.put("力", "power");
-                result.textChineseToOtherLanguageMap.put("根", "guts");
-                result.textChineseToOtherLanguageMap.put("智", "wisdom");
-                result.textChineseToOtherLanguageMap.put("进入%s阶段", "into %s phase");
-                result.textChineseToOtherLanguageMap.put("%s%s", "%s %s");
-                result.textChineseToOtherLanguageMap.put("%s最晚%s", "%s %s lastly");
-                result.textChineseToOtherLanguageMap.put("%s率先%s", "%s %s firstly");
-                result.textChineseToOtherLanguageMap.put("冲线时间：%s", "reached at: %s");
-                
-                result.enumChineseToOtherLanguageMap.put("逃", "first");
-                result.enumChineseToOtherLanguageMap.put("先", "front");
-                result.enumChineseToOtherLanguageMap.put("差", "back");
-                result.enumChineseToOtherLanguageMap.put("追", "tail");
-                
-                result.enumChineseToOtherLanguageMap.put("出闸", "start-gate");
-                result.enumChineseToOtherLanguageMap.put("初期巡航", "start-cruise");
-                result.enumChineseToOtherLanguageMap.put("中期巡航", "mid-cruise-1");
-                result.enumChineseToOtherLanguageMap.put("中期巡航(过半)", "mid-cruise-2");
-                result.enumChineseToOtherLanguageMap.put("末期巡航", "last-cruise");
-                result.enumChineseToOtherLanguageMap.put("末期冲刺", "last-sprint");
-                result.enumChineseToOtherLanguageMap.put("冲线", "reached");
-                return result;
-            }
-        }
-        
-        public String get(IChineseNameEnum enumValue) {
-            return enumChineseToOtherLanguageMap.getOrDefault(enumValue.getChinese(), enumValue.getChinese());
-        }
-        
-        public String get(String chinese) {
-            return textChineseToOtherLanguageMap.getOrDefault(chinese, chinese);
-        }
-
-        public Map<String, String> getEnumChineseToOtherLanguageMap() {
-            return enumChineseToOtherLanguageMap;
-        }
-
-        public void setEnumChineseToOtherLanguageMap(Map<String, String> enumChineseToOtherLanguageMap) {
-            this.enumChineseToOtherLanguageMap = enumChineseToOtherLanguageMap;
-        }
-
-        public Map<String, String> getTextChineseToOtherLanguageMap() {
-            return textChineseToOtherLanguageMap;
-        }
-
-        public void setTextChineseToOtherLanguageMap(Map<String, String> textChineseToOtherLanguageMap) {
-            this.textChineseToOtherLanguageMap = textChineseToOtherLanguageMap;
-        }
-        
-        
-    }
     
 
-    public static class StrategyPackage {
-        private String horseRaceStartTemplate = "${TRACK_PART}: ${NAME_PART} "
-                + "${SPEED_KEY}${SPEED_VALUE}, "
-                + "${STAMINA_KEY}${STAMINA_VALUE}, "
-                + "${POWER_KEY}${POWER_VALUE}, "
-                + "${GUTS_KEY}${GUTS_VALUE}, "
-                + "${WISDOM_KEY}${WISDOM_VALUE}\n";
-        private String horseRunningTemplate = "${HORSE_ICON} ${ARROW}\n";
-        
-        private String horseReachedTemplate = "${HORSE_ICON} ${REACH_TEXT}\n";
-        
-        private int horsePositionBarMaxWidth = 10;
-        private int cameraProcessBarWidth = 10;
-        private String cameraProcessBarChar1 = "=";
-        private String cameraProcessBarChar2 = "o";
-        private String cameraProcessBarChar3 = " ";
-        
-        public static class Factory {
-                    
-            public static StrategyPackage shortWidth() {
-                StrategyPackage result = new StrategyPackage();
-                return result;
-            }
-            
-            public static StrategyPackage longWidth() {
-                StrategyPackage result = new StrategyPackage();
-                result.setHorsePositionBarMaxWidth(30);
-                result.setCameraProcessBarWidth(25);
-                return result;
-            }
-        }
-
-        public String getHorseRaceStartTemplate() {
-            return horseRaceStartTemplate;
-        }
-
-        public void setHorseRaceStartTemplate(String horseRaceStartTemplate) {
-            this.horseRaceStartTemplate = horseRaceStartTemplate;
-        }
-
-        public String getHorseRunningTemplate() {
-            return horseRunningTemplate;
-        }
-
-        public void setHorseRunningTemplate(String horseRunningTemplate) {
-            this.horseRunningTemplate = horseRunningTemplate;
-        }
-
-        public String getHorseReachedTemplate() {
-            return horseReachedTemplate;
-        }
-
-        public void setHorseReachedTemplate(String horseReachedTemplate) {
-            this.horseReachedTemplate = horseReachedTemplate;
-        }
-
-        public int getHorsePositionBarMaxWidth() {
-            return horsePositionBarMaxWidth;
-        }
-
-        public void setHorsePositionBarMaxWidth(int horsePositionBarMaxWidth) {
-            this.horsePositionBarMaxWidth = horsePositionBarMaxWidth;
-        }
-
-        public int getCameraProcessBarWidth() {
-            return cameraProcessBarWidth;
-        }
-
-        public void setCameraProcessBarWidth(int cameraProcessBarWidth) {
-            this.cameraProcessBarWidth = cameraProcessBarWidth;
-        }
-
-        public String getCameraProcessBarChar1() {
-            return cameraProcessBarChar1;
-        }
-
-        public void setCameraProcessBarChar1(String cameraProcessBarChar1) {
-            this.cameraProcessBarChar1 = cameraProcessBarChar1;
-        }
-
-        public String getCameraProcessBarChar2() {
-            return cameraProcessBarChar2;
-        }
-
-        public void setCameraProcessBarChar2(String cameraProcessBarChar2) {
-            this.cameraProcessBarChar2 = cameraProcessBarChar2;
-        }
-
-        public String getCameraProcessBarChar3() {
-            return cameraProcessBarChar3;
-        }
-
-        public void setCameraProcessBarChar3(String cameraProcessBarChar3) {
-            this.cameraProcessBarChar3 = cameraProcessBarChar3;
-        }
-        
-        
-    }
+    
 
 
     public void reset() {

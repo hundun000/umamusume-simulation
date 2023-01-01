@@ -9,6 +9,7 @@ import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
 import hundun.simulationgame.umamusume.core.race.RaceLengthType;
 import hundun.simulationgame.umamusume.core.race.RacePrototype;
 import hundun.simulationgame.umamusume.core.race.TrackGroundType;
+import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
 import hundun.simulationgame.umamusume.gameplay.AccountSaveData.OperationBoardState;
 
 /**
@@ -99,18 +100,64 @@ public class UmaSaveDataFactory {
         GameRuleData gameRuleData = new GameRuleData();
         gameRuleData.turnConfigMap = new HashMap<>();
         {
-            // first race not random
-            gameRuleData.turnConfigMap.put(3, turnConfigTemplate(0, 0));
-            
             int numRace = 5;
-            int raceTurn = 3;
+            int raceTurnStep = 3;
             for (int i = 1; i < numRace; i++) {
-                raceTurn += 4 + (int)(Math.random() * 3);
+                int raceTurn = i* raceTurnStep;
                 int raceRand = (int) (Math.random() * 5);
                 int rivalValueAddition = i * 40;
                 gameRuleData.turnConfigMap.put(raceTurn, turnConfigTemplate(raceRand, rivalValueAddition));
             }
         } 
+        gameRuleData.trainRuleConfigMap = new HashMap<>();
+        gameRuleData.trainRuleConfigMap.put(
+                TrainActionType.RUNNING_TRAIN, 
+                TrainRuleConfig.builder()
+                        .costList(JavaFeatureForGwt.arraysAsList(
+                                new GameResourcePair(GameResourceType.COIN, 100L)
+                                ))
+                        .gainList(JavaFeatureForGwt.arraysAsList(
+                                new GameResourcePair(GameResourceType.HORSE_SPEED, 25L),
+                                new GameResourcePair(GameResourceType.HORSE_POWER, 10L)
+                                ))
+                        .build()
+                );
+        gameRuleData.trainRuleConfigMap.put(
+                TrainActionType.SWIMMING_TRAIN, 
+                TrainRuleConfig.builder()
+                        .costList(JavaFeatureForGwt.arraysAsList(
+                                new GameResourcePair(GameResourceType.COIN, 100L)
+                                ))
+                        .gainList(JavaFeatureForGwt.arraysAsList(
+                                new GameResourcePair(GameResourceType.HORSE_STAMINA, 25L),
+                                new GameResourcePair(GameResourceType.HORSE_POWER, 10L)
+                                ))
+                        .build()
+                );
+        gameRuleData.trainRuleConfigMap.put(
+                TrainActionType.POWER_TRAIN, 
+                TrainRuleConfig.builder()
+                        .costList(JavaFeatureForGwt.arraysAsList(
+                                new GameResourcePair(GameResourceType.COIN, 100L)
+                                ))
+                        .gainList(JavaFeatureForGwt.arraysAsList(
+                                new GameResourcePair(GameResourceType.HORSE_SPEED, 5L),
+                                new GameResourcePair(GameResourceType.HORSE_STAMINA, 5L),
+                                new GameResourcePair(GameResourceType.HORSE_POWER, 25L)
+                                ))
+                        .build()
+                );
+        gameRuleData.trainRuleConfigMap.put(
+                TrainActionType.FREE_TRAIN, 
+                TrainRuleConfig.builder()
+                        .costList(new ArrayList<>(0))
+                        .gainList(JavaFeatureForGwt.arraysAsList(
+                                new GameResourcePair(GameResourceType.HORSE_SPEED, 5L),
+                                new GameResourcePair(GameResourceType.HORSE_STAMINA, 5L),
+                                new GameResourcePair(GameResourceType.HORSE_POWER, 5L)
+                                ))
+                        .build()
+                );
         return gameRuleData;
     }
     
