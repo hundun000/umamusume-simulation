@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.gameplay;
+package hundun.simulationgame.umamusume.game.gameplay.data;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,6 @@ import lombok.Setter;
 @Data
 public class AccountSaveData {
     public String id;
-    public int currentTurn;
     
     public OperationBoardState state;
     public HorsePrototype playerHorse;

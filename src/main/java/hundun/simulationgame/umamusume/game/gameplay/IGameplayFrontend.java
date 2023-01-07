@@ -1,9 +1,11 @@
-package hundun.simulationgame.umamusume.gameplay;
+package hundun.simulationgame.umamusume.game.gameplay;
 
 import java.util.List;
 import java.util.Map;
 
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourcePair;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourceType;
 
 /**
  * @author hundun

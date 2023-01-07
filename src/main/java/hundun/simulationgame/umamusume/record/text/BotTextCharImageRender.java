@@ -10,6 +10,7 @@ import hundun.simulationgame.umamusume.core.event.BaseEvent;
 import hundun.simulationgame.umamusume.core.event.HorseSprintStartPositionSetEvent;
 import hundun.simulationgame.umamusume.core.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.core.horse.HorseModel;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
@@ -47,23 +48,31 @@ public class BotTextCharImageRender {
         this.strategyPackage = strategyPackage;
     }
     
+    public String renderHorseStatus(HorsePrototype prototype) {
+        return strategyPackage.getHorseStatusTemplate()
+                .replace("${NAME_PART}", prototype.getName())
+                .replace("${SPEED_KEY}", translator.get("速"))
+                .replace("${SPEED_VALUE}", String.valueOf(prototype.getBaseSpeed()))
+                .replace("${STAMINA_KEY}", translator.get("耐"))
+                .replace("${STAMINA_VALUE}", String.valueOf(prototype.getBaseStamina()))
+                .replace("${POWER_KEY}", translator.get("力"))
+                .replace("${POWER_VALUE}", String.valueOf(prototype.getBasePower()))
+                .replace("${GUTS_KEY}", translator.get("根"))
+                .replace("${GUTS_VALUE}", String.valueOf(prototype.getBaseGuts()))
+                .replace("${WISDOM_KEY}", translator.get("智"))
+                .replace("${WISDOM_VALUE}", String.valueOf(prototype.getBaseWisdom()))
+                ;
+    }
+    
     public String renderStart(RaceSituation raceSituation) {
         StringBuilder builder = new StringBuilder();
         builder.append(raceSituation.getPrototype().getName()).append(" ").append(raceSituation.getPrototype().getLength()).append("米\n");
         for (HorseModel horse : raceSituation.getHorses()) {
+            String horseStatusPart = renderHorseStatus(horse.getPrototype()); 
+            
             builder.append(strategyPackage.getHorseRaceStartTemplate()
                     .replace("${TRACK_PART}", translator.get("赛道") + String.valueOf(horse.getTrackNumber() + 1))
-                    .replace("${NAME_PART}", horse.getPrototype().getName())
-                    .replace("${SPEED_KEY}", translator.get("速"))
-                    .replace("${SPEED_VALUE}", String.valueOf(horse.getPrototype().getBaseSpeed()))
-                    .replace("${STAMINA_KEY}", translator.get("耐"))
-                    .replace("${STAMINA_VALUE}", String.valueOf(horse.getPrototype().getBaseStamina()))
-                    .replace("${POWER_KEY}", translator.get("力"))
-                    .replace("${POWER_VALUE}", String.valueOf(horse.getPrototype().getBasePower()))
-                    .replace("${GUTS_KEY}", translator.get("根"))
-                    .replace("${GUTS_VALUE}", String.valueOf(horse.getPrototype().getBaseGuts()))
-                    .replace("${WISDOM_KEY}", translator.get("智"))
-                    .replace("${WISDOM_VALUE}", String.valueOf(horse.getPrototype().getBaseWisdom()))
+                    .replace("${HORSE_STATUS_PART}", horseStatusPart)
                     );
         }
         return builder.toString();

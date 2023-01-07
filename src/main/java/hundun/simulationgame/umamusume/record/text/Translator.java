@@ -68,12 +68,14 @@ public class Translator {
     
     @Data
     public static class StrategyPackage {
-        private String horseRaceStartTemplate = "${TRACK_PART}: ${NAME_PART} "
+        private String horseStatusTemplate = "${NAME_PART} "
                 + "${SPEED_KEY}${SPEED_VALUE}, "
                 + "${STAMINA_KEY}${STAMINA_VALUE}, "
                 + "${POWER_KEY}${POWER_VALUE}, "
                 + "${GUTS_KEY}${GUTS_VALUE}, "
-                + "${WISDOM_KEY}${WISDOM_VALUE}\n";
+                + "${WISDOM_KEY}${WISDOM_VALUE}";
+        
+        private String horseRaceStartTemplate = "${TRACK_PART}: ${HORSE_STATUS_PART}\n";
         private String horseRunningTemplate = "${HORSE_ICON} ${ARROW}\n";
         
         private String horseReachedTemplate = "${HORSE_ICON} ${REACH_TEXT}\n";

@@ -1,16 +1,23 @@
-package hundun.simulationgame.umamusume.gameplay;
+package hundun.simulationgame.umamusume.game.gameplay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.core.horse.HorsePrototypeFactory;
 import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
 import hundun.simulationgame.umamusume.core.race.RaceLengthType;
 import hundun.simulationgame.umamusume.core.race.RacePrototype;
 import hundun.simulationgame.umamusume.core.race.TrackGroundType;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
-import hundun.simulationgame.umamusume.gameplay.AccountSaveData.OperationBoardState;
+import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourcePair;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourceType;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameRuleData;
+import hundun.simulationgame.umamusume.game.gameplay.data.TrainActionType;
+import hundun.simulationgame.umamusume.game.gameplay.data.TrainRuleConfig;
+import hundun.simulationgame.umamusume.game.gameplay.data.TurnConfig;
+import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData.OperationBoardState;
+import hundun.simulationgame.umamusume.game.nogameplay.HorsePrototypeFactory;
 
 /**
  * @author hundun

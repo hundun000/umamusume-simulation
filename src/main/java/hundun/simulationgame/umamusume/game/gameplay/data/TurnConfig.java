@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.gameplay;
+package hundun.simulationgame.umamusume.game.gameplay.data;
 
 import java.util.List;
 import java.util.Map;

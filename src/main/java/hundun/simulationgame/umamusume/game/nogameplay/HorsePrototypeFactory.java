@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.core.horse;
+package hundun.simulationgame.umamusume.game.nogameplay;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +10,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import hundun.simulationgame.umamusume.core.horse.DistanceAptitudeType;
+import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
+import hundun.simulationgame.umamusume.core.horse.RunStrategyAptitudeType;
+import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
+import hundun.simulationgame.umamusume.core.horse.TrackGroundAptitudeType;
 import hundun.simulationgame.umamusume.core.race.RaceLengthType;
 import hundun.simulationgame.umamusume.core.race.TrackGroundType;
 

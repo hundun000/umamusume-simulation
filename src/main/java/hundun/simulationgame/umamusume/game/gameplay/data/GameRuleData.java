@@ -1,10 +1,10 @@
-package hundun.simulationgame.umamusume.gameplay;
+package hundun.simulationgame.umamusume.game.gameplay.data;
 
 import java.util.List;
 import java.util.Map;
 
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.gameplay.AccountSaveData.OperationBoardState;
+import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData.OperationBoardState;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.RecordNode;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode.EndRecordHorseInfo;
 import hundun.simulationgame.umamusume.record.text.TextFrameData;

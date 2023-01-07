@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.gameplay;
+package hundun.simulationgame.umamusume.game.gameplay.data;
 /**
  * @author hundun
  * Created on 2023/01/04

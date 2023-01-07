@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.core.horse.HorsePrototypeFactory;
+import hundun.simulationgame.umamusume.game.nogameplay.HorsePrototypeFactory;
 
 /**
  * @author hundun

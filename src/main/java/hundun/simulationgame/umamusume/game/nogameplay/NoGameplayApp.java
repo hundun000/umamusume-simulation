@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.core;
+package hundun.simulationgame.umamusume.game.nogameplay;
 
 
 import java.util.List;
@@ -8,12 +8,10 @@ import java.util.concurrent.TimeUnit;
 
 import hundun.simulationgame.umamusume.core.horse.HorseModel;
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
-import hundun.simulationgame.umamusume.core.horse.HorsePrototypeFactory;
 import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
 import hundun.simulationgame.umamusume.core.race.RaceLengthType;
 import hundun.simulationgame.umamusume.core.race.RacePrototype;
-import hundun.simulationgame.umamusume.core.race.RacePrototypeFactory;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;

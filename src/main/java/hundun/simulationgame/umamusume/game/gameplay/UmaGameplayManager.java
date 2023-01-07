@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.gameplay;
+package hundun.simulationgame.umamusume.game.gameplay;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -11,9 +11,14 @@ import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
-import hundun.simulationgame.umamusume.gameplay.TurnConfig;
-import hundun.simulationgame.umamusume.gameplay.AccountSaveData;
-import hundun.simulationgame.umamusume.gameplay.AccountSaveData.OperationBoardState;
+import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourcePair;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourceType;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameRuleData;
+import hundun.simulationgame.umamusume.game.gameplay.data.TrainActionType;
+import hundun.simulationgame.umamusume.game.gameplay.data.TrainRuleConfig;
+import hundun.simulationgame.umamusume.game.gameplay.data.TurnConfig;
+import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData.OperationBoardState;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode.EndRecordHorseInfo;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
@@ -193,7 +198,7 @@ public class UmaGameplayManager {
 
     private void modifyAllResourceNum(AccountSaveData accountSaveData, Map<GameResourceType, Long> map, boolean plus) {
         for (Entry<GameResourceType, Long> entry : map.entrySet()) {
-            accountSaveData.ownResoueces.merge(entry.getKey(), (plus ? 1 : -1 ) * entry.getValue(), (oldValue, newValue) -> oldValue + newValue);
+            accountSaveData.getOwnResoueces().merge(entry.getKey(), (plus ? 1 : -1 ) * entry.getValue(), (oldValue, newValue) -> oldValue + newValue);
         }
         frontend.notifiedModifiedResourceNum(map, plus);
     }

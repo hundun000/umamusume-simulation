@@ -7,13 +7,13 @@ import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import hundun.simulationgame.umamusume.core.NoGameplayApp;
 import hundun.simulationgame.umamusume.core.event.BaseEvent;
 import hundun.simulationgame.umamusume.core.event.HorseTrackPhaseChangeEvent;
 import hundun.simulationgame.umamusume.core.horse.HorseModel;
 import hundun.simulationgame.umamusume.core.horse.HorseTrackPhase;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
+import hundun.simulationgame.umamusume.game.nogameplay.NoGameplayApp;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode;

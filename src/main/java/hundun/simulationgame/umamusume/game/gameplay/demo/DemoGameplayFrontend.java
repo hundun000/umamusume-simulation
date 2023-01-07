@@ -1,18 +1,18 @@
-package hundun.simulationgame.umamusume.gameplay.demo;
+package hundun.simulationgame.umamusume.game.gameplay.demo;
 
 import java.util.List;
 import java.util.Map;
 
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
-import hundun.simulationgame.umamusume.gameplay.AccountSaveData;
-import hundun.simulationgame.umamusume.gameplay.GameResourcePair;
-import hundun.simulationgame.umamusume.gameplay.GameResourceType;
-import hundun.simulationgame.umamusume.gameplay.GameRuleData;
-import hundun.simulationgame.umamusume.gameplay.IGameplayFrontend;
-import hundun.simulationgame.umamusume.gameplay.TrainActionType;
-import hundun.simulationgame.umamusume.gameplay.UmaGameplayManager;
-import hundun.simulationgame.umamusume.gameplay.UmaSaveDataFactory;
+import hundun.simulationgame.umamusume.game.gameplay.IGameplayFrontend;
+import hundun.simulationgame.umamusume.game.gameplay.UmaGameplayManager;
+import hundun.simulationgame.umamusume.game.gameplay.UmaSaveDataFactory;
+import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourcePair;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameResourceType;
+import hundun.simulationgame.umamusume.game.gameplay.data.GameRuleData;
+import hundun.simulationgame.umamusume.game.gameplay.data.TrainActionType;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
 import hundun.simulationgame.umamusume.record.text.TextFrameData;
@@ -35,17 +35,6 @@ public class DemoGameplayFrontend implements IGameplayFrontend {
         this.charImageRecorder = new CharImageRecorder(translator, strategyPackage);
         
         this.manager = new UmaGameplayManager(translator, charImageRecorder, this);
-    }
-    
-    public void demoRun() {
-        AccountSaveData accountSaveData = UmaSaveDataFactory.forNewAccount(DemoGameplayFrontend.SINGLETON_ID);
-        Map<String, AccountSaveData> accountSaveDataMap = JavaFeatureForGwt.mapOf(
-                DemoGameplayFrontend.SINGLETON_ID, 
-                accountSaveData);
-        GameRuleData gameRuleData = UmaSaveDataFactory.forNewGameRuleData();
-        
-        manager.applySaveData(accountSaveDataMap, gameRuleData);
-        manager.trainAndNextDay(accountSaveData, TrainActionType.FREE_TRAIN);
     }
     
     @Override
