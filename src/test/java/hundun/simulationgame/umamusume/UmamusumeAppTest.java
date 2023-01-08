@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import hundun.simulationgame.umamusume.game.nogameplay.GuiNoGameplayApp;
 import hundun.simulationgame.umamusume.game.nogameplay.NoGameplayApp;
+import hundun.simulationgame.umamusume.record.gui.GuiFrameRecorder;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
 import hundun.simulationgame.umamusume.record.text.Translator;
 import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
@@ -37,6 +39,17 @@ public class UmamusumeAppTest {
                strategyPackage
                ));
        app.randomRun();
+       
+   }
+
+   @Test
+   public void testGuiDisplayerChinese(){
+       StrategyPackage strategyPackage = new StrategyPackage();
+       GuiNoGameplayApp app = new GuiNoGameplayApp(new GuiFrameRecorder(
+               Translator.Factory.emptyAsChinese(),
+               strategyPackage 
+               ));
+       app.demoRun();
        
    }
 

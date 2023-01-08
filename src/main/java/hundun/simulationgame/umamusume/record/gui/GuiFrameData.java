@@ -2,7 +2,9 @@ package hundun.simulationgame.umamusume.record.gui;
 
 import java.util.List;
 
+import hundun.simulationgame.umamusume.core.race.RacePrototype;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class GuiFrameData {
     RaceInfo raceInfo;
     List<HorseInfo> horseInfos;
+    String eventInfo;
     
     @Data
     @NoArgsConstructor
@@ -27,6 +30,7 @@ public class GuiFrameData {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     public static class HorseInfo {
         private int trackNumber;
         private Double trackPosition;

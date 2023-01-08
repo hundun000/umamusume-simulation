@@ -25,7 +25,7 @@ import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
  */
 public class DemoGameplayFrontend implements IGameplayFrontend {
 
-    UmaGameplayManager manager;
+    UmaGameplayManager<TextFrameData> manager;
     CharImageRecorder charImageRecorder;
     public static final String SINGLETON_ID = "DEMO_GAMEPLAY_FRONTEND";
     
@@ -34,7 +34,7 @@ public class DemoGameplayFrontend implements IGameplayFrontend {
         StrategyPackage strategyPackage = new StrategyPackage();
         this.charImageRecorder = new CharImageRecorder(translator, strategyPackage);
         
-        this.manager = new UmaGameplayManager(translator, charImageRecorder, this);
+        this.manager = new UmaGameplayManager<TextFrameData>(translator, charImageRecorder, this);
     }
     
     @Override

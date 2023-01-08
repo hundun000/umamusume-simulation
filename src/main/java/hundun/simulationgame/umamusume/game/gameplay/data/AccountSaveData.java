@@ -24,14 +24,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AccountSaveData {
+public class AccountSaveData<T_FRAME_DATA> {
     public String id;
     
     public OperationBoardState state;
     public HorsePrototype playerHorse;
     Map<GameResourceType, Long> ownResoueces;
     
-    public List<RecordNode<TextFrameData>> currentRaceRecordNodes;
+    public List<RecordNode<T_FRAME_DATA>> currentRaceRecordNodes;
     public List<EndRecordHorseInfo> sortedRaceEndRecordNode;
     
     /**

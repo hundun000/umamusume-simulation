@@ -13,6 +13,8 @@ import hundun.simulationgame.umamusume.game.gameplay.data.GameResourceType;
 import hundun.simulationgame.umamusume.game.gameplay.data.GameRuleData;
 import hundun.simulationgame.umamusume.game.gameplay.data.TrainActionType;
 import hundun.simulationgame.umamusume.game.gameplay.demo.DemoGameplayFrontend;
+import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
+import hundun.simulationgame.umamusume.record.text.TextFrameData;
 
 /**
  * @author hundun
@@ -21,8 +23,8 @@ import hundun.simulationgame.umamusume.game.gameplay.demo.DemoGameplayFrontend;
 public class DemoGameplayFrontendTest {
 
     public void prepare(DemoGameplayFrontend demoGameplayFrontend) {
-        AccountSaveData accountSaveData = UmaSaveDataFactory.forNewAccount(DemoGameplayFrontend.SINGLETON_ID);
-        Map<String, AccountSaveData> accountSaveDataMap = JavaFeatureForGwt.mapOf(
+        AccountSaveData<TextFrameData> accountSaveData = UmaSaveDataFactory.forNewAccount(DemoGameplayFrontend.SINGLETON_ID);
+        Map<String, AccountSaveData<TextFrameData>> accountSaveDataMap = JavaFeatureForGwt.mapOf(
                 DemoGameplayFrontend.SINGLETON_ID, 
                 accountSaveData);
         GameRuleData gameRuleData = UmaSaveDataFactory.forNewGameRuleData();
@@ -35,7 +37,7 @@ public class DemoGameplayFrontendTest {
         DemoGameplayFrontend frontend = new DemoGameplayFrontend();
         prepare(frontend);
         
-        AccountSaveData accountSaveData = frontend.manager.getAccountSaveData(DemoGameplayFrontend.SINGLETON_ID);
+        AccountSaveData<TextFrameData> accountSaveData = frontend.manager.getAccountSaveData(DemoGameplayFrontend.SINGLETON_ID);
         System.out.println(frontend.charImageRecorder.getRender().renderHorseStatus(
                 accountSaveData.getPlayerHorse()
                 ));

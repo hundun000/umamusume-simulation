@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.record.text;
+package hundun.simulationgame.umamusume.record.gui;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +17,9 @@ import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
 import hundun.simulationgame.umamusume.record.base.IChineseNameEnum;
+import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
+import hundun.simulationgame.umamusume.record.gui.GuiFrameData.RaceInfo;
+import hundun.simulationgame.umamusume.record.text.Translator;
 import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
 import lombok.Data;
 
@@ -25,7 +28,7 @@ import lombok.Data;
  * @author hundun
  * Created on 2022/06/23
  */
-public class BotTextCharImageRender {
+public class GuiFrameDataRender {
     
 
      
@@ -43,7 +46,7 @@ public class BotTextCharImageRender {
     private final Translator translator;
     private final StrategyPackage strategyPackage;
     
-    public BotTextCharImageRender(Translator translator, StrategyPackage strategyPackage) {
+    public GuiFrameDataRender(Translator translator, StrategyPackage strategyPackage) {
         this.translator = translator;
         this.strategyPackage = strategyPackage;
     }
@@ -82,7 +85,7 @@ public class BotTextCharImageRender {
         return translator.get(type);
     }
     
-    public TextFrameData renderEventOrNot(BaseEvent event) {
+    public GuiFrameData renderEventOrNot(BaseEvent event) {
         RaceSituation situation = event.getSituation();
         SimpleEntry<EventRenderType, String> checkResult = checkNeedSampleByEvent(event, situation.getTickCount());
         if (checkResult.getKey() == EventRenderType.NOT_RENDER) {
@@ -94,7 +97,8 @@ public class BotTextCharImageRender {
         if (checkResult.getKey() == EventRenderType.WITH_RACE_SITUATION) {
             return this.renderRaceSituation(eventInfo, situation);
         } else if (checkResult.getKey() == EventRenderType.ONLY_DESCRIPTION) {
-            return new TextFrameData(
+            return new GuiFrameData(
+                    null,
                     null,
                     eventInfo
                     );
@@ -218,7 +222,7 @@ public class BotTextCharImageRender {
      * ----> 60
      * ----------> 75
      */
-    public TextFrameData renderRaceSituation(String eventInfo, RaceSituation situation) {
+    public GuiFrameData renderRaceSituation(String eventInfo, RaceSituation situation) {
         
         int size = situation.getHorses().size();
         double cameraPosition = Math.min(
@@ -248,8 +252,23 @@ public class BotTextCharImageRender {
         StringBuilder result = new StringBuilder();
         result.append(cameraProcessBar).append(" ").append(cameraPosFormatter.format(cameraPosition)).append("m\n")
                 .append(horseTexts);
-        return new TextFrameData(
-                result.toString(),
+        
+        
+        
+        
+        return new GuiFrameData(
+                new RaceInfo(
+                        situation.getPrototype().getLength()
+                ),
+                situation.getHorses().stream()
+                        .map(model -> new HorseInfo(
+                                model.getTrackNumber(),
+                                model.getTrackPosition(),
+                                model.getReachTime()
+                                )
+                        )
+                        .collect(Collectors.toList())
+                ,
                 eventInfo
                 );
     }
