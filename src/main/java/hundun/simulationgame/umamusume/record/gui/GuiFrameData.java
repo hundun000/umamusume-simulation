@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
  * @author hundun
  * Created on 2022/06/24
  */
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class GuiFrameData {
     RaceInfo raceInfo;
     List<HorseInfo> horseInfos;
     String eventInfo;
+    Double cameraPosition;
     
     @Data
     @NoArgsConstructor
@@ -34,6 +36,7 @@ public class GuiFrameData {
     public static class HorseInfo {
         private int trackNumber;
         private Double trackPosition;
+        private Double cameraOffsetPosition;
         private Integer reachTime;
     }
 

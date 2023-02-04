@@ -97,11 +97,9 @@ public class GuiFrameDataRender {
         if (checkResult.getKey() == EventRenderType.WITH_RACE_SITUATION) {
             return this.renderRaceSituation(eventInfo, situation);
         } else if (checkResult.getKey() == EventRenderType.ONLY_DESCRIPTION) {
-            return new GuiFrameData(
-                    null,
-                    null,
-                    eventInfo
-                    );
+            return GuiFrameData.builder()
+                    .eventInfo(eventInfo)
+                    .build();
         } else {
             return null;
         }
@@ -195,17 +193,6 @@ public class GuiFrameDataRender {
         return new SimpleEntry<>(EventRenderType.NOT_RENDER, null);
     }
     
-    private String renderCameraProcessBar(int raceLength, double cameraPosition) {
-        int numBarNode = strategyPackage.getCameraProcessBarWidth();
-        int numPassed = (int) (numBarNode * (cameraPosition / raceLength));
-        int numTodo = numBarNode - numPassed;
-        return "[" 
-                + JavaFeatureForGwt.stringRepeat(strategyPackage.getCameraProcessBarChar1(), numPassed) 
-                + strategyPackage.getCameraProcessBarChar2()
-                + JavaFeatureForGwt.stringRepeat(strategyPackage.getCameraProcessBarChar3(), numTodo) 
-                + "]";
-    }
-    
     /**
      * input: 
      * [50,  60, 75]
@@ -224,100 +211,37 @@ public class GuiFrameDataRender {
      */
     public GuiFrameData renderRaceSituation(String eventInfo, RaceSituation situation) {
         
-        int size = situation.getHorses().size();
         double cameraPosition = Math.min(
                 situation.getHorses().stream().mapToDouble(horse -> horse.getTrackPosition()).min().getAsDouble(),
                 situation.getPrototype().getLength()
                 );
-        List<Double> diffList = situation.getHorses().stream().mapToDouble(horse -> horse.getTrackPosition() - cameraPosition).boxed().collect(Collectors.toList());
-        double maxDiff = diffList.stream().mapToDouble(i -> i.doubleValue()).max().getAsDouble();
-        double numCharPerDiff = 1.0 * strategyPackage.getHorsePositionBarMaxWidth() / maxDiff;
-        List<Integer> numCharList = diffList.stream().mapToInt(diff -> (int)(diff * numCharPerDiff)).boxed().collect(Collectors.toList());
+        Map<HorseModel, Double> diffMap = situation.getHorses().stream()
+                .collect(Collectors.toMap(
+                        it -> it, 
+                        it -> it.getTrackPosition() - cameraPosition))
+                ;
+
         
-        //String cameraText = formatter.format(minPosition) + " ···················· " + situation.getPrototype().getLength() + " Fin.\n";
-        String cameraProcessBar = renderCameraProcessBar(situation.getPrototype().getLength(), cameraPosition);
-        StringBuilder horseTextsBuilder = new StringBuilder();
-        int maxNameLength = situation.getHorses().stream()
-                .mapToInt(item -> item.getPrototype().getCharImage().length())
-                .max()
-                .getAsInt();
-                
-        for (int i = 0; i < size; i++) {
-            HorseModel horse = situation.getHorses().get(i);
-            Integer numChar = numCharList.get(i);
-            horseTextsBuilder.append(drawHorseCharImage(situation, horse, numChar, maxNameLength));
-        }
-        String horseTexts = horseTextsBuilder.toString();
-        
-        StringBuilder result = new StringBuilder();
-        result.append(cameraProcessBar).append(" ").append(cameraPosFormatter.format(cameraPosition)).append("m\n")
-                .append(horseTexts);
-        
-        
-        
-        
-        return new GuiFrameData(
-                new RaceInfo(
+        return GuiFrameData.builder()
+                .raceInfo(new RaceInfo(
                         situation.getPrototype().getLength()
-                ),
-                situation.getHorses().stream()
-                        .map(model -> new HorseInfo(
+                        ))
+                .horseInfos(diffMap.entrySet().stream()
+                        .map(it -> { 
+                            HorseModel model = it.getKey();
+                            return new HorseInfo(
                                 model.getTrackNumber(),
                                 model.getTrackPosition(),
+                                it.getValue(),
                                 model.getReachTime()
-                                )
-                        )
-                        .collect(Collectors.toList())
-                ,
-                eventInfo
-                );
+                                );
+                        })
+                        .collect(Collectors.toList()))
+                .eventInfo(eventInfo)
+                .cameraPosition(cameraPosition)
+                .build();
     }
     
-    private String drawHorseCharImage(RaceSituation situation, HorseModel horse, Integer numChar, int maxNameLength) {
-        String hpSubText = horse.getCurrentHp() > 0 ? "hp = " + cameraPosFormatter.format(horse.getCurrentHp()) + "" : "<疲劳>";
-        String horseIcon = JavaFeatureForGwt.stringFixedLength(
-                maxNameLength, 
-                horse.getPrototype().getCharImage()
-                );
-        if (horse.getReachTime() == null) {
-            String arrowCharImage = JavaFeatureForGwt.stringRepeat("-", numChar + 1) + "> ";
-            String positionSubText = cameraPosFormatter.format(horse.getTrackPosition()) + "m";
-//            String speedSubText = "v=" + cameraPosFormatter.format(horse.getCurrentSpeed());
-//            if (horse.getCurrentAcceleration() != null) {
-//                if (horse.getCurrentAcceleration() > 0) {
-//                    speedSubText += "↑a=" + cameraPosFormatter.format(horse.getCurrentAcceleration());
-//                } else {
-//                    speedSubText += "↓a=" + cameraPosFormatter.format(horse.getCurrentAcceleration());
-//                }
-//                speedSubText += "(target=" + cameraPosFormatter.format(horse.getTargetSpeed()) + ")";
-//            } else {
-//                speedSubText += "-";
-//            }
-//            if (horse.getTrackPhase() == HorseTrackPhase.LAST_SPRINT) {
-//                speedSubText += "冲";
-//            }
-            String text = strategyPackage.getHorseRunningTemplate()
-                    .replace("${HORSE_ICON}", horseIcon)
-                    .replace("${ARROW}", arrowCharImage)
-                    .replace("${POS}", positionSubText)
-                    
-                    .replace("${HP}", hpSubText)
-//                    .replace("${SPEED}", speedSubText)
-                    ;
-            return text;
-        } else {
-            String reachText = JavaFeatureForGwt.stringFormat(
-                    translator.get("冲线时间：%s"), 
-                    renderTime(horse.getReachTime())
-                    );
-            String text = strategyPackage.getHorseReachedTemplate()
-                    .replace("${HORSE_ICON}", horseIcon)
-                    .replace("${REACH_TEXT}", reachText)
-                    ;
-            return text;
-        }
-    }
-
     public String renderTime(int tick) {
         double second = RaceSituation.tickCountToSecond(tick);
         int minute = (int) (second / 60);
