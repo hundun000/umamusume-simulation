@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.game.nogameplay;
+package hundun.simulationgame.umamusume.demo;
 
 
 import java.util.List;
@@ -18,11 +18,12 @@ import hundun.simulationgame.umamusume.core.race.RaceLengthType;
 import hundun.simulationgame.umamusume.core.race.RacePrototype;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
+import hundun.simulationgame.umamusume.game.nogameplay.HorsePrototypeFactory;
+import hundun.simulationgame.umamusume.game.nogameplay.RacePrototypeFactory;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameRecorder;
-import hundun.simulationgame.umamusume.record.gui.RaceTrackPanel;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameRecorder;
 
 
 /**
@@ -30,13 +31,13 @@ import hundun.simulationgame.umamusume.record.gui.RaceTrackPanel;
  * @author hundun
  * Created on 2021/09/24
  */
-public class NoGameplayApp {
+public class ConsoleNoGameplayApp {
     
     HorsePrototypeFactory factory;
     private final IRaceRecorder<?> displayer;
     RaceSituation raceSituation;
     
-    public NoGameplayApp(IRaceRecorder<?> displayer) {
+    public ConsoleNoGameplayApp(IRaceRecorder<?> displayer) {
         this.displayer = displayer;
         this.factory = new HorsePrototypeFactory();
         factory.registerAllDefault();

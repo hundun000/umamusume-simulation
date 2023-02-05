@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.record.gui;
+package hundun.simulationgame.umamusume.record.raw;
 
 import java.util.HashMap;
 import java.util.List;

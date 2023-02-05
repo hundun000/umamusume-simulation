@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import hundun.simulationgame.umamusume.game.nogameplay.GuiNoGameplayApp;
-import hundun.simulationgame.umamusume.game.nogameplay.NoGameplayApp;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameRecorder;
+import hundun.simulationgame.umamusume.demo.GuiNoGameplayApp;
+import hundun.simulationgame.umamusume.demo.ConsoleNoGameplayApp;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameRecorder;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
 import hundun.simulationgame.umamusume.record.text.Translator;
 import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
@@ -21,7 +21,7 @@ public class UmamusumeAppTest {
     @Test
     public void testCharImageDisplayerChinese(){
         StrategyPackage strategyPackage = new StrategyPackage();
-        NoGameplayApp app = new NoGameplayApp(new CharImageRecorder(
+        ConsoleNoGameplayApp app = new ConsoleNoGameplayApp(new CharImageRecorder(
                 Translator.Factory.emptyAsChinese(),
                 strategyPackage 
                 ));
@@ -34,7 +34,7 @@ public class UmamusumeAppTest {
    public void testCharImageDisplayerEnglish(){
        StrategyPackage strategyPackage = new StrategyPackage();
        StrategyPackage.Factory.toLongWidth(strategyPackage);
-       NoGameplayApp app = new NoGameplayApp(new CharImageRecorder(
+       ConsoleNoGameplayApp app = new ConsoleNoGameplayApp(new CharImageRecorder(
                Translator.Factory.english(),
                strategyPackage
                ));

@@ -21,7 +21,7 @@ import hundun.simulationgame.umamusume.game.gameplay.data.TurnConfig;
 import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData.OperationBoardState;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.EndRecordNode.EndRecordHorseInfo;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData;
 import hundun.simulationgame.umamusume.record.text.CharImageRecorder;
 import hundun.simulationgame.umamusume.record.text.TextFrameData;
 import hundun.simulationgame.umamusume.record.text.Translator;
@@ -90,7 +90,7 @@ public class UmaGameplayManager<T_FRAME_DATA> {
         frontend.log(this.getClass().getSimpleName(), "Race start and calculateResult done");
         //displayer.printRecordPackage();
         
-        setStateAndLog(accountSaveData, OperationBoardState.RACE_DAY_RACE_HAS_RESULT_RECORD);
+        setStateAndLog(accountSaveData, OperationBoardState.RACE_DAY_RACE_RUNNING);
         accountSaveData.currentRaceRecordNodes = raceRecorder.getRecordPackage().getNodes();
         accountSaveData.sortedRaceEndRecordNode = raceRecorder.getRecordPackage().getEndNode().getHorseInfos().stream()
                 .sorted(Comparator.comparing(EndRecordHorseInfo::getReachTick))
@@ -171,7 +171,9 @@ public class UmaGameplayManager<T_FRAME_DATA> {
     
     
 
-
+    public void toEndState(AccountSaveData<T_FRAME_DATA> accountSaveData) {
+        setStateAndLog(accountSaveData, OperationBoardState.RACE_DAY_RACE_HAS_RESULT_RECORD);
+    }
 
 
     public void endRaceRecord(AccountSaveData<T_FRAME_DATA> accountSaveData) {

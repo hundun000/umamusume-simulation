@@ -129,7 +129,7 @@ public class JavaFeatureForGwt {
         return map;
     }
     
-    public static <T> List<T> listOf(T[] items) {
+    public static <T> List<T> listOf(@SuppressWarnings("unchecked") T... items) {
         List<T> list = new ArrayList<>(items.length);
         for (int i = 0; i < items.length; i++) {
             list.add(items[i]);
@@ -137,6 +137,11 @@ public class JavaFeatureForGwt {
         return list;
     }
 
+    public static <T> List<T> arraysAsList() {
+        List<T> list = new ArrayList<>(0);
+        return list;
+    }
+    
     public static <T> List<T> arraysAsList(T item) {
         List<T> list = new ArrayList<>(1);
         list.add(item);

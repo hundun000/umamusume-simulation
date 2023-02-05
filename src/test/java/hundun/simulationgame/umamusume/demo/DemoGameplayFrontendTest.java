@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.game.gameplay.demo;
+package hundun.simulationgame.umamusume.demo;
 
 import static org.junit.Assert.*;
 
@@ -7,13 +7,13 @@ import java.util.Map;
 import org.junit.Test;
 
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
+import hundun.simulationgame.umamusume.demo.ConsoleGameplayApp;
 import hundun.simulationgame.umamusume.game.gameplay.UmaSaveDataFactory;
 import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData;
 import hundun.simulationgame.umamusume.game.gameplay.data.GameResourceType;
 import hundun.simulationgame.umamusume.game.gameplay.data.GameRuleData;
 import hundun.simulationgame.umamusume.game.gameplay.data.TrainActionType;
-import hundun.simulationgame.umamusume.game.gameplay.demo.DemoGameplayFrontend;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData;
 import hundun.simulationgame.umamusume.record.text.TextFrameData;
 
 /**
@@ -22,10 +22,10 @@ import hundun.simulationgame.umamusume.record.text.TextFrameData;
  */
 public class DemoGameplayFrontendTest {
 
-    public void prepare(DemoGameplayFrontend demoGameplayFrontend) {
-        AccountSaveData<TextFrameData> accountSaveData = UmaSaveDataFactory.forNewAccount(DemoGameplayFrontend.SINGLETON_ID);
+    public void prepare(ConsoleGameplayApp demoGameplayFrontend) {
+        AccountSaveData<TextFrameData> accountSaveData = UmaSaveDataFactory.forNewAccount(ConsoleGameplayApp.SINGLETON_ID);
         Map<String, AccountSaveData<TextFrameData>> accountSaveDataMap = JavaFeatureForGwt.mapOf(
-                DemoGameplayFrontend.SINGLETON_ID, 
+                ConsoleGameplayApp.SINGLETON_ID, 
                 accountSaveData);
         GameRuleData gameRuleData = UmaSaveDataFactory.forNewGameRuleData();
         
@@ -34,10 +34,10 @@ public class DemoGameplayFrontendTest {
     
     @Test
     public void test() {
-        DemoGameplayFrontend frontend = new DemoGameplayFrontend();
+        ConsoleGameplayApp frontend = new ConsoleGameplayApp();
         prepare(frontend);
         
-        AccountSaveData<TextFrameData> accountSaveData = frontend.manager.getAccountSaveData(DemoGameplayFrontend.SINGLETON_ID);
+        AccountSaveData<TextFrameData> accountSaveData = frontend.manager.getAccountSaveData(ConsoleGameplayApp.SINGLETON_ID);
         System.out.println(frontend.charImageRecorder.getRender().renderHorseStatus(
                 accountSaveData.getPlayerHorse()
                 ));

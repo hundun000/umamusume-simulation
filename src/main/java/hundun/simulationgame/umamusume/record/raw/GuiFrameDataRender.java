@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.record.gui;
+package hundun.simulationgame.umamusume.record.raw;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +17,8 @@ import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
 import hundun.simulationgame.umamusume.record.base.IChineseNameEnum;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData.RaceInfo;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData.HorseInfo;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData.RaceInfo;
 import hundun.simulationgame.umamusume.record.text.Translator;
 import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
 import lombok.Data;

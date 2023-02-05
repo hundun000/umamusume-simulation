@@ -46,6 +46,7 @@ public class AccountSaveData<T_FRAME_DATA> {
          * 允许开始比赛/放弃比赛
          */
         RACE_DAY_RACE_READY,
+        RACE_DAY_RACE_RUNNING,
         /**
          * 允许重放/结束今日
          */

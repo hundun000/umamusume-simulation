@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.game.nogameplay;
+package hundun.simulationgame.umamusume.demo;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,11 +8,12 @@ import javax.swing.JFrame;
 import hundun.simulationgame.umamusume.core.horse.RunStrategyType;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
+import hundun.simulationgame.umamusume.game.nogameplay.HorsePrototypeFactory;
+import hundun.simulationgame.umamusume.game.nogameplay.RacePrototypeFactory;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import hundun.simulationgame.umamusume.record.base.RecordPackage;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameRecorder;
-import hundun.simulationgame.umamusume.record.gui.RaceTrackPanel;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameRecorder;
 
 /**
  * @author hundun

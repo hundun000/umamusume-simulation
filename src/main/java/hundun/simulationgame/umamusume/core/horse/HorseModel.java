@@ -12,7 +12,7 @@ import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.race.TrackGroundType;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt.NumberFormat;
-import hundun.simulationgame.umamusume.game.nogameplay.NoGameplayApp;
+import hundun.simulationgame.umamusume.demo.ConsoleNoGameplayApp;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
 import lombok.Getter;
 import lombok.Setter;
