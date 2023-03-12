@@ -36,7 +36,7 @@ public class UmaGameplayManager<T_FRAME_DATA> {
     Map<String, AccountSaveData<T_FRAME_DATA>> accountSaveDataMap;
     @Getter
     GameRuleData gameRuleData;
-    IGameplayFrontend frontend;
+    IGameplayLogicCallback frontend;
     
     //TurnConfig currentTurnConfig;
     private final IRaceRecorder<T_FRAME_DATA> raceRecorder;
@@ -44,7 +44,7 @@ public class UmaGameplayManager<T_FRAME_DATA> {
     private final Translator translator;
 
     
-    public UmaGameplayManager(Translator translator, IRaceRecorder<T_FRAME_DATA> raceRecorder, IGameplayFrontend frontend) {
+    public UmaGameplayManager(Translator translator, IRaceRecorder<T_FRAME_DATA> raceRecorder, IGameplayLogicCallback frontend) {
         this.frontend = frontend;
         this.accountSaveDataMap = new HashMap<>();
         
@@ -96,8 +96,6 @@ public class UmaGameplayManager<T_FRAME_DATA> {
                 .sorted(Comparator.comparing(EndRecordHorseInfo::getReachTick))
                 .collect(Collectors.toList())
                 ;
-        
-        frontend.notifiedReplayRaceRecord();
     }
     
     public TurnConfig getCurrentTurnConfig(AccountSaveData<T_FRAME_DATA> accountSaveData) {
@@ -219,6 +217,13 @@ public class UmaGameplayManager<T_FRAME_DATA> {
     public void trainAndNextDay(AccountSaveData<T_FRAME_DATA> accountSaveData, TrainActionType type) {
         TrainRuleConfig trainRuleConfig = gameRuleData.getTrainRuleConfigMap().get(type);
         trainAndNextDay(accountSaveData, trainRuleConfig.getCostList(), trainRuleConfig.getGainList());
+    }
+
+
+
+
+    public void replay(AccountSaveData<T_FRAME_DATA> accountSaveData) {
+        setStateAndLog(accountSaveData, OperationBoardState.RACE_DAY_RACE_RUNNING);
     }
     
 

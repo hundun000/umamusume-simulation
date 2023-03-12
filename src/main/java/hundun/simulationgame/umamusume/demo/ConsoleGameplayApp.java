@@ -5,7 +5,7 @@ import java.util.Map;
 
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
-import hundun.simulationgame.umamusume.game.gameplay.IGameplayFrontend;
+import hundun.simulationgame.umamusume.game.gameplay.IGameplayLogicCallback;
 import hundun.simulationgame.umamusume.game.gameplay.UmaGameplayManager;
 import hundun.simulationgame.umamusume.game.gameplay.UmaSaveDataFactory;
 import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData;
@@ -23,7 +23,7 @@ import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
  * @author hundun
  * Created on 2023/01/04
  */
-public class ConsoleGameplayApp implements IGameplayFrontend {
+public class ConsoleGameplayApp implements IGameplayLogicCallback {
 
     UmaGameplayManager<TextFrameData> manager;
     CharImageRecorder charImageRecorder;
@@ -47,11 +47,11 @@ public class ConsoleGameplayApp implements IGameplayFrontend {
         log(ConsoleGameplayApp.class.getSimpleName(), "notifiedModifiedResourceNum");
     }
 
-    @Override
-    public void notifiedReplayRaceRecord() {
-        log(ConsoleGameplayApp.class.getSimpleName(), "ReplayRaceRecord by charImageRecorder.printRecordPackage()");
-        charImageRecorder.printRecordPackage();
-    }
+//    @Override
+//    public void notifiedReplayRaceRecord() {
+//        log(ConsoleGameplayApp.class.getSimpleName(), "ReplayRaceRecord by charImageRecorder.printRecordPackage()");
+//        charImageRecorder.printRecordPackage();
+//    }
 
     @Override
     public void notifiedChangeOperationBoardState() {
