@@ -128,15 +128,15 @@ public class BotTextCharImageRender {
             String phaseText = renderHorseTrackPhase(childEvent.getTo());
             String normalDescription = JavaFeatureForGwt.stringFormat(translator.get("%s%s"), 
                     //renderTime(tick),
-                    childEvent.getHorse().getCharImage(), 
+                    childEvent.getHorse().getName(),
                     phaseText);
             String allDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s最晚%s"), 
                     //renderTime(tick),
-                    childEvent.getHorse().getCharImage(), 
+                    childEvent.getHorse().getName(),
                     phaseText);
             String firstDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s率先%s"), 
                     //renderTime(tick),
-                    childEvent.getHorse().getCharImage(), 
+                    childEvent.getHorse().getName(),
                     phaseText);
             
             if (childEvent.getFrom() == HorseTrackPhase.START_GATE
@@ -234,7 +234,7 @@ public class BotTextCharImageRender {
         String cameraProcessBar = renderCameraProcessBar(situation.getPrototype().getLength(), cameraPosition);
         StringBuilder horseTextsBuilder = new StringBuilder();
         int maxNameLength = situation.getHorses().stream()
-                .mapToInt(item -> item.getPrototype().getCharImage().length())
+                .mapToInt(item -> item.getPrototype().getName().length())
                 .max()
                 .getAsInt();
                 
@@ -258,7 +258,7 @@ public class BotTextCharImageRender {
         String hpSubText = horse.getCurrentHp() > 0 ? "hp = " + cameraPosFormatter.format(horse.getCurrentHp()) + "" : "<疲劳>";
         String horseIcon = JavaFeatureForGwt.stringFixedLength(
                 maxNameLength, 
-                horse.getPrototype().getCharImage()
+                horse.getPrototype().getName()
                 );
         if (horse.getReachTime() == null) {
             String arrowCharImage = JavaFeatureForGwt.stringRepeat("-", numChar + 1) + "> ";

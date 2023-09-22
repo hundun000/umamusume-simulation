@@ -63,7 +63,7 @@ public class CharImageRecorder implements IRaceRecorder<TextFrameData> {
         
         Map<String, String> runStrategyTextMap = raceSituation.getHorses().stream()
                 .map(horse -> new AbstractMap.SimpleEntry<String, String>(
-                        horse.getPrototype().getCharImage(), 
+                        horse.getPrototype().getName(),
                         render.renderRunStrategyType(horse.getRunStrategyType())
                         ))
                 .collect(Collectors.toMap(
@@ -147,8 +147,7 @@ public class CharImageRecorder implements IRaceRecorder<TextFrameData> {
     public void onEnd(RaceSituation raceSituation) {
         List<EndRecordHorseInfo> horseReachTickMap = raceSituation.getHorses().stream()
                 .map(it -> new EndRecordHorseInfo(
-                        // FIXME 临时改为CharImage
-                        it.getPrototype().getCharImage(),
+                        it.getPrototype().getName(),
                         it.getReachTime(), 
                         render.renderTime(it.getReachTime())
                         ))

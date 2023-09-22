@@ -26,13 +26,26 @@ import hundun.simulationgame.umamusume.game.nogameplay.HorsePrototypeFactory;
 public class UmaSaveDataFactory {
     static final int SAME_GUTS = 400;
     static final int SAME_WISDOM = 200;
+
+    public static final String YOUR_HORSE_NAME = "playerHorse";
+    public static final String RIVAL_HORSE_NAME_START = "rival";
+
+    public static int rivalHorseIdCount = 1;
     static RunStrategyType[] rivalRunStrategyTypes = new RunStrategyType[] {
             RunStrategyType.FIRST, 
             RunStrategyType.FRONT, 
             RunStrategyType.BACK, 
             RunStrategyType.TAIL
             };
-    
+    public static String[] RACE_NAMES = new String[] {
+            "ShortRace",
+            "MileRace",
+            "MediumRaceA",
+            "MediumRaceB",
+            "LongRace"
+    };
+
+
     public static RacePrototype raceTemplate(int rand) {
         RacePrototype racePrototype;
         racePrototype = new RacePrototype();
@@ -42,27 +55,27 @@ public class UmaSaveDataFactory {
         switch (rand) {
             default:
             case 0:
-                racePrototype.setName("ShortRace");
+                racePrototype.setName(RACE_NAMES[0]);
                 racePrototype.setLength(1200);
                 racePrototype.setLengthType(RaceLengthType.SHORT);
                 break;
             case 1:
-                racePrototype.setName("MileRace");
+                racePrototype.setName(RACE_NAMES[1]);
                 racePrototype.setLength(1600);
                 racePrototype.setLengthType(RaceLengthType.MILE);
                 break;
             case 2:
-                racePrototype.setName("MediumRace");
+                racePrototype.setName(RACE_NAMES[2]);
                 racePrototype.setLength(2000);
                 racePrototype.setLengthType(RaceLengthType.MEDIUM);
                 break;
             case 3:
-                racePrototype.setName("MediumRace");
+                racePrototype.setName(RACE_NAMES[3]);
                 racePrototype.setLength(2400);
                 racePrototype.setLengthType(RaceLengthType.MEDIUM);
                 break;
             case 4:
-                racePrototype.setName("LongRace");
+                racePrototype.setName(RACE_NAMES[4]);
                 racePrototype.setLength(2800);
                 racePrototype.setLengthType(RaceLengthType.LONG);
                 break;
@@ -83,7 +96,7 @@ public class UmaSaveDataFactory {
         
         for (int i = 0; i < numRival; i++) {
             horsePrototype = new HorsePrototype();
-            horsePrototype.setName("rival" + i);
+            horsePrototype.setName(RIVAL_HORSE_NAME_START + (rivalHorseIdCount++));
             horsePrototype.setBaseSpeed(500 + (int)(rivalValueAddition * (1)));
             horsePrototype.setBaseStamina(400 + (int)(rivalValueAddition * (1)));
             horsePrototype.setBasePower(400 + (int)(rivalValueAddition * (1)));
@@ -91,7 +104,7 @@ public class UmaSaveDataFactory {
             horsePrototype.setBaseWisdom(SAME_WISDOM);
             horsePrototype.setDefaultRunStrategyType(rivalRunStrategyTypes[i]);
             HorsePrototypeFactory.fillDefaultFields(horsePrototype);
-            horsePrototype.setCharImage("Rival" + (i + 1));
+            //horsePrototype.setCharImage("Rival" + (i + 1));
             turnConfig.getRivalHorses().add(horsePrototype);
         }
         
@@ -176,7 +189,7 @@ public class UmaSaveDataFactory {
         {
             HorsePrototype horsePrototype;
             horsePrototype = new HorsePrototype();
-            horsePrototype.setName("playerHorse");
+            horsePrototype.setName(YOUR_HORSE_NAME);
             horsePrototype.setBaseSpeed((int) (700));
             horsePrototype.setBaseStamina((int) (500));
             horsePrototype.setBasePower((int) (500));
@@ -184,7 +197,7 @@ public class UmaSaveDataFactory {
             horsePrototype.setBaseWisdom(SAME_WISDOM);
             horsePrototype.setDefaultRunStrategyType(RunStrategyType.FRONT);
             HorsePrototypeFactory.fillDefaultFields(horsePrototype);
-            horsePrototype.setCharImage("Your");
+            //horsePrototype.setCharImage("USELESS");
             umaSaveData.playerHorse = horsePrototype;
         }    
         umaSaveData.setOwnResoueces(new HashMap<>());

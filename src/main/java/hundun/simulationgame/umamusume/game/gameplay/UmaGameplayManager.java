@@ -177,7 +177,7 @@ public class UmaGameplayManager {
 
     public void endRaceRecord(AccountSaveData accountSaveData) {
         EndRecordHorseInfo playerHorseInfo = accountSaveData.sortedRaceEndRecordNode.stream()
-                .filter(horseInfo -> horseInfo.getHorseName().equals(accountSaveData.playerHorse.getCharImage()))
+                .filter(horseInfo -> horseInfo.getHorseName().equals(accountSaveData.playerHorse.getName()))
                 .findAny()
                 .get()
                 ;

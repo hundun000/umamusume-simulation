@@ -16,10 +16,6 @@ public class HorsePrototype {
      * 具体项目可约定name不重复，则name可作为id。
      */
     private String name;
-    /**
-     * 作为字符画时的形象（可用emoji？）
-     */
-    private String charImage;
     private int baseSpeed;
     private int baseStamina;
     private int basePower;

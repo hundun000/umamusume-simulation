@@ -116,7 +116,7 @@ public class HorsePrototypeFactory {
     }
     
     public static void fillDefaultFields(HorsePrototype horsePrototype) {
-        horsePrototype.setCharImage("馬" + horsePrototype.getName());
+        //horsePrototype.setCharImage("馬" + horsePrototype.getName());
         horsePrototype.setScore(calculateScore(horsePrototype));
         horsePrototype.setDistanceAptitudes(defaultDistanceAptitudes());
         horsePrototype.setDistanceAptitudes(defaultDistanceAptitudes());
