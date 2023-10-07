@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

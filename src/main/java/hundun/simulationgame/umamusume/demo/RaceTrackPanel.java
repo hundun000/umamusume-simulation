@@ -1,4 +1,4 @@
-package hundun.simulationgame.umamusume.record.gui;
+package hundun.simulationgame.umamusume.demo;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 import hundun.simulationgame.umamusume.core.horse.HorseModel;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.record.base.RecordPackage.RecordNode;
-import hundun.simulationgame.umamusume.record.gui.GuiFrameData.HorseInfo;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData.HorseInfo;
 
 
 public class RaceTrackPanel extends JPanel{

@@ -2,17 +2,17 @@
 
 ## 开发中
 
+## 用法1：单场比赛模拟
+
 游戏 《赛马娘 Pretty Derby》 比赛模拟。
 
 公式和数值参考原作游戏的解包研究。以模拟的游戏帧进行一场比赛，即模拟赛马每一帧时的位移量，速度，加速度。
 
-模拟结果的记录形式和输出形式可选择多种实现。
+### 用法1.1：console输出文字
 
-data类形式记录，GUI形式输出（UmamusumeAppTest.testGuiDisplayer()）：  
-![](./docs/gui演示_0.jpg)  
-![](./docs/gui演示_1.jpg)  
+进一步的，输出的语言可以选择中文/英文。
 
-文字形式记录和输出（UmamusumeAppTest.testCharImageDisplayer()）：
+UmamusumeAppTest.testCharImageDisplayerChinese() 或 UmamusumeAppTest.testCharImageDisplayerEnglish()。
 ```
 [tick 0] 樱花赏 1600米
 赛道1: 无声铃鹿A 逃  速800，耐400，力600，根600，智200
@@ -74,3 +74,37 @@ data类形式记录，GUI形式输出（UmamusumeAppTest.testGuiDisplayer()）�
 馬草上飞A  冲线时间：01:18.82
 馬特别周A  冲线时间：01:19.40
 ```
+
+### 用法1.2：swing-GUI输出赛场
+
+UmamusumeAppTest.testGuiDisplayerChinese()。
+
+![](./docs/gui演示_0.jpg)  
+![](./docs/gui演示_1.jpg)  
+
+## 用法2：养成游戏
+
+玩法参考原作游戏的养成系统。在训练日时选择一种训练方式，增加自身属性；在比赛日时和其他马比赛，获得奖金。
+
+### 用法2.1：console输出文字
+
+仅供演示。在训练日中选择了某种锻炼，属性得到提升。
+
+DemoGameplayFrontendTest.test()。
+
+```
+playerHorse 速700, 耐500, 力500, 根400, 智200
+[ConsoleGameplayApp]notifiedModifiedResourceNum
+[ConsoleGameplayApp]notifiedModifiedResourceNum
+[UmaGameplayManager]train done, gain = [GameResourcePair(type=HORSE_SPEED, amount=5), GameResourcePair(type=HORSE_STAMINA, amount=5), GameResourcePair(type=HORSE_POWER, amount=5)]
+[ConsoleGameplayApp]notifiedModifiedResourceNum
+[UmaGameplayManager]state change to: TRAIN_DAY
+playerHorse 速705, 耐505, 力505, 根400, 智200
+```
+
+### 用法2.2：libgdx游戏
+
+[libgdx-TextUma项目](https://github.com/hundun000/libgdx-TextUma)
+
+![](./docs/TextUma.png)  
+

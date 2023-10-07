@@ -1,11 +1,11 @@
-package hundun.simulationgame.umamusume.game.gameplay.demo;
+package hundun.simulationgame.umamusume.demo;
 
 import java.util.List;
 import java.util.Map;
 
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
 import hundun.simulationgame.umamusume.core.util.JavaFeatureForGwt;
-import hundun.simulationgame.umamusume.game.gameplay.IGameplayFrontend;
+import hundun.simulationgame.umamusume.game.gameplay.IGameplayLogicCallback;
 import hundun.simulationgame.umamusume.game.gameplay.UmaGameplayManager;
 import hundun.simulationgame.umamusume.game.gameplay.UmaSaveDataFactory;
 import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData;
@@ -23,18 +23,18 @@ import hundun.simulationgame.umamusume.record.text.Translator.StrategyPackage;
  * @author hundun
  * Created on 2023/01/04
  */
-public class DemoGameplayFrontend implements IGameplayFrontend {
+public class ConsoleGameplayApp implements IGameplayLogicCallback {
 
-    UmaGameplayManager manager;
+    UmaGameplayManager<TextFrameData> manager;
     CharImageRecorder charImageRecorder;
     public static final String SINGLETON_ID = "DEMO_GAMEPLAY_FRONTEND";
     
-    public DemoGameplayFrontend() {
+    public ConsoleGameplayApp() {
         Translator translator = Translator.Factory.emptyAsChinese();
         StrategyPackage strategyPackage = new StrategyPackage();
         this.charImageRecorder = new CharImageRecorder(translator, strategyPackage);
         
-        this.manager = new UmaGameplayManager(translator, charImageRecorder, this);
+        this.manager = new UmaGameplayManager<TextFrameData>(translator, charImageRecorder, this);
     }
     
     @Override
@@ -44,14 +44,14 @@ public class DemoGameplayFrontend implements IGameplayFrontend {
 
     @Override
     public void notifiedModifiedResourceNum(Map<GameResourceType, Long> map, boolean plus) {
-        log(DemoGameplayFrontend.class.getSimpleName(), "notifiedModifiedResourceNum");
+        log(ConsoleGameplayApp.class.getSimpleName(), "notifiedModifiedResourceNum");
     }
 
-    @Override
-    public void notifiedReplayRaceRecord() {
-        log(DemoGameplayFrontend.class.getSimpleName(), "ReplayRaceRecord by charImageRecorder.printRecordPackage()");
-        charImageRecorder.printRecordPackage();
-    }
+//    @Override
+//    public void notifiedReplayRaceRecord() {
+//        log(ConsoleGameplayApp.class.getSimpleName(), "ReplayRaceRecord by charImageRecorder.printRecordPackage()");
+//        charImageRecorder.printRecordPackage();
+//    }
 
     @Override
     public void notifiedChangeOperationBoardState() {
@@ -61,7 +61,7 @@ public class DemoGameplayFrontend implements IGameplayFrontend {
     @Override
     public void notifiedHorseStatusChange(HorsePrototype horsePrototype,
             List<GameResourcePair> gainList) {
-        log(DemoGameplayFrontend.class.getSimpleName(), "notifiedModifiedResourceNum");
+        log(ConsoleGameplayApp.class.getSimpleName(), "notifiedModifiedResourceNum");
     }
 
 }

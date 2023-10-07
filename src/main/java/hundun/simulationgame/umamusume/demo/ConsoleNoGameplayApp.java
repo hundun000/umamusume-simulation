@@ -1,10 +1,14 @@
-package hundun.simulationgame.umamusume.game.nogameplay;
+package hundun.simulationgame.umamusume.demo;
 
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
 
 import hundun.simulationgame.umamusume.core.horse.HorseModel;
 import hundun.simulationgame.umamusume.core.horse.HorsePrototype;
@@ -14,7 +18,12 @@ import hundun.simulationgame.umamusume.core.race.RaceLengthType;
 import hundun.simulationgame.umamusume.core.race.RacePrototype;
 import hundun.simulationgame.umamusume.core.race.RaceSituation;
 import hundun.simulationgame.umamusume.core.race.TrackWetType;
+import hundun.simulationgame.umamusume.game.nogameplay.HorsePrototypeFactory;
+import hundun.simulationgame.umamusume.game.nogameplay.RacePrototypeFactory;
 import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
+import hundun.simulationgame.umamusume.record.base.RecordPackage;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameData;
+import hundun.simulationgame.umamusume.record.raw.GuiFrameRecorder;
 
 
 /**
@@ -22,13 +31,13 @@ import hundun.simulationgame.umamusume.record.base.IRaceRecorder;
  * @author hundun
  * Created on 2021/09/24
  */
-public class NoGameplayApp {
+public class ConsoleNoGameplayApp {
     
     HorsePrototypeFactory factory;
     private final IRaceRecorder<?> displayer;
     RaceSituation raceSituation;
     
-    public NoGameplayApp(IRaceRecorder<?> displayer) {
+    public ConsoleNoGameplayApp(IRaceRecorder<?> displayer) {
         this.displayer = displayer;
         this.factory = new HorsePrototypeFactory();
         factory.registerAllDefault();
@@ -43,7 +52,8 @@ public class NoGameplayApp {
         raceSituation.addHorse(HorsePrototypeFactory.SPECIAL_WEEK_A, RunStrategyType.FRONT);
         raceSituation.addHorse(HorsePrototypeFactory.GRASS_WONDER_A, RunStrategyType.BACK);
 
-        runCore();
+        raceSituation.calculateResult();
+        displayer.printRecordPackage();
     }
     
     public void randomRun(){
@@ -67,26 +77,7 @@ public class NoGameplayApp {
         }
         
     }
+
     
-    private void runCore(){
-        try {
-            HorsePrototypeFactory factory = new HorsePrototypeFactory();
-            factory.registerAllDefault();
-            raceSituation = new RaceSituation(displayer, RacePrototypeFactory.OKA_SHO, TrackWetType.GOOD);
-            HorsePrototype base = HorsePrototypeFactory.SPECIAL_WEEK_A;
-            
-            List<HorsePrototype> randomRivals = factory.getRandomRivals(3, base, 0.2);
-            randomRivals.forEach(item -> {
-                raceSituation.addHorse(item, item.getDefaultRunStrategyType());
-            });
-            raceSituation.addHorse(base, base.getDefaultRunStrategyType());
-            
-            raceSituation.calculateResult();
-            displayer.printRecordPackage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-    }
 
 }

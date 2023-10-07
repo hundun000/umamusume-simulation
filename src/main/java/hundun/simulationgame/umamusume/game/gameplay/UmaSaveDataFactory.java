@@ -18,6 +18,7 @@ import hundun.simulationgame.umamusume.game.gameplay.data.TrainRuleConfig;
 import hundun.simulationgame.umamusume.game.gameplay.data.TurnConfig;
 import hundun.simulationgame.umamusume.game.gameplay.data.AccountSaveData.OperationBoardState;
 import hundun.simulationgame.umamusume.game.nogameplay.HorsePrototypeFactory;
+import hundun.simulationgame.umamusume.record.text.TextFrameData;
 
 /**
  * @author hundun
@@ -181,9 +182,9 @@ public class UmaSaveDataFactory {
         return gameRuleData;
     }
     
-    public static AccountSaveData forNewAccount(String id) {
+    public static <T> AccountSaveData<T> forNewAccount(String id) {
 
-        AccountSaveData umaSaveData = new AccountSaveData();
+        AccountSaveData<T> umaSaveData = new AccountSaveData<T>();
         umaSaveData.state = OperationBoardState.TRAIN_DAY;
         umaSaveData.id = id;
         {
