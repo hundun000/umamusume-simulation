@@ -99,7 +99,7 @@ public class GuiFrameRecorder  implements IRaceRecorder<GuiFrameData> {
     public void onEnd(RaceSituation raceSituation) {
         List<EndRecordHorseInfo> horseReachTickMap = raceSituation.getHorses().stream()
                 .map(it -> new EndRecordHorseInfo(
-                        it.getPrototype().getCharImage(),
+                        it.getPrototype().getName(),
                         it.getReachTime(), 
                         render.renderTime(it.getReachTime())
                         ))

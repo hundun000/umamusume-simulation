@@ -130,15 +130,15 @@ public class GuiFrameDataRender {
             String phaseText = renderHorseTrackPhase(childEvent.getTo());
             String normalDescription = JavaFeatureForGwt.stringFormat(translator.get("%s%s"), 
                     //renderTime(tick),
-                    childEvent.getHorse().getCharImage(), 
+                    childEvent.getHorse().getName(),
                     phaseText);
             String allDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s最晚%s"), 
                     //renderTime(tick),
-                    childEvent.getHorse().getCharImage(), 
+                    childEvent.getHorse().getName(),
                     phaseText);
             String firstDoneDescription = JavaFeatureForGwt.stringFormat(translator.get("%s率先%s"), 
                     //renderTime(tick),
-                    childEvent.getHorse().getCharImage(), 
+                    childEvent.getHorse().getName(),
                     phaseText);
             
             if (childEvent.getFrom() == HorseTrackPhase.START_GATE
